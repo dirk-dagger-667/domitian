@@ -39,7 +39,7 @@ namespace domition_api.Controllers.UserAdmin
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> RefreshAsync([FromBody] RefreshRequestValidator refResValidator, [FromBody] RefreshRequest request)
+        public async Task<IActionResult> RefreshAsync([FromServices] RefreshRequestValidator refResValidator, [FromBody] RefreshRequest request)
         {
             var valRes = await refResValidator.ValidateAsync(request);
 
