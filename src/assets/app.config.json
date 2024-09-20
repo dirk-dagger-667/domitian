@@ -1,0 +1,16 @@
+{
+    "apiUrlBase": "https://localhost:7064/api",
+    "register": {
+        "basePath": "Register",
+        "GetAuthSchema": "GetAuthSchema",
+        "ConfirmEmail": "ConfirmEmail",
+        "Register": "Register",
+        "ConfirmRegistration": "ConfirmRegistration"
+    },
+    "login": {
+        "basePath": "Login",
+        "Login": "Login",
+        "RefreshAccess": "RefreshAccess",
+        "RevokeAccess": "RevokeAccess"
+    }
+}
