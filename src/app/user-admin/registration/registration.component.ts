@@ -6,14 +6,13 @@ import { ValidationService } from '../services/implementations/validation.servic
 import { ValidatorConstants } from 'src/app/shared/constants/validation-constants';
 import { confirmPasswordSameValidator, passwordValidator } from 'src/app/shared/validators/user-credential-validators';
 import { IValidationService } from '../services/contracts/ivalidation.service';
-import { EMPTY, catchError, debounceTime, tap } from 'rxjs';
 import { UserAdminBase } from '../reg-log-base';
 import { UserAdminService } from '../services/implementations/user-admin.service';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ROUTER_TOKENS } from 'src/app/shared/constants/routing-constants';
 import { InfoSharingService } from 'src/app/shared/utilities/info-sharing/info-sharing.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { IUserAdminService } from '../services/contracts/iuser-admin.service';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-registration',

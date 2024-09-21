@@ -1,5 +1,3 @@
-import { Inject, Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ICustomValidationError } from '../../models/contracts/Icustom-validation-error';
 import { CustomValidationError } from '../../models/dtos/custom-validation-error';
 import { IValidationService } from '../contracts/ivalidation.service';
@@ -7,6 +5,8 @@ import '../../../shared/extensions/form-group-extensions';
 import '../../../shared/extensions/string-extensions';
 import { isDefined } from '../../../shared/guards/type-guards';
 import { FORM_ERRORS } from 'src/app/shared/validators/reg-form-control-errors.provider';
+import { Injectable, Inject } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class ValidationService implements IValidationService
 {
   constructor(@Inject(FORM_ERRORS) private errors: any) { }
 
-  isControlInvalid(formGroup: FormGroup<any>, controlName: string): boolean
+  isControlInvalid(formGroup: FormGroup, controlName: string): boolean
   {
     let control = formGroup.dominitionGetControlInDepth(controlName);
     let isCntrlInvalid = control?.invalid && (control?.dirty || control?.touched);
@@ -31,7 +31,7 @@ export class ValidationService implements IValidationService
     return cntrlValRslt!;
   }
 
-  contCustValErrorToString(formGroup: FormGroup<any>, cntrlName: string): string
+  contCustValErrorToString(formGroup: FormGroup, cntrlName: string): string
   {
     let isControlInvalid = this.isControlInvalid(formGroup, cntrlName);
 
@@ -49,7 +49,7 @@ export class ValidationService implements IValidationService
     return concatControlError;
   }
 
-  getControlValidationErrors(formmGroup: FormGroup<any>, controlName: string): ICustomValidationError[]
+  getControlValidationErrors(formmGroup: FormGroup, controlName: string): ICustomValidationError[]
   {
     let allErrors: CustomValidationError[] = this.getCustomFormValidationErrors(formmGroup);
 

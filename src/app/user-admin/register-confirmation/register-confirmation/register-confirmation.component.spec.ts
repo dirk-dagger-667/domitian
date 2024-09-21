@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RegisterConfirmationComponent } from './register-confirmation.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('RegisterConfirmationComponent', () => {
   let component: RegisterConfirmationComponent;

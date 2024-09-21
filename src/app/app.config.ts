@@ -1,6 +1,5 @@
-import { APP_INITIALIZER, importProvidersFrom } from "@angular/core";
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { ApplicationConfig } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
 import { routes } from "./app.routes";
 import { provideHttpClient } from "@angular/common/http";

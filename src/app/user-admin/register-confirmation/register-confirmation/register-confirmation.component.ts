@@ -1,4 +1,3 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RegLogHeaderWidgetComponent } from '../../wrappers/reg-log-header-widget/reg-log-header-widget.component';
 import { Router, RouterLink } from '@angular/router';
 import { ROUTER_TOKENS } from 'src/app/shared/constants/routing-constants';
@@ -9,6 +8,7 @@ import { NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IUserAdminService } from '../../services/contracts/iuser-admin.service';
 import { RegConfDto } from '../../models/dtos/reg-conf-dto';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-register-confirmation',

@@ -70,11 +70,11 @@ export function httpTokenHeaderInterceptor(req: HttpRequest<unknown>, next: Http
     }
 
     return next(request).pipe(
-        tap({next: (resp: HttpRequest<unknown>) => 
-            {
+        // tap({next: (resp: HttpRequest<unknown>) => 
+        //     {
 
-            }
-        }),
+        //     }
+        // }),
         catchError(err =>
         {
             if (err.status === 401)
@@ -101,5 +101,4 @@ export function httpTokenHeaderInterceptor(req: HttpRequest<unknown>, next: Http
             return throwError(err);
         })
     );
-}
 }
