@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dominitian-ui:build:production"
+              "buildTarget": "dominitian-ui:build:production"
             },
             "development": {
-              "browserTarget": "dominitian-ui:build:development"
+              "buildTarget": "dominitian-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dominitian-ui:build"
+            "buildTarget": "dominitian-ui:build"
           }
         },
         "test": {
