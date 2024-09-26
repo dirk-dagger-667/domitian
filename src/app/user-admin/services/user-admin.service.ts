@@ -1,27 +1,24 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'
-import { UrlPathBuilderService } from 'src/app/shared/services/url-path-builder/url-path-builder.service';
 import { catchError, tap } from 'rxjs/operators';
-import { HttpErrorService } from 'src/app/shared/utilities/http-error/http-error.service';
 import { Observable, throwError } from 'rxjs';
-import { RegisterRequest } from '../../models/types/requests/register-request';
-import { LoginRequest } from '../../models/types/requests/login-request';
-import { IUserAdminService } from '../contracts/iuser-admin.service';
-import { AuthConstants } from 'src/app/shared/constants/auth-constants';
-import { LoginResponse } from '../../models/types/responses/Ilogin-response';
+import { RegisterRequest } from '../models/types/requests/register-request';
+import { LoginRequest } from '../models/types/requests/login-request';
+import { AuthConstants } from 'src/app/infrastructure/constants/auth-constants';
+import { LoginResponse } from '../models/types/responses/Ilogin-response';
+import { UrlPathBuilderService } from 'src/app/core/services/url-path-builder/url-path-builder.service';
+import { HttpErrorService } from 'src/app/core/services/http-error/http-error.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UserAdminService implements IUserAdminService
+@Injectable({providedIn: "root"})
+export class UserAdminService
 {
+
+  constructor(private readonly httpClient: HttpClient,
+    private readonly urlPathService: UrlPathBuilderService,
+    private readonly errorService: HttpErrorService) { }
 
   private accessToken: string = '';
   private refreshToken: string = '';
-
-  private httpClient: HttpClient = inject(HttpClient);
-  private urlPathService: UrlPathBuilderService = inject(UrlPathBuilderService);
-  private errorService: HttpErrorService = inject(HttpErrorService);
 
   get<TData>(callbackUrl: string): Observable<TData>
   {
@@ -43,9 +40,9 @@ export class UserAdminService implements IUserAdminService
     return response;
   }
 
-  register(request: RegisterRequest): Observable<HttpResponse<string>>
+  register(request: RegisterRequest): Observable<any>
   {
-    let response = this.httpClient.post<HttpResponse<string>>(this.urlPathService.register(), request, { responseType: "json" })
+    let response = this.httpClient.post<any>(this.urlPathService.register(), request, { responseType: "json" })
       .pipe(
         catchError(err => this.handleError(err))
       );

@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { ValidatorConstants } from "../constants/validation-constants";
+import { ValidatorConstants } from "../../infrastructure/constants/validation-constants";
 
 export function passwordValidator(passwordRegex: RegExp): ValidatorFn
 {

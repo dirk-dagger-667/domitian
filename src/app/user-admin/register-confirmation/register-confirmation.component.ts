@@ -1,14 +1,13 @@
-import { RegLogHeaderWidgetComponent } from '../../wrappers/reg-log-header-widget/reg-log-header-widget.component';
+import { RegLogHeaderWidgetComponent } from '../wrappers/reg-log-header-widget/reg-log-header-widget.component';
 import { Router, RouterLink } from '@angular/router';
-import { ROUTER_TOKENS } from 'src/app/shared/constants/routing-constants';
-import { InfoSharingService } from 'src/app/shared/utilities/info-sharing/info-sharing.service';
+import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import { Observable, Subscription, throwError } from 'rxjs';
-import { UserAdminService } from '../../services/implementations/user-admin.service';
 import { NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IUserAdminService } from '../../services/contracts/iuser-admin.service';
-import { RegConfDto } from '../../models/dtos/reg-conf-dto';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { RegConfDto } from '../models/dtos/reg-conf-dto';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
+import { UserAdminService } from '../services/user-admin.service';
 
 @Component({
   selector: 'app-register-confirmation',
@@ -22,9 +21,10 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy
   private readonly sessErrKey: string = 'RegConfError';
   private dto: RegConfDto = new RegConfDto();
 
-  private readonly dataSharingService: InfoSharingService = inject(InfoSharingService);
-  private readonly userAdminService: IUserAdminService = inject(UserAdminService);
-  private readonly router: Router = inject(Router);
+  constructor(private readonly dataSharingService: InfoSharingService,
+    private readonly userAdminService: UserAdminService,
+    private readonly router: Router
+  ) { }
 
   private readonly subs: Subscription[] = [];
 
@@ -62,7 +62,7 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy
     this.subs.push(this.userAdminService.get(this.dto.callbackUrl)
       .subscribe({
         next: () => this.router.navigate(['../', `${ROUTER_TOKENS.LOGIN}`]),
-        error: (error) => this.handleError(error)
+        error: (error: any) => this.handleError(error)
       }
       ));
   }

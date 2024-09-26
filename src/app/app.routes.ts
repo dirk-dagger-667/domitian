@@ -3,10 +3,10 @@ import { PromotionDashboardComponent } from "./promotions/promotion-dashboard/pr
 import { ChangePasswordConfirmationComponent } from "./user-admin/change-password-confirmation/change-password-confirmation.component";
 import { ForgotPasswordComponent } from "./user-admin/forgot-password/forgot-password.component";
 import { LoginComponent } from "./user-admin/login/login.component";
-import { RegisterConfirmationComponent } from "./user-admin/register-confirmation/register-confirmation/register-confirmation.component";
+import { RegisterConfirmationComponent } from "./user-admin/register-confirmation/register-confirmation.component";
 import { RegistrationComponent } from "./user-admin/registration/registration.component";
-import { PageNotFoundComponent } from "./shared/components/page-not-found/page-not-found/page-not-found.component";
-import { ROUTER_TOKENS, RoutingConstants } from "./shared/constants/routing-constants";
+import { ROUTER_TOKENS, RoutingConstants } from "./infrastructure/constants/routing-constants";
+import { PageNotFoundComponent } from "./shared/components/page-not-found/page-not-found.component";
 
 export const routes: Routes = [
     { path: ROUTER_TOKENS.LOGIN, component: LoginComponent },

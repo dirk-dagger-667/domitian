@@ -8,14 +8,17 @@
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: start",
-      "url": "http://localhost:9877/"
+      "url": "http://localhost:9877/",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
     },
     {
       "name": "ng test",
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: test",
-      "url": "http://localhost:9877/debug.html"
+      "url": "http://localhost:9877/debug.html",
+      "sourceMaps": true,
     },
     {
       "name": "Launch Chrome",

@@ -1,18 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { RegLogHeaderWidgetComponent } from '../wrappers/reg-log-header-widget/reg-log-header-widget.component';
-import { ValidationService } from '../services/implementations/validation.service';
-import { ValidatorConstants } from 'src/app/shared/constants/validation-constants';
+import { ValidationService } from '../services/validation.service';
+import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
 import { confirmPasswordSameValidator, passwordValidator } from 'src/app/shared/validators/user-credential-validators';
-import { IValidationService } from '../services/contracts/ivalidation.service';
 import { UserAdminBase } from '../reg-log-base';
-import { UserAdminService } from '../services/implementations/user-admin.service';
+import { UserAdminService } from '../services/user-admin.service';
 import { Router, RouterModule } from '@angular/router';
-import { ROUTER_TOKENS } from 'src/app/shared/constants/routing-constants';
-import { InfoSharingService } from 'src/app/shared/utilities/info-sharing/info-sharing.service';
-import { IUserAdminService } from '../services/contracts/iuser-admin.service';
+import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import { debounceTime } from 'rxjs';
+import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
 
 @Component({
   selector: 'app-registration',
@@ -29,11 +27,13 @@ export class RegistrationComponent extends UserAdminBase implements OnInit
   private pswdCntrl: AbstractControl<any, any> | null = null;
   private cnfrmPswdCntrl: AbstractControl<any, any> | null = null;
 
-  private readonly validationService: IValidationService = inject(ValidationService);
-  private readonly userAdminService: IUserAdminService = inject(UserAdminService);
-  private readonly router: Router = inject(Router);
-  private readonly formBuilder: FormBuilder = inject(FormBuilder);
-  private readonly dataSharingService: InfoSharingService = inject(InfoSharingService);
+  constructor(
+    private readonly validationService: ValidationService,
+    private readonly userAdminService: UserAdminService,
+    private readonly router: Router,
+    private readonly formBuilder: FormBuilder,
+    private readonly dataSharingService: InfoSharingService
+  ) { super(); }
 
   emailErrMsg: string = '';
   pswdErrMsg: string = '';
@@ -97,10 +97,11 @@ export class RegistrationComponent extends UserAdminBase implements OnInit
         .subscribe({
           next: (resp) =>
           {
-            this.dataSharingService.sentData({callbackUrl: resp, email: email});
+            this.dataSharingService.sentData({ callbackUrl: resp, email: email });
             this.navigateRegister(resp);
           },
-          error: (error) => {
+          error: (error) =>
+          {
             let err = error;
           }
         })

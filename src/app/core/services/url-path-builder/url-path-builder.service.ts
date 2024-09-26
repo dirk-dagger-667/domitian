@@ -1,20 +1,15 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ConfigProviderService } from '../../services/config-provider/config-provider.service';
-import { IAppConfig } from '../../app-config/iapp-config';
+import { IAppConfig } from '../../../infrastructure/app-config/iapp-config';
 import { catchError, of } from 'rxjs';
-import { IUrlPathBuilderService } from '../contracts/iurl-path-provider.service';
-import { IConfigProviderService } from '../contracts/iconfig-provider.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UrlPathBuilderService implements IUrlPathBuilderService
+@Injectable({providedIn: "root"})
+export class UrlPathBuilderService
 {
 
-  private confProvService: IConfigProviderService = inject(ConfigProviderService);
   private data!: IAppConfig | null;
 
-  constructor()
+  constructor(private confProvService: ConfigProviderService)
   {
     this.confProvService.data$ !== null 
     ? this.confProvService.data$.pipe(catchError(err =>
