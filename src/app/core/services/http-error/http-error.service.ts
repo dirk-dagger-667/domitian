@@ -4,21 +4,26 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class HttpErrorService {
+export class HttpErrorService 
+{
 
-  formatError(err: HttpErrorResponse): string{
+  formatError(err: HttpErrorResponse): string
+  {
     return this.httpErrorFormatter(err);
   }
 
-  private httpErrorFormatter(err: any): string {
+  private httpErrorFormatter(err: any): string
+  {
     let errorMessage = '';
 
-    if (err instanceof HttpErrorResponse) {
+    if (err instanceof HttpErrorResponse)
+    {
       var error = err as HttpErrorResponse;
 
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    else {
+    else
+    {
       errorMessage = `Server returned code: ${err.message}, error message is ${err.statusText}`
     }
 

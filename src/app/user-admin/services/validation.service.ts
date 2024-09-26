@@ -1,17 +1,14 @@
-import { ICustomValidationError } from '../../models/contracts/Icustom-validation-error';
-import { CustomValidationError } from '../../models/dtos/custom-validation-error';
-import { IValidationService } from '../contracts/ivalidation.service';
-import '../../../shared/extensions/form-group-extensions';
-import '../../../shared/extensions/string-extensions';
-import { isDefined } from '../../../shared/guards/type-guards';
+import { ICustomValidationError } from '../models/contracts/Icustom-validation-error';
+import { CustomValidationError } from '../models/dtos/custom-validation-error';
+import '../../infrastructure/extensions/form-group-extensions';
+import '../../infrastructure/extensions/string-extensions';
+import { isDefined } from '../../infrastructure/guards/type-guards';
 import { FORM_ERRORS } from 'src/app/shared/validators/reg-form-control-errors.provider';
 import { Injectable, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ValidationService implements IValidationService
+@Injectable({ providedIn: "root" })
+export class ValidationService
 {
   constructor(@Inject(FORM_ERRORS) private errors: any) { }
 
@@ -24,7 +21,7 @@ export class ValidationService implements IValidationService
     if (isDefined(control?.parent?.errors))
     {
       let prntInvalid = control?.parent?.errors[controlName];
-      
+
       return isDefined(prntInvalid) ? cntrlValRslt || prntInvalid : cntrlValRslt;
     }
 

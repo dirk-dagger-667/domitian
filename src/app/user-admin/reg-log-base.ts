@@ -1,10 +1,9 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { ValidatorConstants } from "../shared/constants/validation-constants";
-import { IUserAdminBase } from "./ireg-log-base";
+import { ValidatorConstants } from "../infrastructure/constants/validation-constants";
 import { Subscription } from "rxjs/internal/Subscription";
 
-@Injectable()
-export abstract class UserAdminBase implements IUserAdminBase, OnDestroy
+@Injectable({ providedIn: "root" })
+export abstract class UserAdminBase implements OnDestroy
 {
     readonly subs: Subscription[] = [];
 

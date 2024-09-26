@@ -1,10 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegLogHeaderWidgetComponent } from '../wrappers/reg-log-header-widget/reg-log-header-widget.component';
 import { CommonModule } from '@angular/common';
-import { ValidationService } from '../services/implementations/validation.service';
-import { IValidationService } from '../services/contracts/ivalidation.service';
-import { ValidatorConstants } from 'src/app/shared/constants/validation-constants';
+import { ValidationService } from '../services/validation.service';
+import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
 import { UserAdminBase } from '../reg-log-base';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
@@ -23,14 +22,14 @@ export class ForgotPasswordComponent extends UserAdminBase implements OnInit {
   email: string = '';
   emailControlName: string = ValidatorConstants.emailControlName;
 
-  validationService: IValidationService = inject(ValidationService);
-  router: Router = inject(Router);
+  constructor(private readonly validationService: ValidationService,
+    private readonly router: Router,
+    private formBuilder: FormBuilder) 
+    { super(); }
 
   forgotPasswordGroup: FormGroup = this.formBuilder.group({
     email: [ValidatorConstants.mailPlaceholder, [Validators.required, Validators.email]]
   });
-
-  constructor(private formBuilder: FormBuilder) { super() }
 
   ngOnInit(): void
   {

@@ -1,17 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { ValidationService } from '../services/implementations/validation.service';
-import { ValidatorConstants } from 'src/app/shared/constants/validation-constants';
+import { ValidationService } from '../services/validation.service';
+import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
 import { passwordValidator } from 'src/app/shared/validators/user-credential-validators';
 import { RegLogHeaderWidgetComponent } from '../wrappers/reg-log-header-widget/reg-log-header-widget.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { IValidationService } from '../services/contracts/ivalidation.service';
 import { debounceTime, tap } from 'rxjs';
 import { UserAdminBase } from '../reg-log-base';
-import { ROUTER_TOKENS } from 'src/app/shared/constants/routing-constants';
-import { UserAdminService } from '../services/implementations/user-admin.service';
-import { IUserAdminService } from '../services/contracts/iuser-admin.service';
+import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
+import { UserAdminService } from '../services/user-admin.service';
 
 @Component({
   selector: 'pm-login',
@@ -28,11 +26,12 @@ export class LoginComponent extends UserAdminBase implements OnInit
   private pswdCntrl: AbstractControl<any, any> | null = null;
   private rmeCntrl: AbstractControl<any, any> | null = null;
 
-  private readonly validationService: IValidationService = inject(ValidationService);
-  private readonly userAdminService: IUserAdminService = inject(UserAdminService);
-  private readonly formBuilder: FormBuilder = inject(FormBuilder);
-  private readonly router: Router = inject(Router);
-  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  constructor(private readonly validationService: ValidationService,
+    private readonly userAdminService: UserAdminService,
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute) 
+    { super(); }
 
   readonly ROUTER_TOKENS = ROUTER_TOKENS;
 
@@ -82,13 +81,13 @@ export class LoginComponent extends UserAdminBase implements OnInit
             console.log(data);
           })
         ).subscribe({
-          next: (resp) =>
+          next: (resp: any) =>
           {
             var asdasd = resp;
 
             this.router.navigate(['../', `${ROUTER_TOKENS.DASHBOARD}`, { relativeTo: this.activatedRoute }]);
           },
-          error: (error) =>
+          error: (error: any) =>
           {
             
           }

@@ -2,9 +2,10 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from "@angula
 import { FormsModule } from "@angular/forms";
 import { provideRouter } from "@angular/router";
 import { routes } from "./app.routes";
-import { provideHttpClient } from "@angular/common/http";
-import { ConfigProviderService } from "./shared/services/config-provider/config-provider.service";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { take } from "rxjs";
+import { httpTokenHeaderInterceptor } from "./infrastructure/http-interceptors/auth-interceptor";
+import { ConfigProviderService } from "./core/services/config-provider/config-provider.service";
 
 export function setupAppConfigServiceFactory(
     service: ConfigProviderService
@@ -19,7 +20,9 @@ export function setupAppConfigServiceFactory(
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideHttpClient(),
+        provideHttpClient(
+            withInterceptors([httpTokenHeaderInterceptor])
+        ),
         importProvidersFrom(
             FormsModule
         ),

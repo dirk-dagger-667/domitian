@@ -1,13 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { IAppConfig } from "../../app-config/iapp-config";
+import { IAppConfig } from "../../../infrastructure/app-config/iapp-config";
 import { BehaviorSubject, filter, map, Observable, shareReplay } from "rxjs";
-import { IConfigProviderService } from "../contracts/iconfig-provider.service";
 
 @Injectable({
     providedIn: 'root'
 })
-export class ConfigProviderService implements IConfigProviderService
+export class ConfigProviderService
 {
     private config = new BehaviorSubject<IAppConfig | null>(null);
     private confilFilePath = 'assets/app.config.json';
