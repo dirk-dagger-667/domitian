@@ -23,7 +23,7 @@ export class UrlPathBuilderService
   //Register controller paths
   private registerPath(): string
   {
-    let path = `${this.data?.apiUrlBase}/${this.data?.register.basePath}`;
+    let path = `${this.data?.apiUrlBase}/${this.data?.register.Register}`;
 
     return path;
   }
@@ -52,7 +52,7 @@ export class UrlPathBuilderService
   //Login controller paths
   private loginPath(): string
   {
-    let path = `${this.data?.apiUrlBase}/${this.data?.login.basePath}`;
+    let path = `${this.data?.apiUrlBase}/${this.data?.login.Login}`;
 
     return path;
   }
