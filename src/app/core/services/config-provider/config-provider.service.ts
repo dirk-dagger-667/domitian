@@ -32,13 +32,13 @@ export class ConfigProviderService
                     error: () => this.config.next({
                         apiUrlBase: '',
                         register: {
-                            basePath: '',
+                            BasePath: '',
                             ConfirmEmail: '',
                             ConfirmRegistration: '',
                             Register: ''
                         },
                         login: {
-                            basePath: '',
+                            BasePath: '',
                             Login: '',
                             RefreshAccess: '',
                             RevokeAccess: ''

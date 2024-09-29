@@ -65,7 +65,8 @@
               "buildTarget": "dominitian-ui:build:production"
             },
             "development": {
-              "buildTarget": "dominitian-ui:build:development"
+              "buildTarget": "dominitian-ui:build:development",
+              "proxyConfig": "src/assets/proxy.config.json"
             }
           },
           "defaultConfiguration": "development"

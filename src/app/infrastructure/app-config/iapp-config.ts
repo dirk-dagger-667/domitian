@@ -1,13 +1,13 @@
 export interface IAppConfig {
     apiUrlBase : string,
     register: {
-        basePath : string,
+        BasePath: string,
         ConfirmEmail : string,
         Register : string,
         ConfirmRegistration : string
     },
     login: {
-        basePath: string,
+        BasePath: string,
         Login: string,
         RefreshAccess: string,
         RevokeAccess: string

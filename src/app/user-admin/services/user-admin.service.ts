@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'
 import { catchError, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { RegisterRequest } from '../models/types/requests/register-request';
-import { LoginRequest } from '../models/types/requests/login-request';
+import { RegisterRequest } from '../models/contracts/requests/register-request';
+import { LoginRequest } from '../models/contracts/requests/login-request';
 import { AuthConstants } from 'src/app/infrastructure/constants/auth-constants';
-import { LoginResponse } from '../models/types/responses/Ilogin-response';
+import { LoginResponse } from '../models/contracts/responses/Ilogin-response';
 import { UrlPathBuilderService } from 'src/app/core/services/url-path-builder/url-path-builder.service';
 import { HttpErrorService } from 'src/app/core/services/http-error/http-error.service';
 
