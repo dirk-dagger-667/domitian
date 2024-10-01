@@ -2,8 +2,8 @@
 {
     public class AppConstants
     {
-        public const string DominitianConnectionString = "DominitianDefaultConnectionString";
-        public const string dbContextAssembly = "dominitian.Data";
+        public const string DomitianConnectionString = "DomitianDefaultConnectionString";
+        public const string dbContextAssembly = "domitian.Data";
     }
 
     public class ControllerEndpPoints

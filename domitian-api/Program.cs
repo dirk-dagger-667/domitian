@@ -31,7 +31,7 @@ builder.Services.AddControllers(o => o.Filters.Add(new AuthorizeFilter()));
 builder.Services.AddDbContext<DomitianIDDbContext>(options => options
         .UseSqlServer(builder
                     .Configuration
-                    .GetConnectionString(AppConstants.DominitianConnectionString),
+                    .GetConnectionString(AppConstants.DomitianConnectionString),
                     options => options.MigrationsAssembly(AppConstants.dbContextAssembly)));
 
 builder.Services.AddIdentity<DomitianIDUser, IdentityRole>(options =>
