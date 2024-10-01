@@ -7,10 +7,10 @@ export abstract class RoutingConstants
 export enum ROUTER_TOKENS 
 {
     API_BASE = '/api',
-    LOGIN = '/login',
-    REGISTRATION = '/registration',
-    REG_CONFIRMATION = '/registerConfirmation',
-    FORGOT_PASS = '/forgotPassword',
-    CHANGE_PASS_CONFIRMATION = '/changePasswordConfirmation',
-    DASHBOARD = '/dashboard',
+    LOGIN = 'login',
+    REGISTRATION = 'registration',
+    REG_CONFIRMATION = 'registerConfirmation',
+    FORGOT_PASS = 'forgotPassword',
+    CHANGE_PASS_CONFIRMATION = 'changePasswordConfirmation',
+    DASHBOARD = 'dashboard',
 }
