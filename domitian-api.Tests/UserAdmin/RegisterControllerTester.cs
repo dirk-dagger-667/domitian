@@ -1,7 +1,7 @@
-﻿using dominitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
-using dominitian.Tests.Infrastructure.Extensions;
-using dominitian_ui.Models.Requests.Registration;
-using dominitian_ui.Models.Results;
+﻿using domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
+using domitian.Tests.Infrastructure.Extensions;
+using domitian.Models.Requests.Registration;
+using domitian.Models.Results;
 using domitian_api.Tests.Fixtures.UserAdmin;
 using FakeItEasy;
 using FluentValidation.Results;
@@ -230,7 +230,7 @@ namespace domitian_api.Tests.UserAdmin
 
             if (actionRes != null)
             {
-                A.CallTo(() => _registerControllerFixture.ReturnResultsHelper.ResultTypeToActionResult(A<Result>.Ignored))
+                A.CallTo(() => _registerControllerFixture.ReturnResultsHelper.ResultTypeToActionResultBase(A<Result>.Ignored))
                 .Returns(actionRes);
             }
         }

@@ -1,13 +1,13 @@
-﻿using dominitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
-using dominitian.Tests.Infrastructure.Extensions;
-using dominitian_ui.Models.Requests.Login;
-using dominitian_ui.Models.Responses.Login;
-using dominitian_ui.Models.Results;
+﻿using domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
+using domitian.Tests.Infrastructure.Extensions;
+using domitian.Models.Requests.Login;
+using domitian.Models.Responses.Login;
+using domitian.Models.Results;
 using domitian_api.Tests.Fixtures.UserAdmin;
 using FakeItEasy;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using LoginModels = dominitian_ui.Models.Requests.Login;
+using LoginModels = domitian.Models.Requests.Login;
 
 namespace domitian_api.Tests.UserAdmin
 {

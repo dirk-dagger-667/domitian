@@ -1,7 +1,7 @@
-﻿using dominitian.Business.Contracts;
-using dominitian.Infrastructure.Validators;
-using dominitian_api.Helpers;
-using domition_api.Controllers.UserAdmin;
+﻿using domitian.Business.Contracts;
+using domitian.Infrastructure.Validators;
+using domitian_api.Controllers.UserAdmin;
+using domitian_api.Helpers;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 

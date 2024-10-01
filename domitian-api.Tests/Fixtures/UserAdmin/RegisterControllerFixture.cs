@@ -1,7 +1,7 @@
-﻿using dominitian.Business.Contracts;
-using dominitian_api.Helpers;
-using dominitian_ui.Infrastructure.Validators;
-using domition_api.Controllers.UserAdmin;
+﻿using domitian.Business.Contracts;
+using domitian_api.Helpers;
+using domitian.Infrastructure.Validators;
+using domitian_api.Controllers.UserAdmin;
 using FakeItEasy;
 
 namespace domitian_api.Tests.Fixtures.UserAdmin
