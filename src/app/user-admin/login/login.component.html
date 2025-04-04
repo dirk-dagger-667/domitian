@@ -2,33 +2,21 @@
     slogan='Get you favourite products at killer prices'></dominitian-reg-log-header-widget>
 <ng-template #loginContent>
     <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
-        <div class="row" *ngIf="this.logAttemptErrMsg">
-            <p class="val-error-msg">{{this.logAttemptErrMsg}}</p>
-        </div>
-        <div class="row form-floating">
-            <input type="text" 
-            id="{{this.emailCntrName}}" 
-            class="form-control" 
-            formControlName="{{this.emailCntrName}}"
-            [class.is-invalid]="this.emailErrMsg" 
-            (focus)="this.onFocus($event)" 
-            (blur)="this.onBlur($event)">
-            <label for="{{this.emailCntrName}}" class="form-label">Email*</label>
-            <div *ngIf="this.emailErrMsg" class="val-error-msg">{{this.emailErrMsg}}</div>
-        </div>
+
+        <app-text-input-titled [titDto]="this.emailCntrlInput"></app-text-input-titled>
+
         <br><br>
-        <div class="row form-floating">
-            <input type="password" 
-            id="{{this.pswdCntrName}}" 
-            class="form-control" 
-            formControlName="{{this.pswdCntrName}}"
-            [class.is-invalid]="this.pswdErrMsg" 
-            (focus)="this.onFocus($event)" 
-            (blur)="this.onBlur($event)">
-            <label for="{{this.pswdCntrName}}" class="form-label">Password*</label>
-            <div *ngIf="this.pswdErrMsg" class="val-error-msg">{{this.pswdErrMsg}}</div>
-        </div>
+
+        <app-text-input-titled [titDto]="this.pswdCntrlInput"></app-text-input-titled>
+
         <br><br>
+
+        <div class="row" *ngIf="this.loginErrMsg">
+            <p class="val-error-msg">{{this.loginErrMsg}}</p>
+        </div>
+
+        <br><br>
+
         <div class="row">
             <div class="col-sm-6">
                 <input type="checkbox" 
@@ -38,7 +26,9 @@
             </div>
             <button [routerLink]="['/', ROUTER_TOKENS.FORGOT_PASS]" class="btn btn-link col-sm-6">Forgot password?</button>
         </div>
+
         <br><br>
+
         <div class="row">
             <div class="col-sm-2"></div>
             <button type="submit" [disabled]="loginFormGroup.invalid" class="btn btn-primary col-sm-8">Login</button>

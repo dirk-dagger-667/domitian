@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 9877",
+    "start:qa": "ng serve --configuration qa",
+    "start:stage": "ng serve --configuration stage",
+    "start:production": "ng serve --configuration production",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -30,6 +33,7 @@
     "@angular/cli": "~18.2.5",
     "@angular/compiler-cli": "^18.2.5",
     "@types/bootstrap": "^5.2.10",
+    "@types/clone-deep": "^4.0.4",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",

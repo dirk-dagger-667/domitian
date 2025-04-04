@@ -6,7 +6,8 @@ import { UserAdminService } from "src/app/user-admin/services/user-admin.service
 
 export function httpTokenHeaderInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>>
 {
-    let userAdminService = inject(UserAdminService);
+    let userAdminService =
+        inject(UserAdminService);
     let request = req;
 
     let accessToken = userAdminService.getAccessToken();
@@ -31,11 +32,11 @@ export function httpTokenHeaderInterceptor(req: HttpRequest<unknown>, next: Http
                     catchError((refreshError) =>
                     {
                         userAdminService.logout();
-                        return throwError(() => new Error(refreshError));
+                        return throwError(() => refreshError);
                     })
                 );
             }
-            return throwError(() => new Error(err));
+            return throwError(() => err);
         })
     );
 }

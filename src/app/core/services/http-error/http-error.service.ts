@@ -20,7 +20,13 @@ export class HttpErrorService
     {
       var error = err as HttpErrorResponse;
 
+      if (error.error && error.error)
+      {
+        errorMessage = error.error;
+      }
+
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+
     }
     else
     {

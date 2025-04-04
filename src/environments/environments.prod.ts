@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     protocol: 'https',
-    host: 'dominitian.com',
+    host: 'domitian.com',
     port: null, // Port is usually not required for standard HTTPS (443).
-    baseUrl: 'https://dominitian.com'
+    baseUrl: 'https://domitian.com'
 };

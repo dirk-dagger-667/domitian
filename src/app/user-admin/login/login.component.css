@@ -1,3 +1,5 @@
+@import 'src/assets/styles/text-input.css';
+
 #rememberMe{
     width: 1.1em;
     height: 1.1em;
@@ -14,10 +16,10 @@
     padding: 0;
 }
 
-.label{
+/* .label{
     font-size: 12px;
     font-weight: bold;
-}
+} */
 
 .btn.btn-primary{
     height: 3em;
@@ -25,20 +27,20 @@
     margin-bottom: 4%;
 }
 
-.val-error-msg {
+/* .val-error-msg {
     font-size: 12px;
     color: crimson;
     padding: 1px;
     display: block;
-}
+} */
 
 p{
     margin-top: 5%;
     margin-bottom: 10%;
 }
 
-input{
+/* input{
     border-radius: 2em;
     color: rgb(152, 152, 152);
     height: 3em;
-}
+} */

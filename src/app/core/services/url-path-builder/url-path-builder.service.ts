@@ -12,7 +12,8 @@ export class UrlPathBuilderService
   constructor(private confProvService: ConfigProviderService)
   {
     this.confProvService.data$ !== null 
-    ? this.confProvService.data$.pipe(catchError(err =>
+    ? this.confProvService.data$.pipe(
+      catchError(err =>
       {
         console.error(err);
         return of();

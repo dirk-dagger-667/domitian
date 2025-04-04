@@ -5,11 +5,11 @@ import { Observable, throwError } from 'rxjs';
 import { RegisterRequest } from '../models/contracts/requests/register-request';
 import { LoginRequest } from '../models/contracts/requests/login-request';
 import { AuthConstants } from 'src/app/infrastructure/constants/auth-constants';
-import { LoginResponse } from '../models/contracts/responses/Ilogin-response';
+import { LoginResponse, loginResponseSchema } from '../models/contracts/responses/Ilogin-response';
 import { UrlPathBuilderService } from 'src/app/core/services/url-path-builder/url-path-builder.service';
 import { HttpErrorService } from 'src/app/core/services/http-error/http-error.service';
 
-@Injectable({providedIn: "root"})
+@Injectable({ providedIn: "root" })
 export class UserAdminService
 {
 
@@ -24,7 +24,7 @@ export class UserAdminService
   {
     let response = this.httpClient.get<TData>(callbackUrl, { responseType: 'json' })
       .pipe(
-        catchError(err => this.handleError(err))
+        catchError((err: HttpErrorResponse) => this.handleError(err))
       );
 
     return response;
@@ -34,43 +34,54 @@ export class UserAdminService
   {
     let response = this.httpClient.post<HttpResponse<string>>(this.urlPathService.confirmRegistration(), email, { responseType: "json" })
       .pipe(
-        catchError(err => this.handleError(err))
+        catchError((err: HttpErrorResponse) => this.handleError(err))
       );
 
     return response;
   }
 
-  register(request: RegisterRequest): Observable<any>
+  register(request: RegisterRequest): Observable<string>
   {
-    let response = this.httpClient.post<any>(this.urlPathService.register(), request, { responseType: "json" })
+    let response = this.httpClient.post(this.urlPathService.register(), request, { responseType: "text" })
       .pipe(
-        catchError(err => this.handleError(err))
+        catchError((err: HttpErrorResponse) => this.handleError(err))
       );
 
     return response;
   }
 
-  login(request: LoginRequest): Observable<HttpResponse<LoginResponse>>
+  login(request: LoginRequest): Observable<LoginResponse>
   {
-    let response = this.httpClient.post<HttpResponse<LoginResponse>>(this.urlPathService.login(), request, { responseType: "json" })
-      .pipe(
-        tap({
-          next: (resp: HttpResponse<LoginResponse>) => this.saveTokens(resp)
-        }),
-        catchError(err => this.handleError(err))
-      );
-
-    return response;
-  }
-
-  refreshAccess(): Observable<HttpResponse<LoginResponse>>
-  {
-    let response = this.httpClient.post<HttpResponse<LoginResponse>>(this.urlPathService.refreshAccess(), { responseType: "json" })
+    let response = this.httpClient.post<LoginResponse>(this.urlPathService.login(), request, { responseType: "json" })
       .pipe(
         tap({
-          next: (resp: HttpResponse<LoginResponse>) => this.saveTokens(resp)
-        }),
-        catchError(err => this.handleError(err))
+          next: (resp: LoginResponse) => {
+            let lr = loginResponseSchema.safeParse(resp);
+
+            if(lr.success)
+              this.saveTokens(resp);
+          },
+          error: ((err: HttpErrorResponse) => this.handleError(err))
+        })
+      );
+
+    return response;
+  }
+
+  refreshAccess(): Observable<LoginResponse>
+  {
+    let response = this.httpClient.post<LoginResponse>(this.urlPathService.refreshAccess(), { responseType: "json" })
+      .pipe(
+        tap({
+          next: (resp: LoginResponse) => {
+            
+            let lr = loginResponseSchema.safeParse(resp);
+
+            if(lr.success)
+              this.saveTokens(resp);
+          },
+          error: ((err: HttpErrorResponse) => this.handleError(err))
+        })
       );
 
     return response;
@@ -83,11 +94,15 @@ export class UserAdminService
         tap({
           next: (resp: HttpResponse<LoginResponse>) => 
           {
-            localStorage.removeItem(AuthConstants.AccessToken);
-            localStorage.removeItem(AuthConstants.RefreshToken);
-          }
-        }),
-        catchError(err => this.handleError(err))
+            let lr = loginResponseSchema.safeParse(resp);
+
+            if(lr.success) {
+              localStorage.removeItem(AuthConstants.AccessToken);
+              localStorage.removeItem(AuthConstants.RefreshToken);
+            }
+          },
+          error: ((err: HttpErrorResponse) => this.handleError(err))
+        })
       );
 
     return response;
@@ -107,10 +122,10 @@ export class UserAdminService
   //     }
   //     ));
 
-  private saveTokens(resp: any): void
+  private saveTokens(resp: LoginResponse | null): void
   {
-    this.accessToken = resp.accessToken;
-    this.refreshToken = resp.refreshToken;
+    this.accessToken = resp?.bearerToken ?? '';
+    this.refreshToken = resp?.refreshToken ?? '';
     localStorage.setItem(AuthConstants.AccessToken, this.accessToken);
     localStorage.setItem(AuthConstants.RefreshToken, this.refreshToken);
   }

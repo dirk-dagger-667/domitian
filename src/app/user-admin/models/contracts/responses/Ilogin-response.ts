@@ -1,6 +1,14 @@
+import { z } from "zod";
+
+ export const loginResponseSchema = z.object({
+    email: z.string().email(),
+    bearerToken: z.string(),
+    refreshToken: z.string(),
+});
+
 export interface LoginResponse 
 {
-    Email: string | null;
-    BearerToken: string | null;
-    RefreshToken: string | null;
+    email: string | null;
+    bearerToken: string | null;
+    refreshToken: string | null;
 }

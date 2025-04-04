@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegLogHeaderWidgetComponent } from '../wrappers/reg-log-header-widget/reg-log-header-widget.component';
 import { CommonModule } from '@angular/common';
 import { ValidationService } from '../services/validation.service';
@@ -7,20 +7,37 @@ import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-
 import { UserAdminBase } from '../reg-log-base';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { TextInputTitledComponent } from "../../shared/components/text-input-titled/text-input-titled.component";
+import { TITDto } from 'src/app/shared/contracts/titdto';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, RegLogHeaderWidgetComponent, CommonModule]
+  imports: [ReactiveFormsModule, RegLogHeaderWidgetComponent, CommonModule, TextInputTitledComponent]
 })
 export class ForgotPasswordComponent extends UserAdminBase implements OnInit {
 
-  debounceTime: number = 1000;
+  private emailCntrl: AbstractControl<any, any> | null = null;
 
-  email: string = '';
-  emailControlName: string = ValidatorConstants.emailControlName;
+  public debounceTime: number = 1000;
+
+  public email: string = '';
+  public emailControlName: string = ValidatorConstants.emailControlName;
+
+  // public emailCntrlInput: TITDto = {
+  //   inputType: 'text',
+  //   formCntrlName: this.emailControlName,
+  //   title: 'Email',
+  //   cntrlErrMsg: '',
+  //   isInvalid: this.isControlInvalid(this.emailControlName),
+
+  //   formCntrl: this.emailCntrl as FormControl,
+
+  //   onFocus: ($event: FocusEvent): void => { },
+  //   onBlur: ($event: FocusEvent): void => { }
+  // }
 
   constructor(private readonly validationService: ValidationService,
     private readonly router: Router,
@@ -33,9 +50,9 @@ export class ForgotPasswordComponent extends UserAdminBase implements OnInit {
 
   ngOnInit(): void
   {
-    let emailControl = this.forgotPasswordGroup.get(this.emailControlName);
+    this.emailCntrl = this.forgotPasswordGroup.get(this.emailControlName);
 
-    emailControl?.valueChanges.pipe(debounceTime(this.debounceTime))
+    this.emailCntrl?.valueChanges.pipe(debounceTime(this.debounceTime))
       .pipe(debounceTime(this.debounceTime))
       .subscribe((value: any) => this.email = value);
   }

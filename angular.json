@@ -47,7 +47,29 @@
                   "maximumError": "4kb"
                 }
               ],
+              "fileReplacements": [
+                {
+                  "replace": "/src/environments/environments.ts",
+                  "with": "src/environments/environments.prod.ts"
+                }
+              ],
               "outputHashing": "all"
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "/src/environments/environments.ts",
+                  "with": "src/environments/environments.qa.ts"
+                }
+              ]
+            },
+            "stage": {
+              "fileReplacements": [
+                {
+                  "replace": "/src/environments/environments.ts",
+                  "with": "src/environments/environments.stage.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -67,6 +89,12 @@
             "development": {
               "buildTarget": "dominitian-ui:build:development",
               "proxyConfig": "src/assets/proxy.config.json"
+            },
+            "qa": {
+              "buildTarget": "dominitian-ui:build:qa"
+            },
+            "stage": {
+              "buildTarget": "dominitian-ui:build:stage"
             }
           },
           "defaultConfiguration": "development"

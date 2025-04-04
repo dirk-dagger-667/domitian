@@ -20,7 +20,7 @@ export class ValidationService
 
     if (isDefined(control?.parent?.errors))
     {
-      let prntInvalid = control?.parent?.errors[controlName];
+      let prntInvalid = control!.parent!.errors![controlName];
 
       return isDefined(prntInvalid) ? cntrlValRslt || prntInvalid : cntrlValRslt;
     }

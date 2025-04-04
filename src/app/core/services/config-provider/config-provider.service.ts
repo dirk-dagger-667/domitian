@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { IAppConfig } from "../../../infrastructure/app-config/iapp-config";
-import { BehaviorSubject, filter, map, Observable, shareReplay } from "rxjs";
+import { BehaviorSubject, filter, Observable, shareReplay } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -9,12 +9,11 @@ import { BehaviorSubject, filter, map, Observable, shareReplay } from "rxjs";
 export class ConfigProviderService
 {
     private config = new BehaviorSubject<IAppConfig | null>(null);
-    private confilFilePath = 'assets/app.config.json';
+    private configFilePath = 'assets/app.config.json';
     private httpClient: HttpClient = inject(HttpClient);
     readonly data$: Observable<IAppConfig | null> = this.config.asObservable()
         .pipe(
             filter((config) => !!config),
-            map((config) => config),
             shareReplay(1)
         );
 
@@ -25,25 +24,30 @@ export class ConfigProviderService
 
     fetchConfig(): void
     {
-        this.httpClient.get<IAppConfig>(this.confilFilePath)
+        this.httpClient.get<IAppConfig>(this.configFilePath)
             .subscribe(
                 {
-                    next: (config) => this.config.next(config),
-                    error: () => this.config.next({
-                        apiUrlBase: '',
-                        register: {
-                            BasePath: '',
-                            ConfirmEmail: '',
-                            ConfirmRegistration: '',
-                            Register: ''
-                        },
-                        login: {
-                            BasePath: '',
-                            Login: '',
-                            RefreshAccess: '',
-                            RevokeAccess: ''
-                        }
-                    }),
+                    next: (config) => {
+                        this.config.next(config);
+                    } ,
+                    error: () =>
+                    {
+                        this.config.next({
+                            apiUrlBase: '',
+                            register: {
+                                BasePath: '',
+                                ConfirmEmail: '',
+                                ConfirmRegistration: '',
+                                Register: ''
+                            },
+                            login: {
+                                BasePath: '',
+                                Login: '',
+                                RefreshAccess: '',
+                                RevokeAccess: ''
+                            }
+                        })
+                    }
                 });
     }
 }

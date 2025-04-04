@@ -8,7 +8,7 @@ export class InfoSharingService
   private dataSub = new BehaviorSubject<any>(null);
   data$ = this.dataSub.asObservable();
 
-  sentData(data: any): void
+  sendData(data: any): void
   {
     this.dataSub.next(data);
   }

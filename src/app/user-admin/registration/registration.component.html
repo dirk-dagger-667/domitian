@@ -3,35 +3,17 @@
 <ng-template #registrationContent>
     <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
 
-        <div class="row form-floating">
-            <input type="text" id="{{this.emailCntrlName}}" class="form-control" data-toggle="tooltip"
-                formControlName="{{this.emailCntrlName}}" data-toggle="tooltip"
-                [class.is-invalid]="this.emailErrMsg" (focus)="this.onFocus($event)"
-                (blur)="this.onBlur($event)">
-            <label for="{{this.emailCntrlName}}" class="form-label">*Email</label>
-            <div *ngIf="this.emailErrMsg" class="val-error-msg">{{this.emailErrMsg}}
-            </div>
-        </div>
+        <app-text-input-titled [titDto]="this.emailCntrlInput"></app-text-input-titled>
 
         <br><br>
 
         <div formGroupName="passwordFormGroup" class="row">
-            <div class="row form-floating password-row">
-                <input type="password" 
-                id="{{this.pswdCntrlName}}" 
-                class="form-control"
-                formControlName="{{this.pswdCntrlName}}" 
-                data-toggle="tooltip"
-                [class.is-invalid]="this.pswdErrMsg" 
-                (focus)="this.onFocus($event)"
-                (blur)="this.onBlur($event)">
-                <label for="{{this.pswdCntrlName}}" class="form-label">*Password</label>
-                <div *ngIf="this.pswdErrMsg" class="val-error-msg">{{this.pswdErrMsg}}
-                </div>
-            </div>
+            
+            <app-text-input-titled [titDto]="this.pswdCntrlInput"></app-text-input-titled>
 
+            <app-text-input-titled [titDto]="this.cnfrmPswdCntrlInput"></app-text-input-titled>
 
-            <div id="confirm-password-row" class="row form-floating password-row">
+            <!-- <div id="confirm-password-row" class="row form-floating password-row">
                 <input type="password" 
                 id="{{this.cnfrmPswdCntrlName}}" 
                 class="form-control"
@@ -43,7 +25,7 @@
                 <label for="{{this.cnfrmPswdCntrlName}}" class="form-label">*Confirm Password</label>
                 <div *ngIf="this.cnfrmErrMsg" class="val-error-msg">{{this.cnfrmErrMsg}}
                 </div>
-            </div>
+            </div> -->
 
         </div>
 

@@ -35,7 +35,7 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy
   {
     this.subs.push(
       this.dataSharingService.data$.subscribe({
-        next: (resp) => this.dto = resp,
+        next: (resp) => { this.dto = resp },
         error: (error) => this.handleError(error)
       }
       ));
@@ -61,7 +61,7 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy
   {
     this.subs.push(this.userAdminService.get(this.dto.callbackUrl)
       .subscribe({
-        next: () => this.router.navigate(['../', `${ROUTER_TOKENS.LOGIN}`]),
+        next: () => { this.router.navigate(['../', `${ROUTER_TOKENS.LOGIN}`]) },
         error: (error: any) => this.handleError(error)
       }
       ));
