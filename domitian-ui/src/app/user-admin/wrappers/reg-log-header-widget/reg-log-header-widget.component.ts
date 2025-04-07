@@ -3,11 +3,10 @@ import { Component, Input, TemplateRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'dominitian-reg-log-header-widget',
-  templateUrl: './reg-log-header-widget.component.html',
-  styleUrls: ['./reg-log-header-widget.component.css'],
-  standalone: true,
-  imports: [CommonModule, RouterLink]
+    selector: 'dominitian-reg-log-header-widget',
+    templateUrl: './reg-log-header-widget.component.html',
+    styleUrls: ['./reg-log-header-widget.component.css'],
+    imports: [CommonModule, RouterLink]
 })
 export class RegLogHeaderWidgetComponent {
 

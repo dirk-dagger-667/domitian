@@ -11,11 +11,10 @@ import { TextInputTitledComponent } from "../../shared/components/text-input-tit
 import { TITDto } from 'src/app/shared/contracts/titdto';
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css'],
-  standalone: true,
-  imports: [ReactiveFormsModule, RegLogHeaderWidgetComponent, CommonModule, TextInputTitledComponent]
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.css'],
+    imports: [ReactiveFormsModule, RegLogHeaderWidgetComponent, CommonModule, TextInputTitledComponent]
 })
 export class ForgotPasswordComponent extends UserAdminBase implements OnInit {
 

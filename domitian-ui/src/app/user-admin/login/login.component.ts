@@ -15,11 +15,10 @@ import { emailTITDto, passwordTITDto } from 'src/app/core/factories/object-facto
 import { changePlaceholderOnBlur, removeValueOnFocus } from 'src/app/core/utilities/event-helpers';
 
 @Component({
-  selector: 'pm-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RegLogHeaderWidgetComponent, RouterLink, TextInputTitledComponent],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'pm-login',
+    imports: [ReactiveFormsModule, CommonModule, RegLogHeaderWidgetComponent, RouterLink, TextInputTitledComponent],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent extends UserAdminBase implements OnInit, AfterViewInit
 {
