@@ -1,0 +1,17 @@
+.label {
+    font-size: small;
+    font-weight: bold;
+}
+
+.btn.btn-primary {
+    height: 3em;
+    border-radius: 2em;
+    margin-bottom: 4%;
+}
+
+.val-error-msg {
+    font-size: 12px;
+    color: crimson;
+    padding: 1px;
+    display: block;
+}

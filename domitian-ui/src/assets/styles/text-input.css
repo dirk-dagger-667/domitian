@@ -1,0 +1,28 @@
+#confirm-password-row {
+    margin-top: 50px;
+}
+
+.val-error-msg {
+    font-size: 12px;
+    color: crimson;
+    padding: 1px;
+    display: block;
+}
+
+.label{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+input {
+    border-radius: 2em;
+    color: rgb(152, 152, 152);
+    height: 3em;
+}
+
+.password-row {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}

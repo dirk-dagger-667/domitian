@@ -1,0 +1,39 @@
+.container-fluid {
+    height: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.banner {
+    background-color: rgba(82, 155, 208);
+    color: white;
+    font-size: xxx-large;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+button.banner {
+    border: none;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.first {
+    border: 2px solid black;
+    height: 100%;
+}
+
+.fw-bold {
+    margin-top: 7%;
+}
+
+p {
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
