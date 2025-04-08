@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 9877",
+    "start": "ng serve --ssl true --ssl-key D:\\Certificates\\Angular\\local_domitian.key --ssl-cert D:\\Certificates\\Angular\\local_domitian.crt --port 9877",
     "start:qa": "ng serve --configuration qa",
     "start:stage": "ng serve --configuration stage",
     "start:production": "ng serve --configuration production",
