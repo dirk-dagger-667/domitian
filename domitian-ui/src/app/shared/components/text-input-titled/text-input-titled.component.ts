@@ -5,16 +5,16 @@ import { TITDto } from '../../contracts/titdto';
 import { emptyTITDto } from 'src/app/core/factories/object-factories';
 
 @Component({
-  selector: 'app-text-input-titled',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './text-input-titled.component.html',
-  styleUrl: './text-input-titled.component.css',
-  viewProviders: [
-    {
-      provide: ControlContainer,
-      useFactory: () => inject(ControlContainer, { skipSelf: true })
-    }]
+    selector: 'app-text-input-titled',
+    imports: [ReactiveFormsModule, CommonModule],
+    templateUrl: './text-input-titled.component.html',
+    styleUrl: './text-input-titled.component.css',
+    viewProviders: [
+        {
+            provide: ControlContainer,
+            useFactory: () => inject(ControlContainer, { skipSelf: true })
+        }
+    ]
 })
 export class TextInputTitledComponent implements OnInit, OnDestroy
 {

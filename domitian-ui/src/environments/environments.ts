@@ -1,7 +1,7 @@
 export const environment = {
-    production: false,
-    protocol: 'http',
-    host: 'localhost',
-    port: 9877,
-    baseUrl: 'http://localhost:9877'
+  production: false,
+  protocol: 'https',
+  host: 'localhost',
+  port: 9877,
+  baseUrl: 'https://localhost:9877',
 };

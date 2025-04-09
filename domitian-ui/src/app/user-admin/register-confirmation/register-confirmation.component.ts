@@ -10,11 +10,10 @@ import { InfoSharingService } from 'src/app/core/services/info-sharing/info-shar
 import { UserAdminService } from '../services/user-admin.service';
 
 @Component({
-  selector: 'app-register-confirmation',
-  templateUrl: './register-confirmation.component.html',
-  styleUrls: ['./register-confirmation.component.css'],
-  standalone: true,
-  imports: [RegLogHeaderWidgetComponent, RouterLink, NgIf]
+    selector: 'app-register-confirmation',
+    templateUrl: './register-confirmation.component.html',
+    styleUrls: ['./register-confirmation.component.css'],
+    imports: [RegLogHeaderWidgetComponent, RouterLink, NgIf]
 })
 export class RegisterConfirmationComponent implements OnInit, OnDestroy
 {

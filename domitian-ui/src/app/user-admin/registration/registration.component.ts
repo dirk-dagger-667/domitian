@@ -17,11 +17,10 @@ import { changePlaceholderOnBlur, removeValueOnFocus } from 'src/app/core/utilit
 import { emailTITDto, passwordTITDto } from 'src/app/core/factories/object-factories';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
-  imports: [ReactiveFormsModule, CommonModule, RegLogHeaderWidgetComponent, RouterModule, TextInputTitledComponent],
-  standalone: true
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.css'],
+    imports: [ReactiveFormsModule, CommonModule, RegLogHeaderWidgetComponent, RouterModule, TextInputTitledComponent]
 })
 export class RegistrationComponent extends UserAdminBase implements AfterViewInit
 {
