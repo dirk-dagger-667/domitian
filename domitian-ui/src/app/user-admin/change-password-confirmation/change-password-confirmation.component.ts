@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { RegLogHeaderWidgetComponent } from '../wrappers/reg-log-header-widget/reg-log-header-widget.component';
+import { AuthWrapperComponent } from '../wrappers/auth-wrapper/auth-wrapper.component';
 
 @Component({
-    selector: 'app-change-password-confirmation',
-    templateUrl: './change-password-confirmation.component.html',
-    styleUrls: ['./change-password-confirmation.component.css'],
-    imports: [RegLogHeaderWidgetComponent]
+  selector: 'app-change-password-confirmation',
+  templateUrl: './change-password-confirmation.component.html',
+  styleUrls: ['./change-password-confirmation.component.css'],
+  imports: [AuthWrapperComponent],
 })
-export class ChangePasswordConfirmationComponent {
-
-}
+export class ChangePasswordConfirmationComponent {}

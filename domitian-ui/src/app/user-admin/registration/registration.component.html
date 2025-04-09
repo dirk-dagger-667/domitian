@@ -1,19 +1,26 @@
-<dominitian-reg-log-header-widget [regLogCustomContent]="registrationContent" pageTitle='Registration'
-    slogan='Create a new account'></dominitian-reg-log-header-widget>
+<dominitian-auth-wrapper
+  [authTemplateContent]="registrationContent"
+  pageTitle="Registration"
+  slogan="Create a new account"
+></dominitian-auth-wrapper>
 <ng-template #registrationContent>
-    <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
+    <app-text-input-titled
+      [titDto]="this.emailCntrlInput"
+    ></app-text-input-titled>
 
-        <app-text-input-titled [titDto]="this.emailCntrlInput"></app-text-input-titled>
+    <br /><br />
 
-        <br><br>
+    <div formGroupName="passwordFormGroup" class="row">
+      <app-text-input-titled
+        [titDto]="this.pswdCntrlInput"
+      ></app-text-input-titled>
 
-        <div formGroupName="passwordFormGroup" class="row">
-            
-            <app-text-input-titled [titDto]="this.pswdCntrlInput"></app-text-input-titled>
+      <app-text-input-titled
+        [titDto]="this.cnfrmPswdCntrlInput"
+      ></app-text-input-titled>
 
-            <app-text-input-titled [titDto]="this.cnfrmPswdCntrlInput"></app-text-input-titled>
-
-            <!-- <div id="confirm-password-row" class="row form-floating password-row">
+      <!-- <div id="confirm-password-row" class="row form-floating password-row">
                 <input type="password" 
                 id="{{this.cnfrmPswdCntrlName}}" 
                 class="form-control"
@@ -26,17 +33,20 @@
                 <div *ngIf="this.cnfrmErrMsg" class="val-error-msg">{{this.cnfrmErrMsg}}
                 </div>
             </div> -->
+    </div>
 
-        </div>
+    <br /><br />
 
-        <br><br>
-
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <button type="submit" [disabled]="registrationFormGroup.invalid"
-                class="btn btn-primary col-sm-8 ms-3">Create Account</button>
-            <div class="col-sm-2"></div>
-        </div>
-
-    </form>
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <button
+        type="submit"
+        [disabled]="registrationFormGroup.invalid"
+        class="btn btn-primary col-sm-8 ms-3"
+      >
+        Create Account
+      </button>
+      <div class="col-sm-2"></div>
+    </div>
+  </form>
 </ng-template>
