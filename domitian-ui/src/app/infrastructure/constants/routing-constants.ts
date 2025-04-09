@@ -5,6 +5,7 @@ export abstract class RoutingConstants {
 
 export enum ROUTER_TOKENS {
   API_BASE = '/api',
+  AUTH = 'auth',
   LOGIN = 'login',
   REGISTRATION = 'registration',
   REG_CONFIRMATION = 'registerConfirmation',

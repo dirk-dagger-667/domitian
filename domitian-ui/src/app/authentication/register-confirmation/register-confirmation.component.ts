@@ -7,13 +7,12 @@ import { RegConfDto } from '../models/dtos/reg-conf-dto';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
 import { UserAdminService } from '../services/user-admin.service';
-import { AuthWrapperComponent } from '../wrappers/auth-wrapper/auth-wrapper.component';
 
 @Component({
   selector: 'app-register-confirmation',
   templateUrl: './register-confirmation.component.html',
   styleUrls: ['./register-confirmation.component.css'],
-  imports: [AuthWrapperComponent, RouterLink, NgIf],
+  imports: [RouterLink, NgIf],
 })
 export class RegisterConfirmationComponent implements OnInit, OnDestroy {
   private readonly sessErrKey: string = 'RegConfError';

@@ -14,18 +14,12 @@ import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { TextInputTitledComponent } from '../../shared/components/text-input-titled/text-input-titled.component';
 import { TITDto } from 'src/app/shared/contracts/titdto';
-import { AuthWrapperComponent } from '../wrappers/auth-wrapper/auth-wrapper.component';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css'],
-  imports: [
-    ReactiveFormsModule,
-    AuthWrapperComponent,
-    CommonModule,
-    TextInputTitledComponent,
-  ],
+  imports: [ReactiveFormsModule, CommonModule, TextInputTitledComponent],
 })
 export class ForgotPasswordComponent extends UserAdminBase implements OnInit {
   private emailCntrl: AbstractControl<any, any> | null = null;
