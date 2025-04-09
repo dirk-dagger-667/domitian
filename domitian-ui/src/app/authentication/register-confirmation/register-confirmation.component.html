@@ -6,7 +6,7 @@
   </symbol>
 </svg>
 
-<dominitian-auth-wrapper
+<!-- <dominitian-auth-wrapper
   [authTemplateContent]="regConfrimation"
   pageTitle="Registration confirmation"
   slogan="Get you favourite products at killer prices"
@@ -44,4 +44,40 @@
       >
     </div>
   </div>
-</ng-template>
+</ng-template> -->
+
+<h4 class="fw-bold">Confirm registration</h4>
+<p class="fs-5">Confirm you registration here</p>
+
+<div *ngIf="this.error === ''">
+  <h1>Your account was successfully registered.</h1>
+  <p>
+    This app does not currently have a real email sender registered. Normally
+    this would be emailed:
+    <button class="btn btn-link" (click)="this.onClick()">
+      Click here to confirm your account
+    </button>
+  </p>
+</div>
+<div
+  *ngIf="this.error !== ''"
+  class="alert alert-danger d-flex align-items-center"
+  role="alert"
+>
+  <svg
+    class="bi flex-shrink-0 me-2"
+    role="img"
+    width="24"
+    height="24"
+    aria-label="Danger:"
+  >
+    <use xlink:href="#exclamation-triangle-fill" />
+  </svg>
+  <div>
+    Something went wrong during the confirmation of your email. Please try
+    again.
+    <a [routerLink]="['/', this.ROUTER_TOKENS.LOGIN]" class="alert-link"
+      >Go back to the registration page</a
+    >
+  </div>
+</div>

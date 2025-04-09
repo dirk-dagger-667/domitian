@@ -29,7 +29,6 @@ import {
   emailTITDto,
   passwordTITDto,
 } from 'src/app/core/factories/object-factories';
-import { AuthWrapperComponent } from '../wrappers/auth-wrapper/auth-wrapper.component';
 
 @Component({
   selector: 'app-registration',
@@ -38,7 +37,6 @@ import { AuthWrapperComponent } from '../wrappers/auth-wrapper/auth-wrapper.comp
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    AuthWrapperComponent,
     RouterModule,
     TextInputTitledComponent,
   ],

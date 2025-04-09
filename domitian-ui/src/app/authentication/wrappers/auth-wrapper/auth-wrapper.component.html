@@ -16,7 +16,8 @@
           <h4 class="fw-bold">{{ pageTitle }}</h4>
           <p class="fs-5">{{ slogan }}</p>
 
-          <ng-container [ngTemplateOutlet]="authTemplateContent"></ng-container>
+          <!-- <ng-container [ngTemplateOutlet]="authTemplateContent"></ng-container> -->
+          <router-outlet></router-outlet>
         </div>
         <div class="col-sm-3"></div>
       </div>

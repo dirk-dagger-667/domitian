@@ -23,14 +23,12 @@ import {
   changePlaceholderOnBlur,
   removeValueOnFocus,
 } from 'src/app/core/utilities/event-helpers';
-import { AuthWrapperComponent } from '../wrappers/auth-wrapper/auth-wrapper.component';
 
 @Component({
   selector: 'pm-login',
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    AuthWrapperComponent,
     RouterLink,
     TextInputTitledComponent,
   ],

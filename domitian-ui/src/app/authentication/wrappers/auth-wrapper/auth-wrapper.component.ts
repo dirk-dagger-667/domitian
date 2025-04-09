@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'dominitian-auth-wrapper',
   templateUrl: './auth-wrapper.component.html',
   styleUrls: ['./auth-wrapper.component.css'],
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterOutlet],
 })
 export class AuthWrapperComponent {
   @Input() authTemplateContent!: TemplateRef<any>;
