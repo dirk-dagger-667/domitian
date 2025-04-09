@@ -1,0 +1,64 @@
+<h4 class="fw-bold">Login</h4>
+<p class="fs-5">Home of the discount products</p>
+
+<form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
+  <app-text-input-titled
+    [titDto]="this.emailCntrlInput"
+  ></app-text-input-titled>
+
+  <br /><br />
+
+  <app-text-input-titled [titDto]="this.pswdCntrlInput"></app-text-input-titled>
+
+  <br /><br />
+
+  <div class="row" *ngIf="this.loginErrMsg">
+    <p class="val-error-msg">{{ this.loginErrMsg }}</p>
+  </div>
+
+  <br /><br />
+
+  <div class="row">
+    <div class="col-sm-6">
+      <input
+        type="checkbox"
+        id="{{ this.rmeCntrlName }}"
+        formControlName="{{ this.rmeCntrlName }}"
+      />
+      <label for="{{ this.rmeCntrlName }}" class="form-label"
+        >Remember me</label
+      >
+    </div>
+    <button
+      [routerLink]="['../', ROUTER_TOKENS.FORGOT_PASS]"
+      class="btn btn-link col-sm-6"
+    >
+      Forgot password?
+    </button>
+  </div>
+
+  <br /><br />
+
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <button
+      type="submit"
+      [disabled]="loginFormGroup.invalid"
+      class="btn btn-primary col-sm-8"
+    >
+      Login
+    </button>
+    <div class="col-sm-2"></div>
+  </div>
+  <div class="row">
+    <div>
+      <label>Not registered yet?</label>
+      <button
+        [routerLink]="['../', ROUTER_TOKENS.REGISTRATION]"
+        class="btn btn-link ms-3"
+      >
+        Create an Account
+      </button>
+    </div>
+  </div>
+</form>
