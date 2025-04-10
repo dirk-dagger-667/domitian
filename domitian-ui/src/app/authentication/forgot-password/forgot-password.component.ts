@@ -9,19 +9,22 @@ import {
 import { CommonModule } from '@angular/common';
 import { ValidationService } from '../services/validation.service';
 import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
-import { UserAdminBase } from '../reg-log-base';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { TextInputTitledComponent } from '../../shared/components/text-input-titled/text-input-titled.component';
-import { TITDto } from 'src/app/shared/contracts/titdto';
+import {
+  changePlaceholderOnBlur,
+  removeValueOnFocus,
+} from 'src/app/core/utilities/event-helpers';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { AuthenticationService } from '../services/user-admin.service';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css'],
-  imports: [ReactiveFormsModule, CommonModule, TextInputTitledComponent],
+  imports: [ReactiveFormsModule, CommonModule],
 })
-export class ForgotPasswordComponent extends UserAdminBase implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
   private emailCntrl: AbstractControl<any, any> | null = null;
 
   public debounceTime: number = 1000;
@@ -29,51 +32,53 @@ export class ForgotPasswordComponent extends UserAdminBase implements OnInit {
   public email: string = '';
   public emailControlName: string = ValidatorConstants.emailControlName;
 
-  // public emailCntrlInput: TITDto = {
-  //   inputType: 'text',
-  //   formCntrlName: this.emailControlName,
-  //   title: 'Email',
-  //   cntrlErrMsg: '',
-  //   isInvalid: this.isControlInvalid(this.emailControlName),
+  public emailErrMsg: string = '';
 
-  //   formCntrl: this.emailCntrl as FormControl,
-
-  //   onFocus: ($event: FocusEvent): void => { },
-  //   onBlur: ($event: FocusEvent): void => { }
-  // }
-
-  constructor(
-    private readonly validationService: ValidationService,
-    private readonly router: Router,
-    private formBuilder: FormBuilder
-  ) {
-    super();
-  }
-
-  forgotPasswordGroup: FormGroup = this.formBuilder.group({
+  public forgotPasswordGroup: FormGroup = this.formBuilder.group({
     email: [
       ValidatorConstants.mailPlaceholder,
       [Validators.required, Validators.email],
     ],
   });
 
+  private readonly unsub: Subject<void> = new Subject();
+
+  constructor(
+    private readonly validationService: ValidationService,
+    private readonly authenticationService: AuthenticationService,
+    private readonly router: Router,
+    private formBuilder: FormBuilder
+  ) {}
+
   ngOnInit(): void {
     this.emailCntrl = this.forgotPasswordGroup.get(this.emailControlName);
 
     this.emailCntrl?.valueChanges
-      .pipe(debounceTime(this.debounceTime))
-      .pipe(debounceTime(this.debounceTime))
-      .subscribe((value: any) => (this.email = value));
+      .pipe(
+        takeUntil(this.unsub),
+        debounceTime(this.debounceTime),
+        tap((value: string) => (this.email = value))
+      )
+      .subscribe();
   }
 
-  isControlInvalid(controlName: string) {
-    return this.validationService.isControlInvalid(
-      this.forgotPasswordGroup,
-      controlName
+  onFocus($event: FocusEvent): void {
+    removeValueOnFocus($event, ValidatorConstants.mailPlaceholder);
+  }
+
+  onBlur($event: FocusEvent): void {
+    changePlaceholderOnBlur(
+      $event,
+      this.emailCntrl,
+      ValidatorConstants.mailPlaceholder
     );
   }
 
   onSubmit() {
+    //Send an email message to the specified email with the confirmation of the password
+
+    // this.authenticationService.
+
     this.router.navigate(['/', 'change-password-confirmation']);
   }
 }

@@ -1,12 +1,19 @@
 import { Router, RouterLink } from '@angular/router';
 import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
-import { Observable, Subscription, throwError } from 'rxjs';
+import {
+  catchError,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+  throwError,
+} from 'rxjs';
 import { NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RegConfDto } from '../models/dtos/reg-conf-dto';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
-import { UserAdminService } from '../services/user-admin.service';
+import { AuthenticationService } from '../services/user-admin.service';
 
 @Component({
   selector: 'app-register-confirmation',
@@ -20,24 +27,23 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly dataSharingService: InfoSharingService,
-    private readonly userAdminService: UserAdminService,
+    private readonly authenticationService: AuthenticationService,
     private readonly router: Router
   ) {}
 
-  private readonly subs: Subscription[] = [];
+  private readonly unsub: Subject<void> = new Subject();
 
   readonly ROUTER_TOKENS = ROUTER_TOKENS;
   error: string = '';
 
   ngOnInit(): void {
-    this.subs.push(
-      this.dataSharingService.data$.subscribe({
-        next: (resp) => {
-          this.dto = resp;
-        },
-        error: (error) => this.handleError(error),
-      })
-    );
+    this.dataSharingService.data$
+      .pipe(
+        takeUntil(this.unsub),
+        tap((resp) => (this.dto = resp)),
+        catchError((err: HttpErrorResponse) => this.handleError(err))
+      )
+      .subscribe();
 
     // This is created in anticipation for the full 2-Factor authentication
     // this.subs.push(
@@ -56,14 +62,14 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy {
   }
 
   onClick(): void {
-    this.subs.push(
-      this.userAdminService.get(this.dto.callbackUrl).subscribe({
-        next: () => {
-          this.router.navigate(['../', `${ROUTER_TOKENS.LOGIN}`]);
-        },
-        error: (error: any) => this.handleError(error),
-      })
-    );
+    this.authenticationService
+      .get(this.dto.callbackUrl)
+      .pipe(
+        takeUntil(this.unsub),
+        tap(() => this.router.navigate(['../', `${ROUTER_TOKENS.LOGIN}`])),
+        catchError((err: HttpErrorResponse) => this.handleError(err))
+      )
+      .subscribe();
   }
 
   handleError(err: HttpErrorResponse): Observable<never> {
@@ -75,11 +81,5 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     sessionStorage.removeItem(this.sessErrKey);
-
-    this.subs.forEach((sub) => {
-      if (sub !== undefined) {
-        sub.unsubscribe();
-      }
-    });
   }
 }
