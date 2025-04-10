@@ -2,16 +2,16 @@ import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { UserAdminService } from 'src/app/authentication/services/user-admin.service';
+import { AuthenticationService } from 'src/app/authentication/services/user-admin.service';
 
 export function httpTokenHeaderInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
-  let userAdminService = inject(UserAdminService);
+  let authenticationService = inject(AuthenticationService);
   let request = req;
 
-  let accessToken = userAdminService.getAccessToken();
+  let accessToken = authenticationService.getAccessToken();
 
   if (accessToken) {
     request = attachTokenToRequest(req, accessToken);
@@ -21,16 +21,16 @@ export function httpTokenHeaderInterceptor(
     catchError((err) => {
       if (err.status === 401) {
         // Token might be expired, try refreshing it
-        return userAdminService.refreshAccess().pipe(
+        return authenticationService.refreshAccess().pipe(
           switchMap(() => {
             request = attachTokenToRequest(
               req,
-              userAdminService.getAccessToken()
+              authenticationService.getAccessToken()
             );
             return next(request);
           }),
           catchError((refreshError) => {
-            userAdminService.logout();
+            authenticationService.logout();
             return throwError(() => refreshError);
           })
         );

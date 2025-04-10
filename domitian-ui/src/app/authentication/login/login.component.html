@@ -2,13 +2,40 @@
 <p class="fs-5">Home of the discount products</p>
 
 <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
-  <app-text-input-titled
-    [titDto]="this.emailCntrlInput"
-  ></app-text-input-titled>
+  <div id="email-row" class="row form-floating">
+    <input
+      type="text"
+      id="email"
+      class="form-control"
+      data-toggle="tooltip"
+      formControlName="email"
+      [class.is-invalid]="!!this.emailErrMsg"
+      (focus)="this.onFocus($event)"
+      (blur)="this.onBlur($event)"
+    />
+    <label for="email" class="form-label">*Email</label>
+    <div *ngIf="!!this.emailErrMsg" class="val-error-msg">
+      {{ this.emailErrMsg }}
+    </div>
+  </div>
 
   <br /><br />
 
-  <app-text-input-titled [titDto]="this.pswdCntrlInput"></app-text-input-titled>
+  <div id="password-row" class="row form-floating">
+    <input
+      type="text"
+      id="password"
+      class="form-control"
+      data-toggle="tooltip"
+      formControlName="password"
+      [class.is-invalid]="!!this.pswdErrMsg"
+      (blur)="this.pswdBlur()"
+    />
+    <label for="password" class="form-label">*Password</label>
+    <div *ngIf="!!this.pswdErrMsg" class="val-error-msg">
+      {{ this.pswdErrMsg }}
+    </div>
+  </div>
 
   <br /><br />
 
