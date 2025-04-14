@@ -11,28 +11,27 @@ import { ValidationService } from '../services/validation.service';
 import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import {
-  changePlaceholderOnBlur,
-  removeValueOnFocus,
-} from 'src/app/core/utilities/event-helpers';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { AuthenticationService } from '../services/user-admin.service';
+import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css'],
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    ChangePlaceholderOnBlurFocusDirective,
+  ],
 })
 export class ForgotPasswordComponent implements OnInit {
   private emailCntrl: AbstractControl<any, any> | null = null;
+  private readonly unsub: Subject<void> = new Subject();
 
   public debounceTime: number = 1000;
-
-  public email: string = '';
-  public emailControlName: string = ValidatorConstants.emailControlName;
-
   public emailErrMsg: string = '';
+  public placeholder = ValidatorConstants.mailPlaceholder;
 
   public forgotPasswordGroup: FormGroup = this.formBuilder.group({
     email: [
@@ -40,8 +39,6 @@ export class ForgotPasswordComponent implements OnInit {
       [Validators.required, Validators.email],
     ],
   });
-
-  private readonly unsub: Subject<void> = new Subject();
 
   constructor(
     private readonly validationService: ValidationService,
@@ -51,27 +48,22 @@ export class ForgotPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.emailCntrl = this.forgotPasswordGroup.get(this.emailControlName);
+    this.emailCntrl = this.forgotPasswordGroup.get(
+      ValidatorConstants.emailControlName
+    );
 
     this.emailCntrl?.valueChanges
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap((value: string) => (this.email = value))
+        tap(() => {
+          this.emailErrMsg = this.validationService.contCustValErrorToString(
+            this.forgotPasswordGroup,
+            ValidatorConstants.passwordControlName
+          );
+        })
       )
       .subscribe();
-  }
-
-  onFocus($event: FocusEvent): void {
-    removeValueOnFocus($event, ValidatorConstants.mailPlaceholder);
-  }
-
-  onBlur($event: FocusEvent): void {
-    changePlaceholderOnBlur(
-      $event,
-      this.emailCntrl,
-      ValidatorConstants.mailPlaceholder
-    );
   }
 
   onSubmit() {

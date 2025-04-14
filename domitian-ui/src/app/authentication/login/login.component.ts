@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, signal } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -10,18 +10,28 @@ import {
 import { ValidationService } from '../services/validation.service';
 import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { catchError, debounceTime, Subject, takeUntil, tap } from 'rxjs';
-import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import {
-  changePlaceholderOnBlur,
-  removeValueOnFocus,
-} from 'src/app/core/utilities/event-helpers';
+  catchError,
+  debounceTime,
+  Subject,
+  takeUntil,
+  tap,
+  throwError,
+} from 'rxjs';
+import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import { passwordValidator } from 'src/app/shared/validators/user-credential-validators';
 import { AuthenticationService } from '../services/user-admin.service';
+import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'pm-login',
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterLink,
+    ChangePlaceholderOnBlurFocusDirective,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -32,28 +42,28 @@ export class LoginComponent implements OnInit, AfterViewInit {
   private pswdCntrl: AbstractControl<any, any> | null = null;
   private rmeCntrl: AbstractControl<any, any> | null = null;
 
-  // Create viewchild for password input and from the blur event get an observable
-  // to which you caan subscribe and debounce with some time value
-  // @ViewChild('', { static: true }) email;
+  public readonly ROUTER_TOKENS = ROUTER_TOKENS;
 
-  readonly ROUTER_TOKENS = ROUTER_TOKENS;
+  public placeholder = ValidatorConstants.mailPlaceholder;
 
-  emailErrMsg: string = '';
-  pswdErrMsg: string = '';
-  loginErrMsg: string = '';
-  rmeCntrlName: string = ValidatorConstants.rememberMeControlName;
+  public emailErrMsg: string = '';
+  public pswdErrMsg: string = '';
+  public loginErrMsg: string = '';
+  public rmeCntrlName: string = ValidatorConstants.rememberMeControlName;
 
-  loginFormGroup: FormGroup = this.formBuilder.group({
+  public readonly loginFormGroup: FormGroup = this.formBuilder.group({
     email: [
       ValidatorConstants.mailPlaceholder,
       [Validators.required, Validators.email],
     ],
     password: [
       '',
-      Validators.required,
-      Validators.maxLength(24),
-      Validators.minLength(8),
-      passwordValidator(ValidatorConstants.passwordRegex),
+      [
+        Validators.required,
+        Validators.maxLength(24),
+        Validators.minLength(8),
+        passwordValidator(ValidatorConstants.passwordRegex),
+      ],
     ],
     rememberMe: [false],
   });
@@ -83,13 +93,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(
-          () =>
-            (this.emailErrMsg = this.validationService.contCustValErrorToString(
-              this.loginFormGroup,
-              ValidatorConstants.emailControlName
-            ))
-        )
+        tap(() => {
+          this.emailErrMsg = this.validationService.contCustValErrorToString(
+            this.loginFormGroup,
+            ValidatorConstants.emailControlName
+          );
+        })
       )
       .subscribe();
 
@@ -97,34 +106,23 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(
-          () =>
-            (this.pswdErrMsg = this.validationService.contCustValErrorToString(
-              this.loginFormGroup,
-              ValidatorConstants.passwordControlName
-            ))
-        )
+        tap(() => {
+          this.pswdErrMsg = this.validationService.contCustValErrorToString(
+            this.loginFormGroup,
+            ValidatorConstants.passwordControlName
+          );
+        })
       )
       .subscribe();
   }
 
-  onFocus($event: FocusEvent): void {
-    removeValueOnFocus($event, ValidatorConstants.mailPlaceholder);
-  }
-
-  onBlur($event: FocusEvent): void {
-    changePlaceholderOnBlur(
-      $event,
-      this.emailCntrl,
-      ValidatorConstants.mailPlaceholder
-    );
-  }
-
-  pswdBlur(): void {
-    this.pswdErrMsg = this.validationService.contCustValErrorToString(
-      this.loginFormGroup,
-      ValidatorConstants.passwordControlName
-    );
+  onBlur(): void {
+    setTimeout(() => {
+      this.pswdErrMsg = this.validationService.contCustValErrorToString(
+        this.loginFormGroup,
+        ValidatorConstants.passwordControlName
+      );
+    }, this.debounceTime);
   }
 
   onSubmit(): void {
@@ -145,7 +143,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
             },
           ])
         ),
-        catchError((err: string) => (this.loginErrMsg = err))
+        catchError((err: HttpErrorResponse) => {
+          this.loginErrMsg =
+            'There was an error when trying to login. Try again later.';
+          return throwError(() => err);
+        })
       )
       .subscribe();
   }

@@ -1,4 +1,5 @@
 <h4 class="fw-bold">Registration</h4>
+<br />
 <p class="fs-5">Fill in the form to register</p>
 
 <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
@@ -11,9 +12,8 @@
       class="form-control"
       data-toggle="tooltip"
       formControlName="email"
+      [appChangePlaceholderOnBlurFocus]="this.placeholder"
       [class.is-invalid]="!!this.emailErrMsg"
-      (focus)="this.onFocus($event)"
-      (blur)="this.onBlur($event)"
     />
     <label for="email" class="form-label">*Email</label>
     <div *ngIf="!!this.emailErrMsg" class="val-error-msg">
@@ -25,14 +25,15 @@
 
   <div id="password-row" class="row form-floating">
     <input
-      type="text"
+      type="password"
       id="password"
       class="form-control"
       data-toggle="tooltip"
       formControlName="password"
       [class.is-invalid]="!!this.pswdErrMsg"
+      (blur)="onPswdBlur($event)"
     />
-    <label for="email" class="form-label">*Email</label>
+    <label for="password" class="form-label">*Password</label>
     <div *ngIf="!!this.pswdErrMsg" class="val-error-msg">
       {{ this.pswdErrMsg }}
     </div>
@@ -48,6 +49,7 @@
       formControlName="confirmPassword"
       data-toggle="tooltip"
       [class.is-invalid]="this.cnfrmPswdErrMsg"
+      (blur)="this.onPswdBlur($event)"
     />
     <label for="confirmPassword" class="form-label">*Confirm Password</label>
     <div *ngIf="this.cnfrmPswdErrMsg" class="val-error-msg">
