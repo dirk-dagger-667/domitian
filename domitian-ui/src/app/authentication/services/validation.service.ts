@@ -3,13 +3,13 @@ import { CustomValidationError } from '../models/dtos/custom-validation-error';
 import '../../infrastructure/extensions/form-group-extensions';
 import '../../infrastructure/extensions/string-extensions';
 import { isDefined } from '../../infrastructure/guards/type-guards';
-import { FORM_ERRORS } from 'src/app/shared/validators/reg-form-control-errors.provider';
+import { LOGIN_FORM_ERRORS } from 'src/app/shared/validators/reg-form-control-errors.provider';
 import { Injectable, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
 export class ValidationService {
-  constructor(@Inject(FORM_ERRORS) private errors: any) {}
+  constructor(@Inject(LOGIN_FORM_ERRORS) private errors: any) {}
 
   isControlInvalid(formGroup: FormGroup, controlName: string): boolean {
     let control = formGroup.dominitionGetControlInDepth(controlName);

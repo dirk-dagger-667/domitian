@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, signal } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -10,24 +10,26 @@ import {
 import { ValidationService } from '../services/validation.service';
 import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
 import {
-  confirmPasswordSameValidator,
+  MustMatch,
   passwordValidator,
 } from 'src/app/shared/validators/user-credential-validators';
 import { Router, RouterModule } from '@angular/router';
 import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import { catchError, debounceTime, Subject, takeUntil, tap } from 'rxjs';
 import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
-import {
-  changePlaceholderOnBlur,
-  removeValueOnFocus,
-} from 'src/app/core/utilities/event-helpers';
 import { AuthenticationService } from '../services/user-admin.service';
+import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    ChangePlaceholderOnBlurFocusDirective,
+  ],
 })
 export class RegistrationComponent implements AfterViewInit, OnInit {
   private debounceTime: number = 1000;
@@ -38,6 +40,38 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
 
   private readonly unsub: Subject<void> = new Subject();
 
+  public emailErrMsg: string = '';
+  public pswdErrMsg: string = '';
+  public cnfrmPswdErrMsg: string = '';
+  public cnfrmRspnErrMsg: string = '';
+
+  public placeholder = ValidatorConstants.mailPlaceholder;
+
+  public registrationFormGroup: FormGroup = this.formBuilder.group(
+    {
+      email: [
+        ValidatorConstants.mailPlaceholder,
+        [Validators.required, Validators.email],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(24),
+          Validators.minLength(8),
+          passwordValidator(ValidatorConstants.passwordRegex),
+        ],
+      ],
+      confirmPassword: [''],
+    },
+    {
+      validators: MustMatch(
+        ValidatorConstants.passwordControlName,
+        ValidatorConstants.confirmPasswordControlName
+      ),
+    }
+  );
+
   constructor(
     private readonly validationService: ValidationService,
     private readonly authenticationService: AuthenticationService,
@@ -46,41 +80,17 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
     private readonly dataSharingService: InfoSharingService
   ) {}
 
-  emailErrMsg: string = '';
-  pswdErrMsg: string = '';
-  cnfrmPswdErrMsg: string = '';
-  cnfrmRspnErrMsg: string = '';
-
-  registrationFormGroup: FormGroup = this.formBuilder.group({
-    passwordFormGroup: this.formBuilder.group(
-      {
-        email: [
-          ValidatorConstants.mailPlaceholder,
-          [Validators.required, Validators.email],
-        ],
-        password: [
-          '',
-          Validators.maxLength(24),
-          Validators.minLength(8),
-          passwordValidator(ValidatorConstants.passwordRegex),
-        ],
-        confirmPassword: [''],
-      },
-      { validator: confirmPasswordSameValidator }
-    ),
-  });
-
   ngOnInit(): void {
     this.emailCntrl = this.registrationFormGroup.get(
       ValidatorConstants.emailControlName
     );
 
     this.pswdCntrl = this.registrationFormGroup.get(
-      `${ValidatorConstants.passwrodFormGroupControlName}.${ValidatorConstants.passwordControlName}`
+      ValidatorConstants.passwordControlName
     );
 
     this.cnfrmPswdCntrl = this.registrationFormGroup.get(
-      `${ValidatorConstants.passwrodFormGroupControlName}.${ValidatorConstants.confirmPasswordControlName}`
+      ValidatorConstants.confirmPasswordControlName
     );
   }
 
@@ -89,13 +99,12 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(
-          () =>
-            (this.emailErrMsg = this.validationService.contCustValErrorToString(
-              this.registrationFormGroup,
-              ValidatorConstants.emailControlName
-            ))
-        )
+        tap(() => {
+          this.emailErrMsg = this.validationService.contCustValErrorToString(
+            this.registrationFormGroup,
+            ValidatorConstants.emailControlName
+          );
+        })
       )
       .subscribe()!;
 
@@ -103,13 +112,12 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(
-          () =>
-            (this.pswdErrMsg = this.validationService.contCustValErrorToString(
-              this.registrationFormGroup,
-              ValidatorConstants.passwordControlName
-            ))
-        )
+        tap(() => {
+          this.pswdErrMsg = this.validationService.contCustValErrorToString(
+            this.registrationFormGroup,
+            ValidatorConstants.passwordControlName
+          );
+        })
       )
       .subscribe()!;
 
@@ -117,28 +125,35 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(
-          () =>
-            (this.cnfrmPswdErrMsg =
-              this.validationService.contCustValErrorToString(
-                this.registrationFormGroup,
-                ValidatorConstants.confirmPasswordControlName
-              ))
-        )
+        tap(() => {
+          this.cnfrmPswdErrMsg =
+            this.validationService.contCustValErrorToString(
+              this.registrationFormGroup,
+              ValidatorConstants.confirmPasswordControlName
+            );
+        })
       )
       .subscribe()!;
   }
 
-  onFocus($event: FocusEvent): void {
-    removeValueOnFocus($event, ValidatorConstants.mailPlaceholder);
-  }
-
-  onBlur($event: FocusEvent): void {
-    changePlaceholderOnBlur(
-      $event,
-      this.emailCntrl,
-      ValidatorConstants.mailPlaceholder
-    );
+  onPswdBlur($event: FocusEvent): void {
+    setTimeout(() => {
+      const htmlTarget = $event.target as HTMLElement;
+      if (
+        htmlTarget.getAttribute('formControlName') ===
+        ValidatorConstants.passwordControlName
+      ) {
+        this.pswdErrMsg = this.validationService.contCustValErrorToString(
+          this.registrationFormGroup,
+          ValidatorConstants.passwordControlName
+        );
+      } else {
+        this.cnfrmPswdErrMsg = this.validationService.contCustValErrorToString(
+          this.registrationFormGroup,
+          ValidatorConstants.confirmPasswordControlName
+        );
+      }
+    }, this.debounceTime);
   }
 
   onSubmit(): void {

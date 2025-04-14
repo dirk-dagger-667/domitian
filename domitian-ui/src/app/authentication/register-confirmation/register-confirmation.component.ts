@@ -34,7 +34,7 @@ export class RegisterConfirmationComponent implements OnInit, OnDestroy {
   private readonly unsub: Subject<void> = new Subject();
 
   readonly ROUTER_TOKENS = ROUTER_TOKENS;
-  error: string = '';
+  error: string | null = null;
 
   ngOnInit(): void {
     this.dataSharingService.data$

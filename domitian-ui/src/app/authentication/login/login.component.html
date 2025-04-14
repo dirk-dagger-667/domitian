@@ -1,4 +1,5 @@
 <h4 class="fw-bold">Login</h4>
+<br />
 <p class="fs-5">Home of the discount products</p>
 
 <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
@@ -9,9 +10,8 @@
       class="form-control"
       data-toggle="tooltip"
       formControlName="email"
+      [appChangePlaceholderOnBlurFocus]="this.placeholder"
       [class.is-invalid]="!!this.emailErrMsg"
-      (focus)="this.onFocus($event)"
-      (blur)="this.onBlur($event)"
     />
     <label for="email" class="form-label">*Email</label>
     <div *ngIf="!!this.emailErrMsg" class="val-error-msg">
@@ -23,24 +23,18 @@
 
   <div id="password-row" class="row form-floating">
     <input
-      type="text"
+      type="password"
       id="password"
       class="form-control"
       data-toggle="tooltip"
       formControlName="password"
       [class.is-invalid]="!!this.pswdErrMsg"
-      (blur)="this.pswdBlur()"
+      (blur)="this.onBlur()"
     />
     <label for="password" class="form-label">*Password</label>
     <div *ngIf="!!this.pswdErrMsg" class="val-error-msg">
       {{ this.pswdErrMsg }}
     </div>
-  </div>
-
-  <br /><br />
-
-  <div class="row" *ngIf="this.loginErrMsg">
-    <p class="val-error-msg">{{ this.loginErrMsg }}</p>
   </div>
 
   <br /><br />
@@ -68,15 +62,21 @@
 
   <div class="row">
     <div class="col-sm-2"></div>
-    <button
-      type="submit"
-      [disabled]="loginFormGroup.invalid"
-      class="btn btn-primary col-sm-8"
-    >
-      Login
-    </button>
+    <div class="col-sm-8">
+      <button
+        type="submit"
+        [disabled]="loginFormGroup.invalid"
+        class="btn btn-primary"
+      >
+        Login
+      </button>
+      <div class="row" *ngIf="this.loginErrMsg">
+        <p class="val-error-msg">{{ this.loginErrMsg }}</p>
+      </div>
+    </div>
     <div class="col-sm-2"></div>
   </div>
+
   <div class="row">
     <div>
       <label>Not registered yet?</label>

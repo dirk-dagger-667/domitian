@@ -9,8 +9,8 @@ import { provideRouter, withDebugTracing } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { take } from 'rxjs';
-import { httpTokenHeaderInterceptor } from './infrastructure/http-interceptors/auth-interceptor';
 import { ConfigProviderService } from './core/services/config-provider/config-provider.service';
+import { httpTokenHeaderInterceptor } from './infrastructure/http-interceptors/token-interceptor';
 
 const setupAppConfigServiceFactory = () => {
   return () => {
