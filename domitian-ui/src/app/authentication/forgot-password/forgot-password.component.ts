@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -25,11 +25,11 @@ import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives
     ChangePlaceholderOnBlurFocusDirective,
   ],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, AfterViewInit {
   private emailCntrl: AbstractControl<any, any> | null = null;
   private readonly unsub: Subject<void> = new Subject();
 
-  public debounceTime: number = 1000;
+  public debounceTime: number = 800;
   public emailErrMsg: string = '';
   public placeholder = ValidatorConstants.mailPlaceholder;
 
@@ -51,7 +51,9 @@ export class ForgotPasswordComponent implements OnInit {
     this.emailCntrl = this.forgotPasswordGroup.get(
       ValidatorConstants.emailControlName
     );
+  }
 
+  ngAfterViewInit(): void {
     this.emailCntrl?.valueChanges
       .pipe(
         takeUntil(this.unsub),
@@ -59,7 +61,7 @@ export class ForgotPasswordComponent implements OnInit {
         tap(() => {
           this.emailErrMsg = this.validationService.contCustValErrorToString(
             this.forgotPasswordGroup,
-            ValidatorConstants.passwordControlName
+            ValidatorConstants.emailControlName
           );
         })
       )

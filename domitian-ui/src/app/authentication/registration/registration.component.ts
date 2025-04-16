@@ -32,7 +32,7 @@ import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives
   ],
 })
 export class RegistrationComponent implements AfterViewInit, OnInit {
-  private debounceTime: number = 1000;
+  private debounceTime: number = 800;
 
   private emailCntrl: AbstractControl<any, any> | null = null;
   private pswdCntrl: AbstractControl<any, any> | null = null;

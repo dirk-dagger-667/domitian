@@ -1,10 +1,7 @@
-<h4 class="fw-bold">Registration</h4>
-<br />
+<h4 class="fw-bold title">Registration</h4>
 <p class="fs-5">Fill in the form to register</p>
 
 <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
-  <br /><br />
-
   <div id="email-row" class="row form-floating">
     <input
       type="text"
@@ -41,7 +38,7 @@
 
   <br />
 
-  <div id="confirm-password-row" class="row form-floating password-row">
+  <div id="confirm-password-row" class="row form-floating">
     <input
       type="password"
       id="confirmPassword"
