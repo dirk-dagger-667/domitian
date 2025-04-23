@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { patchState, signalState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { exhaustMap, pipe, tap, throwError } from 'rxjs';
-import { AuthenticationService } from '../../services/user-admin.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { tapResponse } from '@ngrx/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';

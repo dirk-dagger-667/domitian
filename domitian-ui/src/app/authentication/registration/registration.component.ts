@@ -17,7 +17,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import { catchError, debounceTime, Subject, takeUntil, tap } from 'rxjs';
 import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
-import { AuthenticationService } from '../services/user-admin.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
 
 @Component({

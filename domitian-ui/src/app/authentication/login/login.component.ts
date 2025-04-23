@@ -3,7 +3,6 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  inject,
   OnInit,
 } from '@angular/core';
 import {
@@ -15,20 +14,11 @@ import {
 } from '@angular/forms';
 import { ValidationService } from '../services/validation.service';
 import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  catchError,
-  debounceTime,
-  Subject,
-  takeUntil,
-  tap,
-  throwError,
-} from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { debounceTime, Subject, takeUntil, tap } from 'rxjs';
 import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import { passwordValidator } from 'src/app/shared/validators/user-credential-validators';
-import { AuthenticationService } from '../services/user-admin.service';
 import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
-import { HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from './services/login.service';
 
 @Component({

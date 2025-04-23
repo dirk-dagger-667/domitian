@@ -7,7 +7,7 @@ import {
 import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { AuthenticationService } from 'src/app/authentication/services/user-admin.service';
+import { AuthenticationService } from 'src/app/authentication/services/authentication.service';
 
 export function httpTokenHeaderInterceptor(
   req: HttpRequest<unknown>,

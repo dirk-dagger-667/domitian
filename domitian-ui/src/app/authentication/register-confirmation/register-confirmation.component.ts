@@ -13,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RegConfDto } from '../models/dtos/reg-conf-dto';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
-import { AuthenticationService } from '../services/user-admin.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-register-confirmation',
