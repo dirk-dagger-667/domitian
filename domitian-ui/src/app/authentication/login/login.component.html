@@ -10,11 +10,11 @@
       data-toggle="tooltip"
       formControlName="email"
       [appChangePlaceholderOnBlurFocus]="this.placeholder"
-      [class.is-invalid]="!!this.emailErrMsg"
+      [class.is-invalid]="!!this.loginService.mailError()"
     />
     <label for="email" class="form-label">*Email</label>
-    <div *ngIf="!!this.emailErrMsg" class="val-error-msg">
-      {{ this.emailErrMsg }}
+    <div *ngIf="!!this.loginService.mailError()" class="val-error-msg">
+      {{ this.loginService.mailError() }}
     </div>
   </div>
 
@@ -27,31 +27,34 @@
       class="form-control"
       data-toggle="tooltip"
       formControlName="password"
-      [class.is-invalid]="!!this.pswdErrMsg"
+      [class.is-invalid]="!!this.loginService.passwordError()"
       (blur)="this.onBlur()"
     />
     <label for="password" class="form-label">*Password</label>
-    <div *ngIf="!!this.pswdErrMsg" class="val-error-msg">
-      {{ this.pswdErrMsg }}
+    <div *ngIf="!!this.loginService.passwordError()" class="val-error-msg">
+      {{ this.loginService.passwordError() }}
     </div>
   </div>
 
   <br /><br />
 
   <div class="row">
-    <div class="col-sm-6">
-      <input
-        type="checkbox"
-        id="{{ this.rmeCntrlName }}"
-        formControlName="{{ this.rmeCntrlName }}"
-      />
-      <label for="{{ this.rmeCntrlName }}" class="form-label"
-        >Remember me</label
-      >
+    <div class="col-sm-6 container">
+      <div class="container flex-child">
+        <input
+          type="checkbox"
+          id="{{ this.rmeCntrlName }}"
+          class="flex-child"
+          formControlName="{{ this.rmeCntrlName }}"
+        />
+        <label for="{{ this.rmeCntrlName }}" class="form-label flex-child"
+          >Remember me</label
+        >
+      </div>
     </div>
     <button
       [routerLink]="['../', ROUTER_TOKENS.FORGOT_PASS]"
-      class="btn btn-link col-sm-6"
+      class="btn btn-link col-sm-6 flex-child"
     >
       Forgot password?
     </button>
@@ -69,19 +72,19 @@
       >
         Login
       </button>
-      <div class="row" *ngIf="this.loginErrMsg">
-        <p class="val-error-msg">{{ this.loginErrMsg }}</p>
+      <div class="row" *ngIf="this.loginService.loginError()">
+        <p class="val-error-msg">{{ this.loginService.loginError() }}</p>
       </div>
     </div>
     <div class="col-sm-2"></div>
   </div>
 
   <div class="row">
-    <div>
-      <label>Not registered yet?</label>
+    <div class="container">
+      <label class="flex-child">Not registered yet?</label>
       <button
         [routerLink]="['../', ROUTER_TOKENS.REGISTRATION]"
-        class="btn btn-link ms-3"
+        class="btn btn-link ms-3 flex-child"
       >
         Create an Account
       </button>

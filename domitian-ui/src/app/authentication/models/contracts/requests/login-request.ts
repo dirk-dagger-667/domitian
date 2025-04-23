@@ -1,6 +1,5 @@
-export interface LoginRequest
-{
-    Email: string;
-    Password: string;
-    RememberMe: string;
+export interface LoginRequest {
+  email: string;
+  password: string;
+  rememberMe: boolean;
 }
