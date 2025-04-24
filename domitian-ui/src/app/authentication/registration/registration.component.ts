@@ -13,12 +13,10 @@ import {
   MustMatch,
   passwordValidator,
 } from 'src/app/shared/validators/user-credential-validators';
-import { Router, RouterModule } from '@angular/router';
-import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
-import { catchError, debounceTime, Subject, takeUntil, tap } from 'rxjs';
-import { InfoSharingService } from 'src/app/core/services/info-sharing/info-sharing.service';
-import { AuthenticationService } from '../services/authentication.service';
+import { RouterModule } from '@angular/router';
+import { debounceTime, Subject, takeUntil, tap } from 'rxjs';
 import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
+import { RegistrationService } from './services/registration.service';
 
 @Component({
   selector: 'app-registration',
@@ -39,11 +37,6 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
   private cnfrmPswdCntrl: AbstractControl<any, any> | null = null;
 
   private readonly unsub: Subject<void> = new Subject();
-
-  public emailErrMsg: string = '';
-  public pswdErrMsg: string = '';
-  public cnfrmPswdErrMsg: string = '';
-  public cnfrmRspnErrMsg: string = '';
 
   public placeholder = ValidatorConstants.mailPlaceholder;
 
@@ -74,10 +67,8 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
 
   constructor(
     private readonly validationService: ValidationService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly router: Router,
     private readonly formBuilder: FormBuilder,
-    private readonly dataSharingService: InfoSharingService
+    readonly registrationService: RegistrationService
   ) {}
 
   ngOnInit(): void {
@@ -99,10 +90,14 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(() => {
-          this.emailErrMsg = this.validationService.contCustValErrorToString(
-            this.registrationFormGroup,
-            ValidatorConstants.emailControlName
+        tap((email: string) => {
+          this.registrationService.setEmail(email);
+
+          this.registrationService.setEmailError(
+            this.validationService.contCustValErrorToString(
+              this.registrationFormGroup,
+              ValidatorConstants.emailControlName
+            )
           );
         })
       )
@@ -112,10 +107,14 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(() => {
-          this.pswdErrMsg = this.validationService.contCustValErrorToString(
-            this.registrationFormGroup,
-            ValidatorConstants.passwordControlName
+        tap((password: string) => {
+          this.registrationService.setPassword(password);
+
+          this.registrationService.setPasswordError(
+            this.validationService.contCustValErrorToString(
+              this.registrationFormGroup,
+              ValidatorConstants.passwordControlName
+            )
           );
         })
       )
@@ -125,12 +124,15 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(() => {
-          this.cnfrmPswdErrMsg =
+        tap((confPassword: string) => {
+          this.registrationService.setConfPassword(confPassword);
+
+          this.registrationService.setConfPassError(
             this.validationService.contCustValErrorToString(
               this.registrationFormGroup,
               ValidatorConstants.confirmPasswordControlName
-            );
+            )
+          );
         })
       )
       .subscribe()!;
@@ -143,46 +145,24 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
         htmlTarget.getAttribute('formControlName') ===
         ValidatorConstants.passwordControlName
       ) {
-        this.pswdErrMsg = this.validationService.contCustValErrorToString(
-          this.registrationFormGroup,
-          ValidatorConstants.passwordControlName
+        this.registrationService.setPasswordError(
+          this.validationService.contCustValErrorToString(
+            this.registrationFormGroup,
+            ValidatorConstants.passwordControlName
+          )
         );
       } else {
-        this.cnfrmPswdErrMsg = this.validationService.contCustValErrorToString(
-          this.registrationFormGroup,
-          ValidatorConstants.confirmPasswordControlName
+        this.registrationService.setConfPassError(
+          this.validationService.contCustValErrorToString(
+            this.registrationFormGroup,
+            ValidatorConstants.confirmPasswordControlName
+          )
         );
       }
     }, this.debounceTime);
   }
 
   onSubmit(): void {
-    this.authenticationService
-      .register({
-        Email: this.emailCntrl?.value,
-        Password: this.pswdCntrl?.value,
-        ConfirmPassword: this.cnfrmPswdCntrl?.value,
-      })
-      .pipe(
-        takeUntil(this.unsub),
-        tap((resp) => {
-          this.dataSharingService.sendData({
-            callbackUrl: resp,
-            email: this.emailCntrl?.value,
-          });
-
-          this.navigateRegister(resp);
-        }),
-        catchError((err: string) => (this.cnfrmRspnErrMsg = err))
-      )
-      .subscribe();
-  }
-
-  private navigateRegister(response: any): void {
-    if (response.dominitianIsNullOrEmpty()) {
-      this.router.navigate(['../', `${ROUTER_TOKENS.LOGIN}`]);
-    } else {
-      this.router.navigate(['../', `${ROUTER_TOKENS.REG_CONFIRMATION}`]);
-    }
+    this.registrationService.register();
   }
 }
