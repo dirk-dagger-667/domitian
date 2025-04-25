@@ -39,25 +39,30 @@
   <br /><br />
 
   <div class="row">
-    <div class="col-sm-6 container">
-      <div class="container flex-child">
+    <div class="col-sm-1"></div>
+    <div class="container col-sm-10">
+      <div class="remember-me-container flex-child">
         <input
           type="checkbox"
           id="{{ this.rmeCntrlName }}"
-          class="flex-child"
+          class="remember-me-child"
           formControlName="{{ this.rmeCntrlName }}"
         />
-        <label for="{{ this.rmeCntrlName }}" class="form-label flex-child"
+        <label
+          id="remember-me-label"
+          for="{{ this.rmeCntrlName }}"
+          class="form-label remember-me-child"
           >Remember me</label
         >
       </div>
+      <button
+        [routerLink]="['../', ROUTER_TOKENS.FORGOT_PASS]"
+        class="btn btn-link flex-child"
+      >
+        Forgot password?
+      </button>
     </div>
-    <button
-      [routerLink]="['../', ROUTER_TOKENS.FORGOT_PASS]"
-      class="btn btn-link col-sm-6 flex-child"
-    >
-      Forgot password?
-    </button>
+    <div class="col-sm-1"></div>
   </div>
 
   <br /><br />
@@ -79,8 +84,11 @@
     <div class="col-sm-2"></div>
   </div>
 
+  <br />
+
   <div class="row">
-    <div class="container">
+    <div class="col-sm-1"></div>
+    <div class="container col-sm-10">
       <label class="flex-child">Not registered yet?</label>
       <button
         [routerLink]="['../', ROUTER_TOKENS.REGISTRATION]"
@@ -89,5 +97,6 @@
         Create an Account
       </button>
     </div>
+    <div class="col-sm-1"></div>
   </div>
 </form>

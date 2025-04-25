@@ -9,11 +9,6 @@
   display: block;
 }
 
-.label {
-  font-size: 12px;
-  font-weight: bold;
-}
-
 input {
   border-radius: 2em;
   color: rgb(152, 152, 152);

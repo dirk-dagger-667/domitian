@@ -1,10 +1,13 @@
 @import "src/assets/styles/text-input.css";
 
 #rememberMe {
-  width: 1.1em;
-  height: 1.1em;
-  vertical-align: middle;
+  width: 1.5em;
+  height: 1.5em;
   margin-right: 5%;
+}
+
+#remember-me-label {
+  white-space: nowrap;
 }
 
 .container {
@@ -16,12 +19,18 @@
   margin: auto;
 }
 
+.remember-me-container {
+  display: flex;
+}
+
+.remember-me-child {
+  margin: auto;
+}
+
 .btn.btn-link {
   font-size: 16px;
   font-weight: bold;
   text-decoration: none;
-  margin: 0;
-  padding: 0;
 }
 
 .btn.btn-primary {
