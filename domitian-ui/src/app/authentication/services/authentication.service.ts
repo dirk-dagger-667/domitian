@@ -119,6 +119,11 @@ export class AuthenticationService {
     return localStorage.getItem(AuthConstants.AccessToken);
   }
 
+  //Change the end-point to something more meaningful. This is only a placeholder so that we can build the forgot-password component and service
+  resetPassword(email: string): Observable<void> {
+    return new Observable();
+  }
+
   // This is created in anticipation for the full 2-Factor authentication
   // this.subs.push(
   //   this.userAdminService.getConfirmRegistration(this.dto.email)

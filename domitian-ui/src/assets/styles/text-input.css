@@ -1,5 +1,5 @@
-#confirm-password-row {
-  margin-top: 50px;
+.title {
+  margin-top: 10%;
 }
 
 .val-error-msg {
@@ -7,11 +7,6 @@
   color: crimson;
   padding: 1px;
   display: block;
-}
-
-.label {
-  font-size: 12px;
-  font-weight: bold;
 }
 
 input {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,11 +9,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { ValidationService } from '../services/validation.service';
 import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
-import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { AuthenticationService } from '../services/user-admin.service';
 import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
+import { ForgotPasswordService } from './services/forgot-password.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -25,12 +24,11 @@ import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives
     ChangePlaceholderOnBlurFocusDirective,
   ],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, AfterViewInit {
   private emailCntrl: AbstractControl<any, any> | null = null;
   private readonly unsub: Subject<void> = new Subject();
 
-  public debounceTime: number = 1000;
-  public emailErrMsg: string = '';
+  public debounceTime: number = 800;
   public placeholder = ValidatorConstants.mailPlaceholder;
 
   public forgotPasswordGroup: FormGroup = this.formBuilder.group({
@@ -42,8 +40,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private readonly validationService: ValidationService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly router: Router,
+    readonly forgotPasswordService: ForgotPasswordService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -51,15 +48,21 @@ export class ForgotPasswordComponent implements OnInit {
     this.emailCntrl = this.forgotPasswordGroup.get(
       ValidatorConstants.emailControlName
     );
+  }
 
+  ngAfterViewInit(): void {
     this.emailCntrl?.valueChanges
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(() => {
-          this.emailErrMsg = this.validationService.contCustValErrorToString(
-            this.forgotPasswordGroup,
-            ValidatorConstants.passwordControlName
+        tap((email: string) => {
+          this.forgotPasswordService.setEmail(email);
+
+          this.forgotPasswordService.setEmailError(
+            this.validationService.contCustValErrorToString(
+              this.forgotPasswordGroup,
+              ValidatorConstants.emailControlName
+            )
           );
         })
       )
@@ -67,10 +70,6 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    //Send an email message to the specified email with the confirmation of the password
-
-    // this.authenticationService.
-
-    this.router.navigate(['/', 'change-password-confirmation']);
+    this.forgotPasswordService.resetPassword();
   }
 }

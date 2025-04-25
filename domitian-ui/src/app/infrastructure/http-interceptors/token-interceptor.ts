@@ -1,8 +1,13 @@
-import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandlerFn,
+  HttpRequest,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { AuthenticationService } from 'src/app/authentication/services/user-admin.service';
+import { AuthenticationService } from 'src/app/authentication/services/authentication.service';
 
 export function httpTokenHeaderInterceptor(
   req: HttpRequest<unknown>,
@@ -18,7 +23,7 @@ export function httpTokenHeaderInterceptor(
   }
 
   return next(request).pipe(
-    catchError((err) => {
+    catchError((err: HttpErrorResponse) => {
       if (err.status === 401) {
         // Token might be expired, try refreshing it
         return authenticationService.refreshAccess().pipe(
@@ -34,6 +39,8 @@ export function httpTokenHeaderInterceptor(
             return throwError(() => refreshError);
           })
         );
+      } else if (err.status >= 500) {
+        const errType = err.type;
       }
       return throwError(() => err);
     })

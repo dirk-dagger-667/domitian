@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -9,20 +14,12 @@ import {
 } from '@angular/forms';
 import { ValidationService } from '../services/validation.service';
 import { ValidatorConstants } from 'src/app/infrastructure/constants/validation-constants';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  catchError,
-  debounceTime,
-  Subject,
-  takeUntil,
-  tap,
-  throwError,
-} from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { debounceTime, Subject, takeUntil, tap } from 'rxjs';
 import { ROUTER_TOKENS } from 'src/app/infrastructure/constants/routing-constants';
 import { passwordValidator } from 'src/app/shared/validators/user-credential-validators';
-import { AuthenticationService } from '../services/user-admin.service';
 import { ChangePlaceholderOnBlurFocusDirective } from 'src/app/shared/directives/chnage-placeholder-on-blur/change-placeholder-on-blur-focus.directive';
-import { HttpErrorResponse } from '@angular/common/http';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'pm-login',
@@ -34,6 +31,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   private debounceTime: number = 800;
@@ -42,16 +40,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   private pswdCntrl: AbstractControl<any, any> | null = null;
   private rmeCntrl: AbstractControl<any, any> | null = null;
 
-  public readonly ROUTER_TOKENS = ROUTER_TOKENS;
+  readonly ROUTER_TOKENS = ROUTER_TOKENS;
+  placeholder = ValidatorConstants.mailPlaceholder;
+  rmeCntrlName: string = ValidatorConstants.rememberMeControlName;
 
-  public placeholder = ValidatorConstants.mailPlaceholder;
-
-  public emailErrMsg: string = '';
-  public pswdErrMsg: string = '';
-  public loginErrMsg: string = '';
-  public rmeCntrlName: string = ValidatorConstants.rememberMeControlName;
-
-  public readonly loginFormGroup: FormGroup = this.formBuilder.group({
+  readonly loginFormGroup: FormGroup = this.formBuilder.group({
     email: [
       ValidatorConstants.mailPlaceholder,
       [Validators.required, Validators.email],
@@ -72,10 +65,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly validationService: ValidationService,
-    private readonly authenticationService: AuthenticationService,
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    readonly loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -93,10 +84,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(() => {
-          this.emailErrMsg = this.validationService.contCustValErrorToString(
-            this.loginFormGroup,
-            ValidatorConstants.emailControlName
+        tap((email: string) => {
+          this.loginService.setEmail(email);
+
+          this.loginService.setEmialError(
+            this.validationService.contCustValErrorToString(
+              this.loginFormGroup,
+              ValidatorConstants.emailControlName
+            )
           );
         })
       )
@@ -106,49 +101,39 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .pipe(
         takeUntil(this.unsub),
         debounceTime(this.debounceTime),
-        tap(() => {
-          this.pswdErrMsg = this.validationService.contCustValErrorToString(
-            this.loginFormGroup,
-            ValidatorConstants.passwordControlName
+        tap((password: string) => {
+          this.loginService.setPassword(password);
+
+          this.loginService.setPasswordError(
+            this.validationService.contCustValErrorToString(
+              this.loginFormGroup,
+              ValidatorConstants.passwordControlName
+            )
           );
         })
+      )
+      .subscribe();
+
+    this.rmeCntrl?.valueChanges
+      .pipe(
+        takeUntil(this.unsub),
+        tap((value: boolean) => this.loginService.setRembemberMe(value))
       )
       .subscribe();
   }
 
   onBlur(): void {
     setTimeout(() => {
-      this.pswdErrMsg = this.validationService.contCustValErrorToString(
-        this.loginFormGroup,
-        ValidatorConstants.passwordControlName
+      this.loginService.setPasswordError(
+        this.validationService.contCustValErrorToString(
+          this.loginFormGroup,
+          ValidatorConstants.passwordControlName
+        )
       );
     }, this.debounceTime);
   }
 
   onSubmit(): void {
-    this.authenticationService
-      .login({
-        Email: this.emailCntrl?.value,
-        Password: this.pswdCntrl?.value,
-        RememberMe: this.rmeCntrl?.value,
-      })
-      .pipe(
-        takeUntil(this.unsub),
-        tap(() =>
-          this.router.navigate([
-            '../',
-            ROUTER_TOKENS.DASHBOARD,
-            {
-              relativeTo: this.activatedRoute,
-            },
-          ])
-        ),
-        catchError((err: HttpErrorResponse) => {
-          this.loginErrMsg =
-            'There was an error when trying to login. Try again later.';
-          return throwError(() => err);
-        })
-      )
-      .subscribe();
+    this.loginService.login();
   }
 }
