@@ -1,4 +1,4 @@
-﻿using domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
+using domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
 using domitian.Tests.Infrastructure.Extensions;
 using domitian.Models.Requests.Registration;
 using domitian.Models.Results;
@@ -32,7 +32,7 @@ namespace domitian_api.Tests.UserAdmin
             var error = Error.Exception;
 
             ConfirmRegistrationAsyncPipeline(
-                Result<string>.Failure(ResultTypes.BadRequest, error),
+                Result<string>.Failure(string.Empty, ResultType.BadRequest, error),
                 new BadRequestObjectResult(error.Message));
 
             var result = await _registerControllerFixture.SUT.ConfirmRegistrationAsync(A.Dummy<string>());
@@ -43,7 +43,7 @@ namespace domitian_api.Tests.UserAdmin
         [Fact]
         public async Task ConfirmRegistrationAsync_returns_Unauthorized()
         {
-            var notFoundResult = Result<string>.Failure(ResultTypes.Unauthorized, RegisterErrors.RegisterUserNull);
+            var notFoundResult = Result<string>.Failure(string.Empty, ResultType.Unauthorized, LoginErrors.LoginNotFound(string.Empty));
 
             ConfirmRegistrationAsyncPipeline(
                 notFoundResult,
@@ -90,7 +90,7 @@ namespace domitian_api.Tests.UserAdmin
         {
             ArrangeRegisterAsyncPipeline(
                 new ValidationResult(),
-                Result<string>.Failure(ResultTypes.BadRequest, err),
+                Result<string>.Failure(string.Empty, ResultType.BadRequest, err),
                 new BadRequestObjectResult(err.Message));
 
             var result = await _registerControllerFixture.SUT.RegisterAsync(_registerControllerFixture.RegReqValidator, A.Dummy<RegisterRequest>());
@@ -133,7 +133,7 @@ namespace domitian_api.Tests.UserAdmin
         {
             ArrangeConfirmEmailAsyncPipeline(
                 new ValidationResult(),
-                Result.Failure(ResultTypes.BadRequest, err),
+                Result.Failure(string.Empty, ResultType.BadRequest, err),
                 new BadRequestObjectResult(err.Message));
 
             var result = await _registerControllerFixture.SUT.ConfirmEmailAsync(_registerControllerFixture.ConEmailReqValidator, A.Dummy<string>(), A.Dummy<string>());
@@ -144,11 +144,11 @@ namespace domitian_api.Tests.UserAdmin
         [Fact]
         public async Task ConfirmEmailAsync_should_return_NotFound()
         {
-            var error = RegisterErrors.RegisterUserNull;
+            var error = LoginErrors.LoginNotFound(string.Empty);
 
             ArrangeConfirmEmailAsyncPipeline(
                 new ValidationResult(),
-                Result.Failure(ResultTypes.NotFound, error),
+                Result.Failure(string.Empty, ResultType.NotFound, error),
                 new BadRequestObjectResult(error.Message));
 
             var result = await _registerControllerFixture.SUT.ConfirmEmailAsync(_registerControllerFixture.ConEmailReqValidator, A.Dummy<string>(), A.Dummy<string>());

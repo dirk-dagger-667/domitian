@@ -1,11 +1,12 @@
-﻿namespace domitian.Models.Results
+namespace domitian.Models.Results
 {
-    public enum ResultTypes
+    public enum ResultType
     {
         Ok,
         BadRequest,
         CreatedAt,
         NotFound,
-        Unauthorized
+        Unauthorized,
+        Conflict
     }
 }

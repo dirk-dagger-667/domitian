@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\domitian.BusinessModels\Domitian.BusinessModels.csproj" />
     <ProjectReference Include="..\domitian.Models\domitian.Models.csproj" />
     <ProjectReference Include="..\domitian.Models\domitian.Models.csproj" />
   </ItemGroup>

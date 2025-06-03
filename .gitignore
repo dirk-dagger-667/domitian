@@ -4,241 +4,241 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # User-specific files
-domitian-api/*.rsuser
-domitian-api/*.suo
-domitian-api/*.user
-domitian-api/*.userosscache
-domitian-api/*.sln.docstates
+domitian-api/**/*.rsuser
+domitian-api/**/*.suo
+domitian-api/**/*.user
+domitian-api/**/*.userosscache
+domitian-api/**/*.sln.docstates
 
 # User-specific files (MonoDevelop/Xamarin Studio)
-domitian-api/*.userprefs
+domitian-api/**/*.userprefs
 
 # Mono auto generated files
-domitian-api/mono_crash.*
+domitian-api/**/mono_crash.*
 
 # Build results
-domitian-api/[Dd]ebug/
-domitian-api/[Dd]ebugPublic/
-domitian-api/[Rr]elease/
-domitian-api/[Rr]eleases/
-domitian-api/x64/
-domitian-api/x86/
-domitian-api/[Ww][Ii][Nn]32/
-domitian-api/[Aa][Rr][Mm]/
-domitian-api/[Aa][Rr][Mm]64/
-domitian-api/bld/
-domitian-api/[Bb]in/
-domitian-api/[Oo]bj/
-domitian-api/[Oo]ut/
-domitian-api/[Ll]og/
-domitian-api/[Ll]ogs/
+domitian-api/**/[Dd]ebug/
+domitian-api/**/[Dd]ebugPublic/
+domitian-api/**/[Rr]elease/
+domitian-api/**/[Rr]eleases/
+domitian-api/**/x64/
+domitian-api/**/x86/
+domitian-api/**/[Ww][Ii][Nn]32/
+domitian-api/**/[Aa][Rr][Mm]/
+domitian-api/**/[Aa][Rr][Mm]64/
+domitian-api/**/bld/
+domitian-api/**/[Bb]in/
+domitian-api/**/[Oo]bj/
+domitian-api/**/[Oo]ut/
+domitian-api/**/[Ll]og/
+domitian-api/**/[Ll]ogs/
 
 # Visual Studio 2015/2017 cache/options directory
-domitian-api/.vs/
+domitian-api/**/.vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
 # Visual Studio 2017 auto generated files
-domitian-api/Generated\ Files/
+domitian-api/**/Generated\ Files/
 
 # MSTest test Results
-domitian-api/[Tt]est[Rr]esult*/
-domitian-api/[Bb]uild[Ll]og.*
+domitian-api/**/[Tt]est[Rr]esult*/
+domitian-api/**/[Bb]uild[Ll]og.*
 
 # NUnit
-domitian-api/*.VisualState.xml
-domitian-api/TestResult.xml
-domitian-api/nunit-*.xml
+domitian-api/**/*.VisualState.xml
+domitian-api/**/TestResult.xml
+domitian-api/**/nunit-*.xml
 
 # Build Results of an ATL Project
-domitian-api/[Dd]ebugPS/
-domitian-api/[Rr]eleasePS/
-domitian-api/dlldata.c
+domitian-api/**/[Dd]ebugPS/
+domitian-api/**/[Rr]eleasePS/
+domitian-api/**/dlldata.c
 
 # Benchmark Results
-domitian-api/BenchmarkDotNet.Artifacts/
+domitian-api/**/BenchmarkDotNet.Artifacts/
 
 # .NET Core
-domitian-api/project.lock.json
-domitian-api/project.fragment.lock.json
-domitian-api/artifacts/
+domitian-api/**/project.lock.json
+domitian-api/**/project.fragment.lock.json
+domitian-api/**/artifacts/
 
 # ASP.NET Scaffolding
-domitian-api/ScaffoldingReadMe.txt
+domitian-api/**/ScaffoldingReadMe.txt
 
 # StyleCop
-domitian-api/StyleCopReport.xml
+domitian-api/**/StyleCopReport.xml
 
 # Files built by Visual Studio
-domitian-api/*_i.c
-domitian-api/*_p.c
-domitian-api/*_h.h
-domitian-api/*.ilk
-domitian-api/*.meta
-domitian-api/*.obj
-domitian-api/*.iobj
-domitian-api/*.pch
-domitian-api/*.pdb
-domitian-api/*.ipdb
-domitian-api/*.pgc
-domitian-api/*.pgd
-domitian-api/*.rsp
-domitian-api/*.sbr
-domitian-api/*.tlb
-domitian-api/*.tli
-domitian-api/*.tlh
-domitian-api/*.tmp
-domitian-api/*.tmp_proj
-domitian-api/*_wpftmp.csproj
-domitian-api/*.log
-domitian-api/*.vspscc
-domitian-api/*.vssscc
-domitian-api/.builds
-domitian-api/*.pidb
-domitian-api/*.svclog
-domitian-api/*.scc
+domitian-api/**/*_i.c
+domitian-api/**/*_p.c
+domitian-api/**/*_h.h
+domitian-api/**/*.ilk
+domitian-api/**/*.meta
+domitian-api/**/*.obj
+domitian-api/**/*.iobj
+domitian-api/**/*.pch
+domitian-api/**/*.pdb
+domitian-api/**/*.ipdb
+domitian-api/**/*.pgc
+domitian-api/**/*.pgd
+domitian-api/**/*.rsp
+domitian-api/**/*.sbr
+domitian-api/**/*.tlb
+domitian-api/**/*.tli
+domitian-api/**/*.tlh
+domitian-api/**/*.tmp
+domitian-api/**/*.tmp_proj
+domitian-api/**/*_wpftmp.csproj
+domitian-api/**/*.log
+domitian-api/**/*.vspscc
+domitian-api/**/*.vssscc
+domitian-api/**/.builds
+domitian-api/**/*.pidb
+domitian-api/**/*.svclog
+domitian-api/**/*.scc
 
 # Chutzpah Test files
-domitian-api/_Chutzpah*
+domitian-api/**/_Chutzpah*
 
 # Visual C++ cache files
-domitian-api/ipch/
-domitian-api/*.aps
-domitian-api/*.ncb
-domitian-api/*.opendb
-domitian-api/*.opensdf
-domitian-api/*.sdf
-domitian-api/*.cachefile
-domitian-api/*.VC.db
-domitian-api/*.VC.VC.opendb
+domitian-api/**/ipch/
+domitian-api/**/*.aps
+domitian-api/**/*.ncb
+domitian-api/**/*.opendb
+domitian-api/**/*.opensdf
+domitian-api/**/*.sdf
+domitian-api/**/*.cachefile
+domitian-api/**/*.VC.db
+domitian-api/**/*.VC.VC.opendb
 
 # Visual Studio profiler
-domitian-api/*.psess
-domitian-api/*.vsp
-domitian-api/*.vspx
-domitian-api/*.sap
+domitian-api/**/*.psess
+domitian-api/**/*.vsp
+domitian-api/**/*.vspx
+domitian-api/**/*.sap
 
 # Visual Studio Trace Files
-domitian-api/*.e2e
+domitian-api/**/*.e2e
 
 # TFS 2012 Local Workspace
-domitian-api/$tf/
+domitian-api/**/$tf/
 
 # Guidance Automation Toolkit
-domitian-api/*.gpState
+domitian-api/**/*.gpState
 
 # ReSharper is a .NET coding add-in
-domitian-api/_ReSharper*/
-domitian-api/*.[Rr]e[Ss]harper
-domitian-api/*.DotSettings.user
+domitian-api/**/_ReSharper*/
+domitian-api/**/*.[Rr]e[Ss]harper
+domitian-api/**/*.DotSettings.user
 
 # TeamCity is a build add-in
-domitian-api/_TeamCity*
+domitian-api/**/_TeamCity*
 
 # DotCover is a Code Coverage Tool
-domitian-api/*.dotCover
+domitian-api/**/*.dotCover
 
 # AxoCover is a Code Coverage Tool
-domitian-api/.axoCover/*
-!domitian-api/.axoCover/settings.json
+domitian-api/**/.axoCover/*
+!domitian-api/**/.axoCover/settings.json
 
 # Coverlet is a free, cross platform Code Coverage Tool
-domitian-api/coverage*.json
-domitian-api/coverage*.xml
-domitian-api/coverage*.info
+domitian-api/**/coverage*.json
+domitian-api/**/coverage*.xml
+domitian-api/**/coverage*.info
 
 # Visual Studio code coverage results
-domitian-api/*.coverage
-domitian-api/*.coveragexml
+domitian-api/**/*.coverage
+domitian-api/**/*.coveragexml
 
 # NCrunch
-domitian-api/_NCrunch_*
-domitian-api/.*crunch*.local.xml
-domitian-api/nCrunchTemp_*
+domitian-api/**/_NCrunch_*
+domitian-api/**/.*crunch*.local.xml
+domitian-api/**/nCrunchTemp_*
 
 # MightyMoose
-domitian-api/*.mm.*
-domitian-api/AutoTest.Net/
+domitian-api/**/*.mm.*
+domitian-api/**/AutoTest.Net/
 
 # Web workbench (sass)
-domitian-api/.sass-cache/
+domitian-api/**/.sass-cache/
 
 # Installshield output folder
-domitian-api/[Ee]xpress/
+domitian-api/**/[Ee]xpress/
 
 # DocProject is a documentation generator add-in
-domitian-api/DocProject/buildhelp/
-domitian-api/DocProject/Help/*.HxT
-domitian-api/DocProject/Help/*.HxC
-domitian-api/DocProject/Help/*.hhc
-domitian-api/DocProject/Help/*.hhk
-domitian-api/DocProject/Help/*.hhp
-domitian-api/DocProject/Help/Html2
-domitian-api/DocProject/Help/html
+domitian-api/**/DocProject/buildhelp/
+domitian-api/**/DocProject/Help/*.HxT
+domitian-api/**/DocProject/Help/*.HxC
+domitian-api/**/DocProject/Help/*.hhc
+domitian-api/**/DocProject/Help/*.hhk
+domitian-api/**/DocProject/Help/*.hhp
+domitian-api/**/DocProject/Help/Html2
+domitian-api/**/DocProject/Help/html
 
 # Click-Once directory
-domitian-api/publish/
+domitian-api/**/publish/
 
 # Publish Web Output
-domitian-api/*.[Pp]ublish.xml
-domitian-api/*.azurePubxml
+domitian-api/**/*.[Pp]ublish.xml
+domitian-api/**/*.azurePubxml
 # Note: Comment the next line if you want to checkin your web deploy settings,
 # but database connection strings (with potential passwords) will be unencrypted
-domitian-api/*.pubxml
-domitian-api/*.publishproj
+domitian-api/**/*.pubxml
+domitian-api/**/*.publishproj
 
 # Microsoft Azure Web App publish settings. Comment the next line if you want to
 # checkin your Azure Web App publish settings, but sensitive information contained
 # in these scripts will be unencrypted
-domitian-api/PublishScripts/
+domitian-api/**/PublishScripts/
 
 # NuGet Packages
-domitian-api/*.nupkg
+domitian-api/**/*.nupkg
 # NuGet Symbol Packages
-domitian-api/*.snupkg
+domitian-api/**/*.snupkg
 # The packages folder can be ignored because of Package Restore
-domitian-api/**/[Pp]ackages/*
+domitian-api/**/**/[Pp]ackages/*
 # except build/, which is used as an MSBuild target.
-!domitian-api/**/[Pp]ackages/build/
+!domitian-api/**/**/[Pp]ackages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/[Pp]ackages/repositories.config
 # NuGet v3's project.json files produces more ignorable files
-domitian-api/*.nuget.props
-domitian-api/*.nuget.targets
+domitian-api/**/*.nuget.props
+domitian-api/**/*.nuget.targets
 
 # Microsoft Azure Build Output
-domitian-api/csx/
-domitian-api/*.build.csdef
+domitian-api/**/csx/
+domitian-api/**/*.build.csdef
 
 # Microsoft Azure Emulator
-domitian-api/ecf/
-domitian-api/rcf/
+domitian-api/**/ecf/
+domitian-api/**/rcf/
 
 # Windows Store app package directories and files
-domitian-api/AppPackages/
-domitian-api/BundleArtifacts/
-domitian-api/Package.StoreAssociation.xml
-domitian-api/_pkginfo.txt
-domitian-api/*.appx
-domitian-api/*.appxbundle
-domitian-api/*.appxupload
+domitian-api/**/AppPackages/
+domitian-api/**/BundleArtifacts/
+domitian-api/**/Package.StoreAssociation.xml
+domitian-api/**/_pkginfo.txt
+domitian-api/**/*.appx
+domitian-api/**/*.appxbundle
+domitian-api/**/*.appxupload
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
-domitian-api/*.[Cc]ache
+domitian-api/**/*.[Cc]ache
 # but keep track of directories ending in .cache
-!domitian-api/?*.[Cc]ache/
+!domitian-api/**/?*.[Cc]ache/
 
 # Others
-domitian-api/ClientBin/
-domitian-api/~$*
-domitian-api/*~
-domitian-api/*.dbmdl
-domitian-api/*.dbproj.schemaview
-domitian-api/*.jfm
-domitian-api/*.pfx
-domitian-api/*.publishsettings
-domitian-api/orleans.codegen.cs
+domitian-api/**/ClientBin/
+domitian-api/**/~$*
+domitian-api/**/*~
+domitian-api/**/*.dbmdl
+domitian-api/**/*.dbproj.schemaview
+domitian-api/**/*.jfm
+domitian-api/**/*.pfx
+domitian-api/**/*.publishsettings
+domitian-api/**/orleans.codegen.cs
 
 # Including strong name files can present a security risk
 # (https://github.com/github/gitignore/pull/2483#issue-259490424)
@@ -249,118 +249,118 @@ domitian-api/orleans.codegen.cs
 #bower_components/
 
 # RIA/Silverlight projects
-domitian-api/Generated_Code/
+domitian-api/**/Generated_Code/
 
 # Backup & report files from converting an old project file
 # to a newer Visual Studio version. Backup files are not needed,
 # because we have git ;-)
-domitian-api/_UpgradeReport_Files/
-domitian-api/Backup*/
-domitian-api/UpgradeLog*.XML
-domitian-api/UpgradeLog*.htm
-domitian-api/ServiceFabricBackup/
-domitian-api/*.rptproj.bak
+domitian-api/**/_UpgradeReport_Files/
+domitian-api/**/Backup*/
+domitian-api/**/UpgradeLog*.XML
+domitian-api/**/UpgradeLog*.htm
+domitian-api/**/ServiceFabricBackup/
+domitian-api/**/*.rptproj.bak
 
 # SQL Server files
-domitian-api/*.mdf
-domitian-api/*.ldf
-domitian-api/*.ndf
+domitian-api/**/*.mdf
+domitian-api/**/*.ldf
+domitian-api/**/*.ndf
 
 # Business Intelligence projects
-domitian-api/*.rdl.data
-domitian-api/*.bim.layout
-domitian-api/*.bim_*.settings
-domitian-api/*.rptproj.rsuser
-domitian-api/*- [Bb]ackup.rdl
-domitian-api/*- [Bb]ackup ([0-9]).rdl
-domitian-api/*- [Bb]ackup ([0-9][0-9]).rdl
+domitian-api/**/*.rdl.data
+domitian-api/**/*.bim.layout
+domitian-api/**/*.bim_*.settings
+domitian-api/**/*.rptproj.rsuser
+domitian-api/**/*- [Bb]ackup.rdl
+domitian-api/**/*- [Bb]ackup ([0-9]).rdl
+domitian-api/**/*- [Bb]ackup ([0-9][0-9]).rdl
 
 # Microsoft Fakes
-domitian-api/FakesAssemblies/
+domitian-api/**/FakesAssemblies/
 
 # GhostDoc plugin setting file
-domitian-api/*.GhostDoc.xml
+domitian-api/**/*.GhostDoc.xml
 
 # Node.js Tools for Visual Studio
-domitian-api/.ntvs_analysis.dat
-domitian-api/node_modules/
+domitian-api/**/.ntvs_analysis.dat
+domitian-api/**/node_modules/
 
 # Visual Studio 6 build log
-domitian-api/*.plg
+domitian-api/**/*.plg
 
 # Visual Studio 6 workspace options file
-domitian-api/*.opt
+domitian-api/**/*.opt
 
 # Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
-domitian-api/*.vbw
+domitian-api/**/*.vbw
 
 # Visual Studio LightSwitch build output
-domitian-api/**/*.HTMLClient/GeneratedArtifacts
-domitian-api/**/*.DesktopClient/GeneratedArtifacts
-domitian-api/**/*.DesktopClient/ModelManifest.xml
-domitian-api/**/*.Server/GeneratedArtifacts
-domitian-api/**/*.Server/ModelManifest.xml
-domitian-api/_Pvt_Extensions
+domitian-api/**/**/*.HTMLClient/GeneratedArtifacts
+domitian-api/**/**/*.DesktopClient/GeneratedArtifacts
+domitian-api/**/**/*.DesktopClient/ModelManifest.xml
+domitian-api/**/**/*.Server/GeneratedArtifacts
+domitian-api/**/**/*.Server/ModelManifest.xml
+domitian-api/**/_Pvt_Extensions
 
 # Paket dependency manager
-domitian-api/.paket/paket.exe
-domitian-api/paket-files/
+domitian-api/**/.paket/paket.exe
+domitian-api/**/paket-files/
 
 # FAKE - F# Make
-domitian-api/.fake/
+domitian-api/**/.fake/
 
 # CodeRush personal settings
-domitian-api/.cr/personal
+domitian-api/**/.cr/personal
 
 # Python Tools for Visual Studio (PTVS)
-domitian-api/__pycache__/
-domitian-api/*.pyc
+domitian-api/**/__pycache__/
+domitian-api/**/*.pyc
 
 # Cake - Uncomment if you are using it
 # tools/**
 # !tools/packages.config
 
 # Tabs Studio
-domitian-api/*.tss
+domitian-api/**/*.tss
 
 # Telerik's JustMock configuration file
-domitian-api/*.jmconfig
+domitian-api/**/*.jmconfig
 
 # BizTalk build output
-domitian-api/*.btp.cs
-domitian-api/*.btm.cs
-domitian-api/*.odx.cs
-domitian-api/*.xsd.cs
+domitian-api/**/*.btp.cs
+domitian-api/**/*.btm.cs
+domitian-api/**/*.odx.cs
+domitian-api/**/*.xsd.cs
 
 # OpenCover UI analysis results
-domitian-api/OpenCover/
+domitian-api/**/OpenCover/
 
 # Azure Stream Analytics local run output
-domitian-api/ASALocalRun/
+domitian-api/**/ASALocalRun/
 
 # MSBuild Binary and Structured Log
-domitian-api/*.binlog
+domitian-api/**/*.binlog
 
 # NVidia Nsight GPU debugger configuration file
-domitian-api/*.nvuser
+domitian-api/**/*.nvuser
 
 # MFractors (Xamarin productivity tool) working folder
-domitian-api/.mfractor/
+domitian-api/**/.mfractor/
 
 # Local History for Visual Studio
-domitian-api/.localhistory/
+domitian-api/**/.localhistory/
 
 # BeatPulse healthcheck temp database
-domitian-api/healthchecksdb
+domitian-api/**/healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
-domitian-api/MigrationBackup/
+domitian-api/**/MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
-domitian-api/.ionide/
+domitian-api/**/.ionide/
 
 # Fody - auto-generated XML schema
-domitian-api/FodyWeavers.xsd
+domitian-api/**/FodyWeavers.xsd
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
