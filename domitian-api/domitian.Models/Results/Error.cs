@@ -1,4 +1,4 @@
-﻿namespace domitian.Models.Results
+namespace domitian.Models.Results
 {
     public record Error(ErrorCodes Code, string? Message = null, Exception? Ex = null)
     {
@@ -15,8 +15,6 @@
     {
         public RegisterErrors(ErrorCodes Code, string Message, Exception? Ex = null)
             : base(Code, Message, Ex) { }
-
-        public static readonly Error RegisterUserNull = new Error(ErrorCodes.RegisterUserNullError, OperationErrorMessages.NullUserId);
 
         public static readonly Error RegisterInvalidEmail = new Error(ErrorCodes.RegisterInvalidEmailError, OperationErrorMessages.InvalidEmail);
 

@@ -1,4 +1,4 @@
-﻿using domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
+using domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers;
 using domitian.Tests.Infrastructure.Extensions;
 using domitian.Models.Requests.Login;
 using domitian.Models.Responses.Login;
@@ -44,7 +44,7 @@ namespace domitian_api.Tests.UserAdmin
         public async Task LoginAsync_returns_NotFound()
         {
             var notFoundError = LoginErrors.LoginNotFound("asd@asd.com");
-            var failingResult = Result<LoginResponse>.Failure(ResultTypes.NotFound, notFoundError);
+            var failingResult = Result<LoginResponse>.Failure(string.Empty, ResultType.NotFound, notFoundError);
 
             ArrangeLoginAsyncPipeline(
                 new ValidationResult(),
@@ -93,7 +93,7 @@ namespace domitian_api.Tests.UserAdmin
 
             ArrangeRefreshAsyncPipeline(
                 new ValidationResult(),
-                Result<LoginResponse>.Failure(ResultTypes.Unauthorized),
+                Result<LoginResponse>.Failure(string.Empty, ResultType.Unauthorized),
                 new BadRequestObjectResult(exceptionMessage));
 
             var result = await _loginControllerFixture.SUT.RefreshAsync(_loginControllerFixture.RefReqVal, A.Dummy<RefreshRequest>());
@@ -106,7 +106,7 @@ namespace domitian_api.Tests.UserAdmin
         {
             ArrangeRefreshAsyncPipeline(
                 new ValidationResult(),
-                Result<LoginResponse>.Failure(ResultTypes.Unauthorized),
+                Result<LoginResponse>.Failure(string.Empty, ResultType.Unauthorized),
                 new UnauthorizedResult());
 
             var result = await _loginControllerFixture.SUT.RefreshAsync(_loginControllerFixture.RefReqVal, A.Dummy<RefreshRequest>());

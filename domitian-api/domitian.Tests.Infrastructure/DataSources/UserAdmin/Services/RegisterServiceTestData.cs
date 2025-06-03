@@ -1,4 +1,4 @@
-﻿using domitian.Tests.Infrastructure.Dtos;
+using domitian.Tests.Infrastructure.Dtos;
 using domitian.Tests.Infrastructure.Extensions;
 using domitian.Models.Requests.Registration;
 using domitian.Models.Results;
@@ -25,7 +25,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                         },
                         User = null,
                         IdRes = null,
-                        Error = RegisterErrors.RegisterUserNull,
+                        Error = LoginErrors.LoginNotFound(string.Empty),
                         Assertion = ResultAssertions.NotFound
                     }
                 };

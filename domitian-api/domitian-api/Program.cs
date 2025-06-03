@@ -1,13 +1,17 @@
 using domitian.Infrastructure.Configuration.Authentication;
-using domitian_api.Extensions;
+using domitian.Infrastructure.Configuration.Exceptions;
+using domitian.Infrastructure.Validators;
+using domitian.Models.Extensions;
 using domitian_api.Data.Identity;
+using domitian_api.Extensions;
+using domitian_api.Infrastructure.Constants;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
-using domitian_api.Infrastructure.Constants;
-using domitian.Infrastructure.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,18 +19,40 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: AllowedOriginOptions.SectionName,
-                      policy =>
-                      {
-                          policy
-                          .WithOrigins(builder.Configuration["AllowedOrigin:Url"])
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                      });
+  options.AddPolicy(name: AllowedOriginOptions.SectionName,
+                    policy =>
+                    {
+                      policy
+                        .WithOrigins(builder.Configuration["AllowedOrigin:Url"])
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
 });
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddControllers(o => o.Filters.Add(new AuthorizeFilter()));
+builder.Services
+  .AddControllers(options =>
+  {
+    options.Filters.Add(new AuthorizeFilter());
+    options.OutputFormatters.Add(new StringOutputFormatter());
+  })
+  .AddXmlSerializerFormatters()
+  .AddMvcOptions(options =>
+  {
+    options.RespectBrowserAcceptHeader = true;
+  });
+
+builder.Services.AddProblemDetails(options =>
+{
+  options.CustomizeProblemDetails = context =>
+  {
+    context.ProblemDetails.WithInstance($"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}");
+    context.ProblemDetails.WithRequestId(context.HttpContext.TraceIdentifier);
+    context.ProblemDetails.WithTraceId(context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity?.Id);
+  };
+});
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddDbContext<DomitianIDDbContext>(options => options
         .UseSqlServer(builder
@@ -36,20 +62,20 @@ builder.Services.AddDbContext<DomitianIDDbContext>(options => options
 
 builder.Services.AddIdentity<DomitianIDUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
-    options.SignIn.RequireConfirmedEmail = true;
+  options.SignIn.RequireConfirmedAccount = true;
+  options.SignIn.RequireConfirmedEmail = true;
 })
     .AddEntityFrameworkStores<DomitianIDDbContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme =
-   options.DefaultChallengeScheme =
-   options.DefaultForbidScheme =
-   options.DefaultScheme =
-   options.DefaultSignInScheme =
-   options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultAuthenticateScheme =
+ options.DefaultChallengeScheme =
+ options.DefaultForbidScheme =
+ options.DefaultScheme =
+ options.DefaultSignInScheme =
+ options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer();
 
 builder.Services.AddAuthorizationBuilder();
@@ -69,12 +95,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
+app.UseExceptionHandler();
 app.UseRouting();
 
 app.UseCors(AllowedOriginOptions.SectionName);
