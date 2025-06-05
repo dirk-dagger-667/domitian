@@ -22,28 +22,18 @@ namespace domitian_api.Helpers
       return ResultTypeToActionResultBase(result);
     }
 
-    public IActionResult ResultTypeToActionResultBase(Result result)
+    public IActionResult ResultTypeToActionResultBase(Result result) => result.Type switch
     {
-      switch (result.Type)
-      {
-        case ResultType.Ok:
-          return new OkResult();
-        case ResultType.BadRequest:
-          return new BadRequestObjectResult(BuildProblemDetails(StatusCodes.Status400BadRequest));
-        case ResultType.CreatedAt:
-          return new CreatedResult(GetUri(), null);
-        case ResultType.NotFound:
-          return new NotFoundObjectResult(BuildProblemDetails(StatusCodes.Status404NotFound));
-        case ResultType.Unauthorized:
-          return new UnauthorizedResult();
-        case ResultType.Conflict:
-          return new ConflictObjectResult(BuildProblemDetails(StatusCodes.Status409Conflict));
-        default:
-          return new BadRequestObjectResult(BuildProblemDetails(StatusCodes.Status400BadRequest));
-      }
+      ResultType.Ok => new OkResult(),
+      ResultType.BadRequest => new BadRequestObjectResult(BuildProblemDetails(StatusCodes.Status400BadRequest, result)),
+      ResultType.CreatedAt => new CreatedResult(GetUri(), null),
+      ResultType.NotFound => new NotFoundObjectResult(BuildProblemDetails(StatusCodes.Status404NotFound, result)),
+      ResultType.Unauthorized => new UnauthorizedResult(),
+      ResultType.Conflict => new ConflictObjectResult(BuildProblemDetails(StatusCodes.Status409Conflict, result)),
+      _ => new BadRequestObjectResult(BuildProblemDetails(StatusCodes.Status400BadRequest, result))
+      };
 
-      ProblemDetails BuildProblemDetails(int statusCode)
-        => new ProblemDetails()
+    private ProblemDetails BuildProblemDetails(int statusCode, Result result) => new ProblemDetails()
           .WithType(SelectResultType(result.Type))
           .WithTitle(result.Title)
           .WithInstance(_httpContextAccessor.HttpContext)
@@ -51,7 +41,6 @@ namespace domitian_api.Helpers
           .WithDetail(result.Error?.Message)
           .WithRequestId(_httpContextAccessor.HttpContext)
           .WithTraceId(_httpContextAccessor.HttpContext);
-    }
 
     private string SelectResultType(ResultType type) => type switch
     {
