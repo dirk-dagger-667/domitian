@@ -14,12 +14,10 @@ namespace domitian.Business.Services
   {
     public async Task<Result<LoginResponse>> LoginAsync(LoginRequest loginRequest)
     {
-      throw new NotImplementedException();
-
       var user = await _signInManager.UserManager.FindByEmailAsync(loginRequest.Email);
 
       if (user == null)
-        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound(loginRequest.Email));
+        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound(loginRequest.Email));
 
       var canSignIn = await _signInManager.UserManager.CheckPasswordAsync(user, loginRequest.Password);
 
@@ -65,7 +63,7 @@ namespace domitian.Business.Services
 
       var principal = _tokenService.GetPrincipalFromExpiredToken(refReq.AccessToken);
 
-      if (principal is null || principal?.Identity?.Name is null)
+      if (!(principal?.Identity?.Name is not null))
         return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized);
 
       var user = await _signInManager.UserManager.FindByNameAsync(principal.Identity.Name);

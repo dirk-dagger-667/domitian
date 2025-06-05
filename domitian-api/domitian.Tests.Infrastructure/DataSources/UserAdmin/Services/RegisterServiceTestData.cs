@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
 {
-    public class RegisterServiceTestData
+  public class RegisterServiceTestData
+  {
+    public static IEnumerable<object[]> ConfirmEmailFailureParams
     {
-        public static IEnumerable<object[]> ConfirmEmailFailureParams
+      get
+      {
+        yield return new object[]
         {
-            get 
-            {
-                yield return new object[] 
-                {
-                    new ConfirmEmailFailureDto() 
+                    new ConfirmEmailFailureDto()
                     {
                         ConfEmailReq = new ConfirmEmailRequest()
                         {
@@ -26,12 +26,12 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                         User = null,
                         IdRes = null,
                         Error = LoginErrors.LoginNotFound(string.Empty),
-                        Assertion = ResultAssertions.NotFound
+                        Assertion = ResultAssertions.IsNotFound
                     }
-                };
+        };
 
-                yield return new object[] 
-                {
+        yield return new object[]
+        {
                     new ConfirmEmailFailureDto()
                     {
                         ConfEmailReq = new ConfirmEmailRequest()
@@ -44,16 +44,28 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                         Error = RegisterErrors.RegisterInvalidEmail,
                         Assertion = ResultAssertions.IsBadRequest
                     }
-                };
-            }
-        }
+        };
+      }
+    }
 
-        public static IEnumerable<object[]> RegisterAsyncBadRequestParams
+    public static IEnumerable<object[]> RegisterAsyncConflictParams
+    {
+      get
+      {
+        yield return new object[] { new RegisterBadReqDto
         {
-            get
-            {
-                yield return new object[] { new RegisterBadReqDto() 
-                { 
+          User = A.Dummy<DomitianIDUser>(),
+          Error = RegisterErrors.RegisterUserExists
+        }};
+      }
+    }
+
+    public static IEnumerable<object[]> RegisterAsyncBadRequestParams
+    {
+      get
+      {
+        yield return new object[] { new RegisterBadReqDto()
+                {
                     User = null,
                     IdRes = IdentityResult.Failed(A.Dummy<IdentityError>()),
                     SupportsEmail = true,
@@ -61,16 +73,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                     Error = RegisterErrors.RegisterCreateAccount(null)
                 }};
 
-                yield return new object[] { new RegisterBadReqDto()
-                {
-                    User = A.Dummy<DomitianIDUser>(),
-                    IdRes = null,
-                    SupportsEmail = false,
-                    AddToRoleRes = null,
-                    Error = RegisterErrors.RegisterUserExists
-                }};
-
-                yield return new object[] { new RegisterBadReqDto()
+        yield return new object[] { new RegisterBadReqDto()
                 {
                     User = null,
                     IdRes = IdentityResult.Success,
@@ -78,7 +81,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                     SupportsEmail = true,
                     Error = RegisterErrors.RegisterUserAddToRoleFails
                 }};
-            }
-        }
+      }
     }
+  }
 }
