@@ -1,4 +1,4 @@
-﻿using domitian.Business.Contracts;
+using domitian.Business.Contracts;
 using domitian.Infrastructure.Configuration.Authentication;
 using domitian_api.Data.Identity;
 using Microsoft.Extensions.Options;

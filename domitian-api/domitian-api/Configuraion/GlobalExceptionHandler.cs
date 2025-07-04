@@ -26,8 +26,7 @@ namespace domitian.Infrastructure.Configuration.Exceptions
       var acceptHeader = httpContext.Request.Headers["Accept"].Any() ? httpContext.Request.Headers["Accept"].FirstOrDefault() : null;
 
       if (!string.IsNullOrWhiteSpace(acceptHeader)
-        && acceptHeader.Contains("/xml")
-        || acceptHeader.Contains("+xml"))
+        && (acceptHeader.Contains("/xml") || acceptHeader.Contains("+xml")))
       {
         pdContext.ProblemDetails
           .WithInstance(httpContext)

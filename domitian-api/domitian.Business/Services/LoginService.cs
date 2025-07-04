@@ -17,7 +17,7 @@ namespace domitian.Business.Services
       var user = await _signInManager.UserManager.FindByEmailAsync(loginRequest.Email);
 
       if (user == null)
-        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound(loginRequest.Email));
+        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound(loginRequest.Email));
 
       var canSignIn = await _signInManager.UserManager.CheckPasswordAsync(user, loginRequest.Password);
 
@@ -62,11 +62,12 @@ namespace domitian.Business.Services
       _logger.LogInformation("Refresh called");
 
       var principal = _tokenService.GetPrincipalFromExpiredToken(refReq.AccessToken);
+      var nameClaim = principal?.Claims?.FirstOrDefault(claim => claim.Type == "name");
 
-      if (!(principal?.Identity?.Name is not null))
+      if (nameClaim is null)
         return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized);
 
-      var user = await _signInManager.UserManager.FindByNameAsync(principal.Identity.Name);
+      var user = await _signInManager.UserManager.FindByNameAsync(nameClaim?.Value);
 
       if (user is null
           || user.RefreshToken != refReq.RefreshToken
@@ -79,8 +80,8 @@ namespace domitian.Business.Services
 
       return Result<LoginResponse>.Success(new LoginResponse()
       {
-        BearerToken = token,
         Email = user.Email,
+        BearerToken = token,
         RefreshToken = refReq.RefreshToken
       });
     }

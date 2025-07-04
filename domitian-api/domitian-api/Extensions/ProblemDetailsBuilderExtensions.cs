@@ -7,7 +7,8 @@ namespace domitian.Models.Extensions
   {
     public static ProblemDetails WithTraceId(this ProblemDetails problemDetails, string? traceId)
     {
-      problemDetails.Extensions.Add("traceId", traceId);
+      if(!problemDetails.Extensions.ContainsKey("traceId"))
+        problemDetails.Extensions.Add("traceId", traceId);
 
       return problemDetails;
     }

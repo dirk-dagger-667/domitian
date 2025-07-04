@@ -1,26 +1,27 @@
-using domitian_api.Extensions;
-using domitian_api.Helpers;
-using domitian.Models.Requests.Login;
-using domitian.Models.Responses.Login;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using domitian.Business.Contracts;
 using domitian.Infrastructure.Validators;
+using domitian.Models.Requests.Login;
+using domitian.Models.Responses.Login;
+using domitian_api.Constants;
+using domitian_api.Extensions;
+using domitian_api.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace domitian_api.Controllers.UserAdmin
 {
   [ApiController]
   [AllowAnonymous]
-  [Route("api/login")]
+  [Route(ApiPathConstants.Login)]
   public class LoginController(ILoginService _loginService,
       IReturnResultsHelper _returnResultsHelper) : ControllerBase
   {
     [HttpPost]
-    [ProducesResponseType<bool>(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
-    [ProducesResponseType<string>(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType<string>(StatusCodes.Status404NotFound)]
-    [ProducesResponseType<string>(StatusCodes.Status500InternalServerError)]
-    //[Produces("application/xml", "text/xml", "application/problem+xml")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> LoginAsync([FromServices] LoginRequestValidator loginValidator,
         [FromBody] LoginRequest request)
     {
@@ -36,11 +37,11 @@ namespace domitian_api.Controllers.UserAdmin
       return _returnResultsHelper.ResultTypeToActionResult(loginRslt);
     }
 
-    [HttpPost("refresh")]
+    [HttpPost(ApiPathConstants.Refresh)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RefreshAsync([FromServices] RefreshRequestValidator refResValidator, [FromBody] RefreshRequest request)
     {
       var valRes = await refResValidator.ValidateAsync(request);
@@ -55,14 +56,18 @@ namespace domitian_api.Controllers.UserAdmin
       return _returnResultsHelper.ResultTypeToActionResult(refRes);
     }
 
-    [HttpPatch("revoke")]
+    [HttpGet($"{ApiPathConstants.RevokeControllerPath}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> RevokeAccess()
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> RevokeAccess([Required][EmailAddress] string email)
     {
-      var username = HttpContext.User.Identity?.Name;
+      if (!ModelState.IsValid)
+      {
+        return base.ValidationProblem(ModelState.GetErrorsAsString());
+      }
 
-      var revRes = await _loginService.RevokeAccessAsync(username);
+      var revRes = await _loginService.RevokeAccessAsync(email);
 
       return _returnResultsHelper.ResultTypeToActionResultBase(revRes);
     }

@@ -70,7 +70,7 @@ builder.Services.AddIdentity<DomitianIDUser, IdentityRole>(options =>
 
 builder.Services.AddAuthentication(options =>
 {
-  options.DefaultAuthenticateScheme =
+ options.DefaultAuthenticateScheme =
  options.DefaultChallengeScheme =
  options.DefaultForbidScheme =
  options.DefaultScheme =
@@ -112,3 +112,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

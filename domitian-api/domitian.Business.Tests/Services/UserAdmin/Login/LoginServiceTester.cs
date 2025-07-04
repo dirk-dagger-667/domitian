@@ -1,4 +1,5 @@
 using domitian.Models.Requests.Login;
+using domitian.Models.Results;
 using domitian.Tests.Infrastructure.DataSources.UserAdmin.Services;
 using domitian.Tests.Infrastructure.Dtos;
 using domitian.Tests.Infrastructure.Extensions;
@@ -6,6 +7,7 @@ using domitian_api.Data.Identity;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace domitian.Business.Tests.Services.UserAdmin.Login
@@ -36,6 +38,16 @@ namespace domitian.Business.Tests.Services.UserAdmin.Login
       var loginResult = await _loginServiceFixture.SUT.LoginAsync(A.Dummy<LoginRequest>());
 
       ResultAssertions.IsUnauthorized(loginResult);
+    }
+
+    [Fact]
+    public async Task LoginAsync_returns_NotFound()
+    {
+      ArrangeLoginAsyncPipeline(null, false, SignInResult.Success);
+
+      var loginResult = await _loginServiceFixture.SUT.LoginAsync(A.Dummy<LoginRequest>());
+
+      ResultAssertions.IsNotFound(loginResult, LoginErrors.LoginNotFound(null));
     }
 
     [Fact]
@@ -101,7 +113,7 @@ namespace domitian.Business.Tests.Services.UserAdmin.Login
       var claimsPrincipalFake = new ClaimsPrincipal(
           new ClaimsIdentity(new Claim[]
               {
-                        new Claim(ClaimTypes.Name, fake)
+                        new Claim(JwtRegisteredClaimNames.Name, fake)
               }));
 
       var refReq = new RefreshRequest()
@@ -162,10 +174,9 @@ namespace domitian.Business.Tests.Services.UserAdmin.Login
     private void ArrangeRevokeAccessAsync(DomitianIDUser? user = null,
         IdentityResult? updRes = null)
     {
-      if (user is null)
 
-        A.CallTo(() => _loginServiceFixture.SignInManager.UserManager.FindByNameAsync(A<string>.Ignored))
-        .Returns(user);
+      A.CallTo(() => _loginServiceFixture.SignInManager.UserManager.FindByNameAsync(A<string>.Ignored))
+      .Returns(user);
 
       A.CallTo(() => _loginServiceFixture.SignInManager.UserManager.UpdateAsync(A<DomitianIDUser>.Ignored))
       .Returns(updRes);
@@ -216,7 +227,7 @@ namespace domitian.Business.Tests.Services.UserAdmin.Login
         A.CallTo(() => _loginServiceFixture.SignInManager.PasswordSignInAsync(A<string>.Ignored, A<string>.Ignored, A<bool>.Ignored, A<bool>.Ignored))
           .Throws<Exception>();
 
-      if(signInRes is not null && signInRes!.Succeeded)
+      if (signInRes is not null && signInRes!.Succeeded)
       {
         A.CallTo(() => _loginServiceFixture.SignInManager.UserManager.UpdateAsync(A<DomitianIDUser>.Ignored))
         .Returns(IdentityResult.Success);

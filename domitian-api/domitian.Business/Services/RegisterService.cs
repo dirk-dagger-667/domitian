@@ -21,8 +21,6 @@ namespace domitian.Business.Services
           ILogger<RegisterService> _logger,
           IOptionsMonitor<ApiUrlOptions> _urlOptions) : IRegisterService
   {
-    IUserEmailStore<DomitianIDUser> _emailStore => GetEmailStore();
-
     public async Task<Result<string>> RegisterAsync(RegisterRequest request)
     {
       var existingUser = await _userManager.FindByEmailAsync(request.Email);
@@ -35,7 +33,10 @@ namespace domitian.Business.Services
       await _userStore.SetUserNameAsync(user, request.Email, CancellationToken.None);
 
       if (_userManager.SupportsUserEmail)
+      {
+        IUserEmailStore<DomitianIDUser> _emailStore = GetEmailStore();
         await _emailStore.SetEmailAsync(user, request.Email, CancellationToken.None);
+      }
 
       var createResult = await _userManager.CreateAsync(user, request.Password);
 
@@ -72,18 +73,6 @@ namespace domitian.Business.Services
       return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterCreateAccount(request.Email));
     }
 
-    public async Task<Result<string>> ConfirmRegistrationAsync(string email)
-    {
-      var user = await _userManager.FindByEmailAsync(email);
-
-      if (user == null)
-        return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound(email));
-
-      var callbackUrl = await BuildCallbackUrlAsync(user);
-
-      return Result<string>.Success(callbackUrl);
-    }
-
     public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
     {
       var user = await _userManager.FindByIdAsync(request.UserId);
@@ -98,6 +87,18 @@ namespace domitian.Business.Services
         return Result.Failure(OperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterInvalidEmail);
 
       return Result.Success();
+    }
+
+    public async Task<Result<string>> ConfirmRegistrationAsync(string email)
+    {
+      var user = await _userManager.FindByEmailAsync(email);
+
+      if (user == null)
+        return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound(email));
+
+      var callbackUrl = await BuildCallbackUrlAsync(user);
+
+      return Result<string>.Success(callbackUrl);
     }
 
     private DomitianIDUser CreateUser()
