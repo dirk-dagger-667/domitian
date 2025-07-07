@@ -28,7 +28,7 @@ namespace domitian_api.Helpers
       ResultType.BadRequest => new BadRequestObjectResult(BuildProblemDetails(StatusCodes.Status400BadRequest, result)),
       ResultType.CreatedAt => new CreatedResult(GetUri(), null),
       ResultType.NotFound => new NotFoundObjectResult(BuildProblemDetails(StatusCodes.Status404NotFound, result)),
-      ResultType.Unauthorized => new UnauthorizedResult(),
+      ResultType.Unauthorized => new UnauthorizedObjectResult(BuildProblemDetails(StatusCodes.Status401Unauthorized, result)),
       ResultType.Conflict => new ConflictObjectResult(BuildProblemDetails(StatusCodes.Status409Conflict, result)),
       _ => new BadRequestObjectResult(BuildProblemDetails(StatusCodes.Status400BadRequest, result))
       };

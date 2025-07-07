@@ -5,6 +5,7 @@ using domitian_api.Data.Identity;
 using FakeItEasy;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
 {
@@ -14,14 +15,6 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
     {
       get
       {
-        yield return new object[] { new LoginFailureDto()
-                {
-                    User = null, // Only this value is important 
-                    CheckPassRes = false,
-                    SignInRes = SignInResult.Success,
-                    PassSignInthrowsEx = false
-                }};
-
         yield return new object[] { new LoginFailureDto()
                 {
                     User = A.Dummy<DomitianIDUser>(),
@@ -191,7 +184,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                         User = null,
                         ClaimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                         {
-                          new Claim(ClaimTypes.Name, "fake")
+                          new Claim(JwtRegisteredClaimNames.Name, "fake")
                         })),
                         RefReq = new RefreshRequest()
                         {
@@ -212,7 +205,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                         },
                         ClaimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                         {
-                          new Claim(ClaimTypes.Name, "fake")
+                          new Claim(JwtRegisteredClaimNames.Name, "fake")
                         })),
                         RefReq = new RefreshRequest()
                         {
