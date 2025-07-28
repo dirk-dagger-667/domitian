@@ -54,15 +54,18 @@ namespace domitian.Business.Services
 
         public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
         {
-            var validation = new TokenValidationParameters
+            var validationOptions = new TokenValidationParameters
             {
                 ValidIssuer = _jwtOptions.Value.Issuer,
                 ValidAudience = _jwtOptions.Value.Audience,
                 IssuerSigningKey = _key,
-                ValidateLifetime = false
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
             };
 
-            return new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
+            return new JwtSecurityTokenHandler().ValidateToken(token, validationOptions, out _);
         }
     }
 }
