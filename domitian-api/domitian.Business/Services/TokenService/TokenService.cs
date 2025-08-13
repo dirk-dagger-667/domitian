@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace domitian.Business.Services
+namespace domitian.Business.Services.TokenService
 {
     public class TokenService(IOptions<JwtTokenOptions> _jwtOptions) : ITokenService
     {

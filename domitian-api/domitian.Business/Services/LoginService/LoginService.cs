@@ -3,13 +3,15 @@ using domitian.Models.Requests.Login;
 using domitian.Models.Responses.Login;
 using domitian.Models.Results;
 using domitian_api.Data.Identity;
+using domitian_api.Infrastructure.Constants;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace domitian.Business.Services
+namespace domitian.Business.Services.LoginService
 {
   public class LoginService(SignInManager<DomitianIDUser> _signInManager,
-      ITokenService _tokenService,
+      [FromKeyedServices(AppConstants.CrossCuttingKey)]ITokenService _tokenService,
       ILogger<LoginService> _logger) : ILoginService
   {
     public async Task<Result<LoginResponse>> LoginAsync(LoginRequest loginRequest)
@@ -37,7 +39,7 @@ namespace domitian.Business.Services
 
         var loginResponse = new LoginResponse()
         {
-          Email = user.Email,
+          UserId = user.Id,
           BearerToken = _tokenService.GenerateJwt(user),
           RefreshToken = user.RefreshToken
         };
@@ -80,7 +82,7 @@ namespace domitian.Business.Services
 
       return Result<LoginResponse>.Success(new LoginResponse()
       {
-        Email = user.Email,
+        UserId = user.Id,
         BearerToken = token,
         RefreshToken = refReq.RefreshToken
       });

@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using domitian.Infrastructure.Configuration.Authentication;
 
-namespace domitian.Business.Services
+namespace domitian.Business.Services.RegisterService
 {
   public class RegisterService(UserManager<DomitianIDUser> _userManager,
           IUserStore<DomitianIDUser> _userStore,
@@ -64,11 +64,6 @@ namespace domitian.Business.Services
           return Result<string>.Created(string.Empty);
         }
       }
-
-      // Will use this part for logging purposes
-      //var fError = createResult.Errors
-      //    .Select(er => er.Description)
-      //    .Aggregate(string.Empty, (current, next) => $"{current}{Environment.NewLine}{next}");
 
       return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterCreateAccount(request.Email));
     }

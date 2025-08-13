@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domitian.Tests.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domitian.Business.Tests.Unit", "..\domitian.Business.Tests\domitian.Business.Tests.Unit.csproj", "{C3803A25-2543-8312-49F6-4C17130164D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domitian.Infrastructure.Tests.Unit", "..\domitian.Validators.Tests\domitian.Infrastructure.Tests.Unit.csproj", "{8FEA4A62-1C87-3C9B-7F6B-596533F6A709}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domitian.Tests.Unit", "..\domitian-api.Tests\domitian.Tests.Unit.csproj", "{D712825A-F087-955E-332C-BF406A3F85B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domitian.Tests.Integration", "..\domitian.Tests.Integration\domitian.Tests.Integration.csproj", "{44DE763E-7A8D-5F6E-E75E-31FC6EE65DF0}"
@@ -63,10 +61,6 @@ Global
 		{C3803A25-2543-8312-49F6-4C17130164D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3803A25-2543-8312-49F6-4C17130164D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3803A25-2543-8312-49F6-4C17130164D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FEA4A62-1C87-3C9B-7F6B-596533F6A709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FEA4A62-1C87-3C9B-7F6B-596533F6A709}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FEA4A62-1C87-3C9B-7F6B-596533F6A709}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FEA4A62-1C87-3C9B-7F6B-596533F6A709}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D712825A-F087-955E-332C-BF406A3F85B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D712825A-F087-955E-332C-BF406A3F85B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D712825A-F087-955E-332C-BF406A3F85B7}.Release|Any CPU.ActiveCfg = Release|Any CPU

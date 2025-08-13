@@ -31,11 +31,6 @@ namespace domitian.Tests.Integration
       builder.ConfigureTestServices(services =>
       {
         services.RemoveAll(typeof(DbContextOptions<DomitianIDDbContext>));
-        //services.AddDbContext<DomitianIDDbContext>(options =>
-        //  options.UseSqlServer(
-        //    appConfig?.GetConnectionString(AppConstants.DomitianIntegrationTestsConnectionString),
-        //    options => options.MigrationsAssembly(AppConstants.dbContextAssembly)));
-
         services.AddDbContext<DomitianIDDbContext>(options =>
         {
           var testContainerConfig = appConfig?

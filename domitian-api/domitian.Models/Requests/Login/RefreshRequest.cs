@@ -1,8 +1,13 @@
-﻿namespace domitian.Models.Requests.Login
+using domitian.Infrastructure.Censure;
+
+namespace domitian.Models.Requests.Login
 {
-    public record RefreshRequest
-    {
-        public required string AccessToken { get; init; }
-        public required string RefreshToken { get; init; }
-    }
+  public record RefreshRequest
+  {
+    [Censured]
+    public required string AccessToken { get; init; }
+
+    [Censured]
+    public required string RefreshToken { get; init; }
+  }
 }

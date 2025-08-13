@@ -1,5 +1,5 @@
-﻿using domitian.Business.Contracts;
-using domitian.Business.Services;
+using domitian.Business.Contracts;
+using domitian.Business.Services.TokenService;
 using domitian.Infrastructure.Configuration.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

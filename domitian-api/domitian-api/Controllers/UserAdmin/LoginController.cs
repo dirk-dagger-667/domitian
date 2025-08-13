@@ -1,10 +1,11 @@
 using domitian.Business.Contracts;
-using domitian.Infrastructure.Validators;
 using domitian.Models.Requests.Login;
 using domitian.Models.Responses.Login;
 using domitian_api.Constants;
 using domitian_api.Extensions;
 using domitian_api.Helpers;
+using domitian_api.Infrastructure.Constants;
+using domitian_api.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,8 @@ namespace domitian_api.Controllers.UserAdmin
   [ApiController]
   [AllowAnonymous]
   [Route(ApiPathConstants.Login)]
-  public class LoginController(ILoginService _loginService,
+  public class LoginController(
+    [FromKeyedServices(AppConstants.CrossCuttingKey)] ILoginService _loginService,
       IReturnResultsHelper _returnResultsHelper) : ControllerBase
   {
     [HttpPost]
@@ -28,9 +30,7 @@ namespace domitian_api.Controllers.UserAdmin
       var valRslt = await loginValidator.ValidateAsync(request);
 
       if (!valRslt.IsValid)
-      {
         return base.ValidationProblem(valRslt.Errors.ConcatErrors());
-      }
 
       var loginRslt = await _loginService.LoginAsync(request);
 
@@ -47,9 +47,7 @@ namespace domitian_api.Controllers.UserAdmin
       var valRes = await refResValidator.ValidateAsync(request);
 
       if (!valRes.IsValid)
-      {
         return base.ValidationProblem(valRes.Errors.ConcatErrors());
-      }
 
       var refRes = await _loginService.RefreshAccessAsync(request);
 
@@ -63,9 +61,7 @@ namespace domitian_api.Controllers.UserAdmin
     public async Task<IActionResult> RevokeAccess([Required][EmailAddress] string email)
     {
       if (!ModelState.IsValid)
-      {
         return base.ValidationProblem(ModelState.GetErrorsAsString());
-      }
 
       var revRes = await _loginService.RevokeAccessAsync(email);
 

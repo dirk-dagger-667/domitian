@@ -4,17 +4,15 @@ namespace domitian_api.Infrastructure.Constants
   {
     public const string DomitianConnectionString = "DomitianDefaultConnectionString";
     public const string DomitianIntegrationTestsConnectionString = "DomitianIntegrationTestingConnectionString";
-    public const string dbContextAssembly = "domitian.Data";
+    public const string DBContextAssembly = "domitian.Data";
+
+    public const string InnerKey = "Inner";
+    public const string CrossCuttingKey = "Cross-cutting";
   }
 
   public class ControllerEndpPoints
   {
-    #region Register
-
     public const string RegisterController = "Register";
     public const string ConfirmEmail = "ConfirmEmail";
-
-    #endregion
-
   }
 }

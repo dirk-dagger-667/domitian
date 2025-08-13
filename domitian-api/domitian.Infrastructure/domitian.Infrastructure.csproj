@@ -12,10 +12,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\domitian.BusinessModels\Domitian.BusinessModels.csproj" />
-    <ProjectReference Include="..\domitian.Models\domitian.Models.csproj" />
-    <ProjectReference Include="..\domitian.Models\domitian.Models.csproj" />
-  </ItemGroup>
-
 </Project>

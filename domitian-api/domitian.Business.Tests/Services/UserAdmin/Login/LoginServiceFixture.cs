@@ -1,5 +1,5 @@
-﻿using domitian.Business.Contracts;
-using domitian.Business.Services;
+using domitian.Business.Contracts;
+using domitian.Business.Services.LoginService;
 using domitian_api.Data.Identity;
 using FakeItEasy;
 using Microsoft.AspNetCore.Authentication;
