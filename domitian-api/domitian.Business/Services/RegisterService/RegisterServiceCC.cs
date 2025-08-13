@@ -14,27 +14,27 @@ namespace domitian.Business.Services.RegisterService
   {
     public Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
     {
-      logger.LogInformation(Messages.ExecStartTemplate, nameof(ConfirmEmailAsync), request);
+      logger.LogInformation(Messages.ExecStartTemplate, nameof(ConfirmEmailAsync), nameof(RegisterServiceCC), request);
       var result = inner.ConfirmEmailAsync(request);
-      logger.LogInformation(Messages.ExectFinishTemplate, nameof(ConfirmEmailAsync), result);
+      logger.LogInformation(Messages.ExectFinishTemplate, nameof(ConfirmEmailAsync), nameof(RegisterServiceCC), result);
 
       return result;
     }
 
     public Task<Result<string>> ConfirmRegistrationAsync(string email)
     {
-      logger.LogInformation(Messages.ExecStartTemplate, nameof(ConfirmRegistrationAsync), email);
+      logger.LogInformation(Messages.ExecStartTemplate, nameof(ConfirmRegistrationAsync), nameof(RegisterServiceCC), email);
       var result = inner.ConfirmRegistrationAsync(email);
-      logger.LogInformation(Messages.ExectFinishTemplate, nameof(ConfirmRegistrationAsync), result);
+      logger.LogInformation(Messages.ExectFinishTemplate, nameof(ConfirmRegistrationAsync), nameof(RegisterServiceCC), result);
 
       return result;
     }
 
     public Task<Result<string>> RegisterAsync(RegisterRequest request)
     {
-      logger.LogInformation(Messages.ExecStartTemplate, nameof(RegisterAsync), request);
+      logger.LogInformation(Messages.ExecStartTemplate, nameof(RegisterAsync), nameof(RegisterServiceCC), request);
       var result = inner.RegisterAsync(request);
-      logger.LogInformation(Messages.ExectFinishTemplate, nameof(RegisterAsync), result);
+      logger.LogInformation(Messages.ExectFinishTemplate, nameof(RegisterAsync), nameof(RegisterServiceCC), result);
 
       return result;
     }

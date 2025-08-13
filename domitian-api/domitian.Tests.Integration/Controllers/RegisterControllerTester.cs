@@ -45,7 +45,7 @@ namespace domitian.Tests.Integration.Controllers
         problemDetails?.Extensions.Should().HaveCountGreaterThan(1).And.ContainKeys("traceId", "requestId");
         problemDetails?.Extensions["traceId"]?.ToString().Should().NotBeNullOrWhiteSpace();
         problemDetails?.Extensions["requestId"]?.ToString().Should().NotBeNullOrWhiteSpace();
-        problemDetails?.Detail.Should().Be(errorMessage);
+        problemDetails?.Detail.Should().Contain(errorMessage);
         problemDetails?.Type.Should().Be(type);
       }
     }

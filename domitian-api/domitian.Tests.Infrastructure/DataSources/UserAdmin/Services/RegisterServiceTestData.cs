@@ -55,7 +55,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
         yield return new object[] { new RegisterBadReqDto
         {
           User = A.Dummy<DomitianIDUser>(),
-          Error = RegisterErrors.RegisterUserExists
+          Error = RegisterErrors.RegisterUserExists(null)
         }};
       }
     }
@@ -79,7 +79,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                     IdRes = IdentityResult.Success,
                     AddToRoleRes = IdentityResult.Failed(A.Dummy<IdentityError>()),
                     SupportsEmail = true,
-                    Error = RegisterErrors.RegisterUserAddToRoleFails
+                    Error = RegisterErrors.RegisterUserAddToRoleFails(null)
                 }};
       }
     }

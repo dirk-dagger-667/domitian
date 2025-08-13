@@ -1,42 +1,67 @@
 namespace domitian.Models.Results
 {
-    public record Error(ErrorCodes Code, string? Message = null, Exception? Ex = null)
-    {
-        public static readonly Error None = new Error(ErrorCodes.NoError);
+  public record Error(ErrorCodes Code,
+    string? Message = null,
+    string? DevErrorMessage = null,
+    Exception? Ex = null)
+  {
+    public static readonly Error None = new Error(ErrorCodes.NoError);
 
-        public static readonly Error CreatedEntity = new Error(ErrorCodes.NoError);
+    public static readonly Error CreatedEntity = new Error(ErrorCodes.NoError);
 
-        public static readonly Error Exception = new Error(ErrorCodes.Exception, ValidationErrorsMessages.CriticalError);
+    public static readonly Error Exception = new Error(ErrorCodes.Exception, ValidationErrorsMessages.CriticalError);
 
-        public static Error InvalidArgument(string argName) => new Error(ErrorCodes.GenericInvalidArgument, $"{OperationErrorMessages.InvalidArgument}: ${argName}");
-    }
+    //public static Error InvalidArgument(string argName) => new Error(ErrorCodes.GenericInvalidArgument, $"{DevOperationErrorMessages.InvalidArgument}: ${argName}");
+  }
 
-    public record RegisterErrors: Error
-    {
-        public RegisterErrors(ErrorCodes Code, string Message, Exception? Ex = null)
-            : base(Code, Message, Ex) { }
+  public record RegisterErrors : Error
+  {
+    public RegisterErrors(ErrorCodes Code,
+      string Message,
+      string DevErrorMessage,
+      Exception? Ex = null) : base(Code, Message, DevErrorMessage, Ex) { }
 
-        public static readonly Error RegisterInvalidEmail = new Error(ErrorCodes.RegisterInvalidEmailError, OperationErrorMessages.InvalidEmail);
+    public static readonly Error RegisterInvalidEmail = new Error(ErrorCodes.RegisterInvalidEmailError,
+      DevOperationErrorMessages.InvalidEmail,
+      DevOperationErrorMessages.InvalidEmail);
 
-        public static readonly Error RegisterUserExists = new Error(ErrorCodes.RegisterUserExistsError, OperationErrorMessages.RegisterUserExists);
+    //public static readonly Error RegisterUserExists = new Error(ErrorCodes.RegisterUserExistsError,
+    //  PublicErrorMessages,
+    //  DevOperationErrorMessages.RegisterUserExists);
 
-        public static readonly Error RegisterUserAddToRoleFails = new Error(ErrorCodes.RegisterUserAddToRoleFails, OperationErrorMessages.RegisterUserAddToRoleFails);
+    public static Error RegisterUserAddToRoleFails(string? email) => new Error(ErrorCodes.RegisterUserAddToRoleFails,
+      string.Format(PublicErrorMessages.RegisterUserProblem, email),
+      DevOperationErrorMessages.RegisterUserAddToRoleFails);
 
-        public static Error RegisterCreateAccount(string? email)
-            => new Error(ErrorCodes.RegisterCreateError, $"{ValidationErrorsMessages.UnableToCreateAccountError} {email}.");
-    }
+    public static Error RegisterUserExists(string? email) => new Error(ErrorCodes.RegisterInvalidEmailError,
+        string.Format(PublicErrorMessages.RegisterUserProblem, email),
+        DevOperationErrorMessages.RegisterUserExists);
 
-    public record LoginErrors: Error
-    {
-        public LoginErrors(ErrorCodes Code, string Message, Exception? Ex = null)
-            : base(Code, Message, Ex) { }
+    public static Error RegisterCreateAccount(string? email)
+        => new Error(ErrorCodes.RegisterCreateError, $"{ValidationErrorsMessages.UnableToCreateAccountError} {email}.");
+  }
 
-        public static readonly Error LoginLockedOut = new Error(ErrorCodes.LoginLockedOutError, OperationErrorMessages.LockedOut);
+  public record LoginErrors : Error
+  {
+    public LoginErrors(ErrorCodes Code,
+      string Message,
+      string DevErrorMessage,
+      Exception? Ex = null) : base(Code, Message, DevErrorMessage, Ex) { }
 
-        public static readonly Error FailedAttempt = new Error(ErrorCodes.LoginFailedAttemptError, OperationErrorMessages.LoginFailed);
+    public static readonly Error LoginLockedOut = new Error(ErrorCodes.LoginLockedOutError,
+      DevOperationErrorMessages.LoginFailed,
+      DevOperationErrorMessages.LockedOut);
 
-        public static readonly Error WrongPassword = new Error(ErrorCodes.LoginWrongPasswordError, OperationErrorMessages.LoginWrongPassword);
+    public static readonly Error FailedAttempt = new Error(ErrorCodes.LoginFailedAttemptError,
+      DevOperationErrorMessages.LoginFailed,
+      DevOperationErrorMessages.LoginFailed);
 
-        public static Error LoginNotFound(string? email) => new Error(ErrorCodes.LoginNotFoundError, $"{OperationErrorMessages.LoginNotFound} : {email}");
-    }
+    public static readonly Error WrongPassword = new Error(ErrorCodes.LoginWrongPasswordError,
+      DevOperationErrorMessages.LoginFailed,
+      DevOperationErrorMessages.LoginWrongPassword);
+
+    public static Error LoginNotFound(string? email) => new Error(ErrorCodes.LoginNotFoundError,
+      DevOperationErrorMessages.LoginFailed,
+      $"{DevOperationErrorMessages.LoginNotFound} : {email}");
+  }
 }

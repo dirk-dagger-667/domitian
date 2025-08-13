@@ -28,7 +28,7 @@ namespace domitian.Tests.Integration.DataSources
           LoginControllerTestData.ValidAccountSeedData.First(),
           HttpStatusCode.Conflict,
           typeof(ProblemDetails),
-          RegisterErrors.RegisterUserExists.Message!,
+          RegisterErrors.RegisterUserExists(null).Message!,
           "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.10"
         };
 

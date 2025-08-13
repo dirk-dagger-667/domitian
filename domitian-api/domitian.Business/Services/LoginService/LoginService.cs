@@ -19,12 +19,12 @@ namespace domitian.Business.Services.LoginService
       var user = await _signInManager.UserManager.FindByEmailAsync(loginRequest.Email);
 
       if (user == null)
-        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound(loginRequest.Email));
+        return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound(loginRequest.Email));
 
       var canSignIn = await _signInManager.UserManager.CheckPasswordAsync(user, loginRequest.Password);
 
       if (!canSignIn)
-        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.WrongPassword);
+        return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.WrongPassword);
 
       // This doesn't count login failures towards account lockout
       // To enable password failures to trigger account lockout, set lockoutOnFailure: true
@@ -53,10 +53,10 @@ namespace domitian.Business.Services.LoginService
       {
         _logger.LogWarning(LoginErrors.LoginLockedOut.Message);
 
-        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginLockedOut);
+        return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginLockedOut);
       }
 
-      return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.BadRequest, LoginErrors.FailedAttempt);
+      return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, LoginErrors.FailedAttempt);
     }
 
     public async Task<Result<LoginResponse>> RefreshAccessAsync(RefreshRequest refReq)
@@ -67,14 +67,14 @@ namespace domitian.Business.Services.LoginService
       var nameClaim = principal?.Claims?.FirstOrDefault(claim => claim.Type == "name");
 
       if (nameClaim is null)
-        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized);
+        return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized);
 
       var user = await _signInManager.UserManager.FindByNameAsync(nameClaim?.Value);
 
       if (user is null
           || user.RefreshToken != refReq.RefreshToken
           || user.RefreshTokenExpiry < DateTime.UtcNow)
-        return Result<LoginResponse>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized);
+        return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized);
 
       var token = _tokenService.GenerateJwt(user);
 
@@ -93,12 +93,12 @@ namespace domitian.Business.Services.LoginService
       _logger.LogInformation("Revoke called");
 
       if (username is null)
-        return Result.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized);
+        return Result.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized);
 
       var user = await _signInManager.UserManager.FindByNameAsync(username);
 
       if (user is null)
-        return Result.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized);
+        return Result.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized);
 
       user.RefreshToken = null;
       user.RefreshTokenExpiry = DateTime.MinValue;
@@ -106,7 +106,7 @@ namespace domitian.Business.Services.LoginService
       var idResult = await _signInManager.UserManager.UpdateAsync(user);
 
       if (idResult is null || !idResult.Succeeded)
-        return Result.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized);
+        return Result.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized);
 
       _logger.LogInformation("Revoke succeeded");
 
