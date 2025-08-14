@@ -26,7 +26,7 @@ namespace domitian.Business.Services.RegisterService
       var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
       if (existingUser != null)
-        return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Conflict, RegisterErrors.RegisterUserExists(request.Email));
+        return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Conflict, RegisterErrors.RegisterUserExists);
 
       var user = CreateUser();
 
@@ -47,7 +47,7 @@ namespace domitian.Business.Services.RegisterService
         var addedToRole = await _userManager.AddToRoleAsync(user, DomitianDataConst.UserRoles.FreeUser);
 
         if (!addedToRole.Succeeded)
-          return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterUserAddToRoleFails(request.Email));
+          return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterUserAddToRoleFails);
 
         var callbackUrl = await BuildCallbackUrlAsync(user);
 
@@ -65,7 +65,7 @@ namespace domitian.Business.Services.RegisterService
         }
       }
 
-      return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterCreateAccount(request.Email));
+      return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterCreateAccount);
     }
 
     public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
@@ -73,7 +73,7 @@ namespace domitian.Business.Services.RegisterService
       var user = await _userManager.FindByIdAsync(request.UserId);
 
       if (user == null)
-        return Result.Failure(DevOperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound(string.Empty));
+        return Result.Failure(DevOperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound);
 
       var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Code));
       var emailValidResult = await _userManager.ConfirmEmailAsync(user, code);
@@ -89,7 +89,7 @@ namespace domitian.Business.Services.RegisterService
       var user = await _userManager.FindByEmailAsync(email);
 
       if (user == null)
-        return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound(email));
+        return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound);
 
       var callbackUrl = await BuildCallbackUrlAsync(user);
 

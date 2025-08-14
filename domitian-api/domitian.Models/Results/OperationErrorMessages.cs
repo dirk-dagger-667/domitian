@@ -26,6 +26,6 @@ namespace domitian.Models.Results
 
   public class PublicErrorMessages
   {
-    public const string RegisterUserProblem = "Something went wrong while validating the username: {0}";
+    public const string RegisterUserProblem = "Something went wrong while registering the user";
   }
 }

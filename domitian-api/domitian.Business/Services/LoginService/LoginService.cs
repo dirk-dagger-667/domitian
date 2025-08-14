@@ -19,7 +19,7 @@ namespace domitian.Business.Services.LoginService
       var user = await _signInManager.UserManager.FindByEmailAsync(loginRequest.Email);
 
       if (user == null)
-        return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound(loginRequest.Email));
+        return Result<LoginResponse>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound);
 
       var canSignIn = await _signInManager.UserManager.CheckPasswordAsync(user, loginRequest.Password);
 

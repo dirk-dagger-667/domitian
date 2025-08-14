@@ -11,7 +11,7 @@ namespace domitian.Models.Results
 
     public static readonly Error Exception = new Error(ErrorCodes.Exception, ValidationErrorsMessages.CriticalError);
 
-    //public static Error InvalidArgument(string argName) => new Error(ErrorCodes.GenericInvalidArgument, $"{DevOperationErrorMessages.InvalidArgument}: ${argName}");
+    public static Error InvalidArgument(string argName) => new Error(ErrorCodes.GenericInvalidArgument, $"{DevOperationErrorMessages.InvalidArgument}: ${argName}");
   }
 
   public record RegisterErrors : Error
@@ -25,20 +25,15 @@ namespace domitian.Models.Results
       DevOperationErrorMessages.InvalidEmail,
       DevOperationErrorMessages.InvalidEmail);
 
-    //public static readonly Error RegisterUserExists = new Error(ErrorCodes.RegisterUserExistsError,
-    //  PublicErrorMessages,
-    //  DevOperationErrorMessages.RegisterUserExists);
-
-    public static Error RegisterUserAddToRoleFails(string? email) => new Error(ErrorCodes.RegisterUserAddToRoleFails,
-      string.Format(PublicErrorMessages.RegisterUserProblem, email),
+    public static readonly Error RegisterUserAddToRoleFails = new Error(ErrorCodes.RegisterUserAddToRoleFails,
+      PublicErrorMessages.RegisterUserProblem,
       DevOperationErrorMessages.RegisterUserAddToRoleFails);
 
-    public static Error RegisterUserExists(string? email) => new Error(ErrorCodes.RegisterInvalidEmailError,
-        string.Format(PublicErrorMessages.RegisterUserProblem, email),
+    public static readonly Error RegisterUserExists = new Error(ErrorCodes.RegisterInvalidEmailError,
+        PublicErrorMessages.RegisterUserProblem,
         DevOperationErrorMessages.RegisterUserExists);
 
-    public static Error RegisterCreateAccount(string? email)
-        => new Error(ErrorCodes.RegisterCreateError, $"{ValidationErrorsMessages.UnableToCreateAccountError} {email}.");
+    public static readonly Error RegisterCreateAccount = new Error(ErrorCodes.RegisterCreateError, ValidationErrorsMessages.UnableToCreateAccountError);
   }
 
   public record LoginErrors : Error
@@ -60,8 +55,8 @@ namespace domitian.Models.Results
       DevOperationErrorMessages.LoginFailed,
       DevOperationErrorMessages.LoginWrongPassword);
 
-    public static Error LoginNotFound(string? email) => new Error(ErrorCodes.LoginNotFoundError,
+    public static readonly Error LoginNotFound = new Error(ErrorCodes.LoginNotFoundError,
       DevOperationErrorMessages.LoginFailed,
-      $"{DevOperationErrorMessages.LoginNotFound} : {email}");
+      DevOperationErrorMessages.LoginNotFound);
   }
 }

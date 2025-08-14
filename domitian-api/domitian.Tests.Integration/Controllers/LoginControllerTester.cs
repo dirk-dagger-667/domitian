@@ -66,7 +66,7 @@ namespace domitian.Tests.Integration.Controllers
 
       var data = await response.Content.ReadFromJsonAsync<ProblemDetails>();
 
-      data?.Detail.Should().Be(LoginErrors.LoginNotFound(loginRequest.Email).Message);
+      data?.Detail.Should().Be(LoginErrors.LoginNotFound.Message);
       data?.Extensions.Should().HaveCount(2).And.ContainKeys("traceId", "requestId");
       data?.Type.Should().Be("https://tools.ietf.org/html/rfc9110#section-15.5.5");
     }

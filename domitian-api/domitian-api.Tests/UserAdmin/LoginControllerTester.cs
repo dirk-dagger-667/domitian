@@ -43,7 +43,7 @@ namespace domitian_api.Tests.UserAdmin
     [Fact]
     public async Task LoginAsync_returns_NotFound()
     {
-      var notFoundError = LoginErrors.LoginNotFound("asd@asd.com");
+      var notFoundError = LoginErrors.LoginNotFound;
       var failingResult = Result<LoginResponse>.Failure(string.Empty, ResultType.NotFound, notFoundError);
 
       ArrangeLoginAsyncPipeline(

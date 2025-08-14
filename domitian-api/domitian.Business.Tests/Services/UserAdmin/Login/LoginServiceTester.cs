@@ -47,7 +47,7 @@ namespace domitian.Business.Tests.Services.UserAdmin.Login
 
       var loginResult = await _loginServiceFixture.SUT.LoginAsync(A.Dummy<LoginRequest>());
 
-      ResultAssertions.IsNotFound(loginResult, LoginErrors.LoginNotFound(null));
+      ResultAssertions.IsNotFound(loginResult, LoginErrors.LoginNotFound);
     }
 
     [Fact]

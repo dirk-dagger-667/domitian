@@ -25,7 +25,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                         },
                         User = null,
                         IdRes = null,
-                        Error = LoginErrors.LoginNotFound(string.Empty),
+                        Error = LoginErrors.LoginNotFound,
                         Assertion = ResultAssertions.IsNotFound
                     }
         };
@@ -55,7 +55,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
         yield return new object[] { new RegisterBadReqDto
         {
           User = A.Dummy<DomitianIDUser>(),
-          Error = RegisterErrors.RegisterUserExists(null)
+          Error = RegisterErrors.RegisterUserExists
         }};
       }
     }
@@ -70,7 +70,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                     IdRes = IdentityResult.Failed(A.Dummy<IdentityError>()),
                     SupportsEmail = true,
                     AddToRoleRes = null,
-                    Error = RegisterErrors.RegisterCreateAccount(null)
+                    Error = RegisterErrors.RegisterCreateAccount
                 }};
 
         yield return new object[] { new RegisterBadReqDto()
@@ -79,7 +79,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                     IdRes = IdentityResult.Success,
                     AddToRoleRes = IdentityResult.Failed(A.Dummy<IdentityError>()),
                     SupportsEmail = true,
-                    Error = RegisterErrors.RegisterUserAddToRoleFails(null)
+                    Error = RegisterErrors.RegisterUserAddToRoleFails
                 }};
       }
     }

@@ -80,7 +80,7 @@ namespace domitian.Tests.Integration.Controllers
       registerResponseData?.Extensions.Should().HaveCountGreaterThan(1).And.ContainKeys("traceId", "requestId");
       registerResponseData?.Extensions["traceId"]?.ToString().Should().NotBeNullOrWhiteSpace();
       registerResponseData?.Extensions["requestId"]?.ToString().Should().NotBeNullOrWhiteSpace();
-      registerResponseData?.Detail.Should().Be(LoginErrors.LoginNotFound(string.Empty).Message);
+      registerResponseData?.Detail.Should().Be(LoginErrors.LoginNotFound.Message);
       registerResponseData?.Type.Should().Be("https://tools.ietf.org/html/rfc9110#section-15.5.5");
     }
 
