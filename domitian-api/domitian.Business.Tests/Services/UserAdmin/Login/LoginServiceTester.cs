@@ -47,7 +47,7 @@ namespace domitian.Business.Tests.Services.UserAdmin.Login
 
       var loginResult = await _loginServiceFixture.SUT.LoginAsync(A.Dummy<LoginRequest>());
 
-      ResultAssertions.IsNotFound(loginResult, LoginErrors.LoginNotFound(null));
+      ResultAssertions.IsNotFound(loginResult, LoginErrors.LoginNotFound);
     }
 
     [Fact]
@@ -132,8 +132,8 @@ namespace domitian.Business.Tests.Services.UserAdmin.Login
       ResultAssertions.IsOkData(result);
       result.Data!.BearerToken.Should().NotBeNullOrWhiteSpace()
           .And.Be(fake);
-      result.Data!.Email.Should().NotBeNullOrWhiteSpace()
-          .And.Be(fake);
+      result.Data!.UserId.Should().NotBeNullOrWhiteSpace()
+          .And.Be(user.Id);
       result.Data!.RefreshToken.Should().NotBeNullOrWhiteSpace()
           .And.Be(fake);
     }

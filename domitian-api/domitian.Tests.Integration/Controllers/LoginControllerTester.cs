@@ -6,6 +6,7 @@ using domitian.Models.Results;
 using domitian.Tests.Integration.DataSources;
 using domitian.Tests.Integration.Fixture;
 using domitian_api.Data.Identity;
+using domitian_api.Infrastructure.Constants;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,7 +66,7 @@ namespace domitian.Tests.Integration.Controllers
 
       var data = await response.Content.ReadFromJsonAsync<ProblemDetails>();
 
-      data?.Detail.Should().Be(LoginErrors.LoginNotFound(loginRequest.Email).Message);
+      data?.Detail.Should().Be(LoginErrors.LoginNotFound.Message);
       data?.Extensions.Should().HaveCount(2).And.ContainKeys("traceId", "requestId");
       data?.Type.Should().Be("https://tools.ietf.org/html/rfc9110#section-15.5.5");
     }
@@ -124,7 +125,7 @@ namespace domitian.Tests.Integration.Controllers
           UserName = "fake"
         };
 
-        var tokenService = base.Services.GetRequiredService<ITokenService>();
+        var tokenService = base.Services.GetRequiredKeyedService<ITokenService>(AppConstants.InnerKey);
         bearerToken = tokenService.GenerateJwt(user);
       }
 
@@ -189,7 +190,7 @@ namespace domitian.Tests.Integration.Controllers
 
       var loginResponseData = await loginResponse.Content.ReadFromJsonAsync<LoginResponse>();
 
-      loginResponseData?.Email.Should().Be(loginRequest.Email);
+      loginResponseData?.UserId.Should().NotBeNullOrWhiteSpace();
       loginResponseData?.BearerToken.Should().NotBeNullOrWhiteSpace();
       loginResponseData?.RefreshToken.Should().NotBeNullOrWhiteSpace();
 

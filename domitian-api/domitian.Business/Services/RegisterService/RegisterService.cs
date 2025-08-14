@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using domitian.Infrastructure.Configuration.Authentication;
 
-namespace domitian.Business.Services
+namespace domitian.Business.Services.RegisterService
 {
   public class RegisterService(UserManager<DomitianIDUser> _userManager,
           IUserStore<DomitianIDUser> _userStore,
@@ -26,7 +26,7 @@ namespace domitian.Business.Services
       var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
       if (existingUser != null)
-        return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.Conflict, RegisterErrors.RegisterUserExists);
+        return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Conflict, RegisterErrors.RegisterUserExists);
 
       var user = CreateUser();
 
@@ -47,7 +47,7 @@ namespace domitian.Business.Services
         var addedToRole = await _userManager.AddToRoleAsync(user, DomitianDataConst.UserRoles.FreeUser);
 
         if (!addedToRole.Succeeded)
-          return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterUserAddToRoleFails);
+          return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterUserAddToRoleFails);
 
         var callbackUrl = await BuildCallbackUrlAsync(user);
 
@@ -65,12 +65,7 @@ namespace domitian.Business.Services
         }
       }
 
-      // Will use this part for logging purposes
-      //var fError = createResult.Errors
-      //    .Select(er => er.Description)
-      //    .Aggregate(string.Empty, (current, next) => $"{current}{Environment.NewLine}{next}");
-
-      return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterCreateAccount(request.Email));
+      return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterCreateAccount);
     }
 
     public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
@@ -78,13 +73,13 @@ namespace domitian.Business.Services
       var user = await _userManager.FindByIdAsync(request.UserId);
 
       if (user == null)
-        return Result.Failure(OperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound(string.Empty));
+        return Result.Failure(DevOperationErrorMessages.OperationFailed, ResultType.NotFound, LoginErrors.LoginNotFound);
 
       var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Code));
       var emailValidResult = await _userManager.ConfirmEmailAsync(user, code);
 
       if (!emailValidResult.Succeeded)
-        return Result.Failure(OperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterInvalidEmail);
+        return Result.Failure(DevOperationErrorMessages.OperationFailed, ResultType.BadRequest, RegisterErrors.RegisterInvalidEmail);
 
       return Result.Success();
     }
@@ -94,7 +89,7 @@ namespace domitian.Business.Services
       var user = await _userManager.FindByEmailAsync(email);
 
       if (user == null)
-        return Result<string>.Failure(OperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound(email));
+        return Result<string>.Failure(DevOperationErrorMessages.OperationFailed, ResultType.Unauthorized, LoginErrors.LoginNotFound);
 
       var callbackUrl = await BuildCallbackUrlAsync(user);
 

@@ -1,6 +1,6 @@
 namespace domitian.Models.Results
 {
-  public class OperationErrorMessages
+  public class DevOperationErrorMessages
   {
     #region Generic
     public const string NullUserId = "Unable to load user with ID.";
@@ -22,5 +22,10 @@ namespace domitian.Models.Results
     public const string LoginUsernameNull = "Provide a valid username.";
     public const string LoginExpiredToken = "Access has expired. Please login again.";
     #endregion
+  }
+
+  public class PublicErrorMessages
+  {
+    public const string RegisterUserProblem = "Something went wrong while registering the user";
   }
 }

@@ -1,7 +1,7 @@
 using domitian.Models.Requests.Registration;
 using FluentValidation;
 
-namespace domitian.Infrastructure.Validators
+namespace domitian_api.Validators
 {
   public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
   {

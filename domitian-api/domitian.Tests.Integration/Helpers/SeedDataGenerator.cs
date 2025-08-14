@@ -1,8 +1,7 @@
 using Bogus;
-using domitian.Infrastructure.Validators;
 using domitian.Models.Requests.Login;
 using domitian.Models.Requests.Registration;
-using domitian_api.Data.Identity;
+using domitian_api.Validators;
 using System.Text;
 using System.Text.RegularExpressions;
 

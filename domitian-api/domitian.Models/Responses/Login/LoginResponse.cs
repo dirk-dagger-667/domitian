@@ -1,11 +1,15 @@
-﻿namespace domitian.Models.Responses.Login
+using domitian.Infrastructure.Censure;
+
+namespace domitian.Models.Responses.Login
 {
-    public record LoginResponse
-    {
-        public required string? Email { get; init; }
+  public record LoginResponse
+  {
+    public required string? UserId { get; init; }
 
-        public required string? BearerToken { get; init; }
+    [Censured]
+    public required string? BearerToken { get; init; }
 
-        public required string? RefreshToken { get; init; }
-    }
+    [Censured]
+    public required string? RefreshToken { get; init; }
+  }
 }

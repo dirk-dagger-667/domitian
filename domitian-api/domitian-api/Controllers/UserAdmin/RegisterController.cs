@@ -1,19 +1,21 @@
 using domitian.Business.Contracts;
+using domitian.Models.Requests.Registration;
+using domitian_api.Constants;
 using domitian_api.Extensions;
 using domitian_api.Helpers;
-using domitian.Infrastructure.Validators;
-using domitian.Models.Requests.Registration;
+using domitian_api.Infrastructure.Constants;
+using domitian_api.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using domitian_api.Constants;
 
 namespace domitian_api.Controllers.UserAdmin
 {
   [ApiController]
   [AllowAnonymous]
   [Route(ApiPathConstants.Register)]
-  public class RegisterController(IRegisterService _registerService,
+  public class RegisterController(
+    [FromKeyedServices(AppConstants.CrossCuttingKey)]IRegisterService _registerService,
       IReturnResultsHelper _returnResultsHelper) : ControllerBase
   {
     [HttpPost]
@@ -27,9 +29,7 @@ namespace domitian_api.Controllers.UserAdmin
       var validationResult = await regReqValidator.ValidateAsync(request);
 
       if (!validationResult.IsValid)
-      {
         return base.ValidationProblem(validationResult.Errors.ConcatErrors());
-      }
 
       var registerResult = await _registerService.RegisterAsync(request);
 
@@ -51,9 +51,7 @@ namespace domitian_api.Controllers.UserAdmin
       var validationResult = await conEmailReqValidator.ValidateAsync(request);
 
       if (!validationResult.IsValid)
-      {
         return base.ValidationProblem(validationResult.Errors.ConcatErrors());
-      }
 
       var confirmEmailResult = await _registerService.ConfirmEmailAsync(request);
 
@@ -67,9 +65,7 @@ namespace domitian_api.Controllers.UserAdmin
     public async Task<IActionResult> ConfirmRegistrationAsync([Required][EmailAddress] string email)
     {
       if (!ModelState.IsValid)
-      {
         return base.ValidationProblem(ModelState.GetErrorsAsString());
-      }
 
       var conRegResult = await _registerService.ConfirmRegistrationAsync(email);
 

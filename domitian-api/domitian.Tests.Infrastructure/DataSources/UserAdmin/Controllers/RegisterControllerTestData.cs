@@ -1,4 +1,4 @@
-﻿using domitian.Models.Results;
+using domitian.Models.Results;
 
 namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers
 {
@@ -20,7 +20,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers
                 yield return new object[] { Error.Exception };
                 yield return new object[] { RegisterErrors.RegisterUserExists };
                 yield return new object[] { RegisterErrors.RegisterUserAddToRoleFails };
-                yield return new object[] { RegisterErrors.RegisterCreateAccount(string.Empty) };
+                yield return new object[] { RegisterErrors.RegisterCreateAccount };
             }
         }
     }

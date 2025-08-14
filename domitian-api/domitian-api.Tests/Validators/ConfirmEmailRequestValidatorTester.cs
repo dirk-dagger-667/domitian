@@ -1,8 +1,9 @@
 using DeepCopy;
 using domitian.Models.Requests.Registration;
+using domitian_api.Validators;
 using FluentValidation.TestHelper;
 
-namespace domitian.Infrastructure.Tests.Validators
+namespace domitian_api.Tests.Validators
 {
   public class ConfirmEmailRequestValidatorTester
   {

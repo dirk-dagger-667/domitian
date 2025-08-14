@@ -1,5 +1,5 @@
-﻿using domitian.Business.Contracts;
-using domitian.Business.Services;
+using domitian.Business.Contracts;
+using domitian.Business.Services.RegisterService;
 using domitian.Infrastructure.Configuration.Authentication;
 using domitian_api.Data.Identity;
 using FakeItEasy;

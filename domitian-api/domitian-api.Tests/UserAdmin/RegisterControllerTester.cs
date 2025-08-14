@@ -43,7 +43,7 @@ namespace domitian_api.Tests.UserAdmin
         [Fact]
         public async Task ConfirmRegistrationAsync_returns_Unauthorized()
         {
-            var notFoundResult = Result<string>.Failure(string.Empty, ResultType.Unauthorized, LoginErrors.LoginNotFound(string.Empty));
+            var notFoundResult = Result<string>.Failure(string.Empty, ResultType.Unauthorized, LoginErrors.LoginNotFound);
 
             ConfirmRegistrationAsyncPipeline(
                 notFoundResult,
@@ -144,7 +144,7 @@ namespace domitian_api.Tests.UserAdmin
         [Fact]
         public async Task ConfirmEmailAsync_should_return_NotFound()
         {
-            var error = LoginErrors.LoginNotFound(string.Empty);
+            var error = LoginErrors.LoginNotFound;
 
             ArrangeConfirmEmailAsyncPipeline(
                 new ValidationResult(),

@@ -70,7 +70,7 @@ namespace domitian.Tests.Integration.DataSources
           },
           HttpStatusCode.Unauthorized,
           typeof(ProblemDetails),
-          LoginErrors.LoginNotFound("fake@fake.com").Message!,
+          LoginErrors.LoginNotFound.Message!,
           "https://tools.ietf.org/html/rfc9110#section-15.5.2"
         };
       }

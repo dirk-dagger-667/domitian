@@ -1,7 +1,7 @@
-﻿using domitian.Models.Requests.Login;
+using domitian.Models.Requests.Login;
 using FluentValidation;
 
-namespace domitian.Infrastructure.Validators
+namespace domitian_api.Validators
 {
     public class LoginRequestValidator : AbstractValidator<LoginRequest>
     {
