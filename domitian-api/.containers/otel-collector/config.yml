@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+    batch:
+
+exporters:
+  otlphttp:
+    endpoint: "http://domitian.grafana.loki:3100/otlp"  # Replace with your actual endpoint. In my case to Grafana Loki
+
+
+extensions:
+    health_check:
+        endpoint: 0.0.0.0:13133
+
+service:
+  pipelines:
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp]
+  extensions: [health_check]

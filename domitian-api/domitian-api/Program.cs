@@ -6,6 +6,7 @@ using domitian_api.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,9 @@ builder.Host.UseSerilog((context, config) => config.ReadFrom.Configuration(conte
 builder
   .AddDomitianCors()
   .AddDomitianDataAccessConfig<DomitianIDDbContext, DomitianIDUser>();
+
+if(builder.Environment.IsDevelopment())
+  Serilog.Debugging.SelfLog.Enable(Console.Error);
 
 builder.Services
   .AddControllers(options =>
@@ -45,6 +49,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+  await using (var scope = app.Services.CreateAsyncScope())
+  await using (var context = scope.ServiceProvider.GetRequiredService<DomitianIDDbContext>())
+  {
+    await context.Database.MigrateAsync();
+  }
+
   app.UseSwagger();
   app.UseSwaggerUI();
 }

@@ -1,5 +1,5 @@
+using domitian.Data.Identity;
 using domitian.Infrastructure.Configuration.Authentication;
-using domitian_api.Data.Identity;
 using domitian_api.Infrastructure.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -33,12 +33,14 @@ namespace domitian_api.Extensions
         .UseSqlServer(builder
                     .Configuration
                     .GetConnectionString(AppConstants.DomitianConnectionString),
-                    options => options.MigrationsAssembly(AppConstants.DBContextAssembly)));
+                    options => options.MigrationsAssembly(AppConstants.DBContextAssembly))
+        .SeedRoles(DbContextOptionsBuilderExtensions.BuildRoleList()));
 
       builder.Services.AddIdentity<TUser, IdentityRole>(options =>
       {
         options.SignIn.RequireConfirmedAccount = true;
         options.SignIn.RequireConfirmedEmail = true;
+        options.Stores.ProtectPersonalData = true;
       })
           .AddEntityFrameworkStores<TContext>()
           .AddDefaultTokenProviders();

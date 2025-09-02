@@ -1,5 +1,5 @@
-using domitian.Business.Constants;
 using domitian.Business.Contracts;
+using domitian.Business.Extensions;
 using domitian_api.Data.Identity;
 using domitian_api.Infrastructure.Constants;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,32 +9,29 @@ using System.Security.Claims;
 namespace domitian.Business.Services.TokenService
 {
   public class TokenServiceCC(
-    [FromKeyedServices(AppConstants.InnerKey)]ITokenService inner,
-    ILogger<TokenService> logger) : ITokenService
+    [FromKeyedServices(AppConstants.InnerKey)] ITokenService inner,
+    ILogger<TokenService> _logger) : ITokenService
   {
     public string GenerateJwt(DomitianIDUser user)
     {
-      logger.LogInformation(Messages.ExecStartTemplate, nameof(GenerateJwt), user);
       var result = inner.GenerateJwt(user);
-      logger.LogInformation(Messages.ExectFinishTemplate, nameof(GenerateJwt), result);
+      _logger.LogResult(result, nameof(GenerateJwt), nameof(ITokenService), user);
 
       return result;
     }
 
     public string GenerateRefreshToken()
     {
-      logger.LogInformation(Messages.ExecStartTemplate, nameof(GenerateRefreshToken), null);
       var result = inner.GenerateRefreshToken();
-      logger.LogInformation(Messages.ExectFinishTemplate, nameof(GenerateRefreshToken), result);
+      _logger.LogResult(result, nameof(GenerateRefreshToken), nameof(ITokenService), string.Empty);
 
       return result;
     }
 
     public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
     {
-      logger.LogInformation(Messages.ExecStartTemplate, nameof(GetPrincipalFromExpiredToken), token);
       var result = inner.GetPrincipalFromExpiredToken(token);
-      logger.LogInformation(Messages.ExectFinishTemplate, nameof(GetPrincipalFromExpiredToken), result);
+      _logger.LogResult(result, nameof(GetPrincipalFromExpiredToken), nameof(ITokenService), $"{nameof(token)}: ***CENSURED***");
 
       return result;
     }

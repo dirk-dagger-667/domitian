@@ -1,0 +1,139 @@
+services:
+  domitian-api:
+    image: ${DOCKER_REGISTRY-}domitianapi
+    container_name: DomitianApi
+    build:
+      context: .
+      dockerfile: domitian-api/Dockerfile
+    ports:
+      - "7064:7064"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:7064
+      - ASPNETCORE_HTTPS_PORTS
+    # depends_on:
+    #   domitian-api.db:
+    #     condition: service_healthy
+    #     restart: false
+      # domitian.otel-collector:
+      #   condition: service_healthy
+      #   restart: false
+    networks:
+      - domitian.network
+
+  domitian-api.db:
+    image: mcr.microsoft.com/mssql/server:2019-CU32-GDR2-ubuntu-20.04
+    container_name: Database
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd123
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./.containers/sqlserver/data:/var/opt/mssql/data
+      - ./.containers/sqlserver/log:/var/opt/mssql/log
+      - ./.containers/sqlserver/secrets:/var/opt/mssql/secrets
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P P@ssw0rd123 -C -Q \"SELECT 1\" -b -o dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - domitian.network
+
+  # domitian.prometheus:
+  #   image: prom/prometheus:v3.5.0
+  #   container_name: Prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./.containers/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ./.containers/prometheus/data:/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #   restart: unless-stopped
+
+  domitian.otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.132.0
+    container_name: Otel-Collector
+    # build:
+    #   context: .
+    #   dockerfile: .containers/otel-collector/Dockerfile
+    volumes:
+      - ./.containers/otel-collector:/etc/otel/
+      - ./.containers/otel-collector/config.yml:/etc/otel/config.yml
+    ports:
+      - "4318:4318"
+      - "13133:13133"
+    command: ["--config=/etc/otel/config.yml"]
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --quiet --tries=1 --output-document=- http://localhost:13133/healthz | grep -q -w ready || exit 1"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    networks:
+      - domitian.network
+
+  domitian.grafana.loki:
+    image: grafana/loki:3.5.0
+    container_name: Grafana.Loki
+    volumes:
+      - ./.containers/grafana.loki/:/etc/config/
+      - ./.containers/grafana.loki/loki-config.yaml:/etc/config/loki-config.yaml
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/config/loki-config.yaml
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --output-document=- http://localhost:3100/ready | grep -q -w ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - domitian.network
+
+  domitian.grafana.grafana:
+    image: grafana/grafana-enterprise:12.1.1-ubuntu
+    container_name: Grafana.Grafana
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_FEATURE_TOGGLES_ENABLE=alertingSimplifiedRouting,alertingQueryAndExpressionsStepMode
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+        - name: Loki
+          type: loki
+          access: proxy 
+          orgId: 1
+          url: http://domitian.grafana.loki:3100
+          basicAuth: false
+          isDefault: true
+          version: 1
+          editable: false
+        EOF
+        /run.sh
+    ports:
+      - 3000:3000/tcp
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - domitian.network
+
+networks:
+  domitian.network:
+    driver: bridge
+
+

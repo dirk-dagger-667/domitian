@@ -1,4 +1,5 @@
 using domitian.Infrastructure.Censure;
+using Microsoft.AspNetCore.Identity;
 using Serilog.Core;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -45,7 +46,8 @@ namespace domitian_api.Configuraion
       {
         structure.Add(new LogEventProperty(
           property.Name,
-          propertyValueFactory.CreatePropertyValue(property.HasAttribute<CensuredAttribute>()
+          propertyValueFactory.CreatePropertyValue(
+            property.HasAttribute<CensuredAttribute>() || property.HasAttribute<ProtectedPersonalDataAttribute>()
           ? Censured
           : property.GetValue(propValue), true)));
       }

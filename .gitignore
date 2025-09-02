@@ -404,3 +404,7 @@ domitian-ui/typings
 # System files
 domitian-ui/.DS_Store
 domitian-ui/Thumbs.db
+
+# Prometheus container files
+domitian-api/.containers/prometheus/data/*
+domitian-api/.containers/sqlserver/*

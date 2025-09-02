@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\domitian.Infrastructure\domitian.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

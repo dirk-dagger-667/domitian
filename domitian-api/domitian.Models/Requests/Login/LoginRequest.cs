@@ -1,6 +1,4 @@
 using domitian.Infrastructure.Censure;
-using domitian.Models.Responses.Login;
-using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace domitian.Models.Requests.Login
@@ -17,12 +15,5 @@ namespace domitian.Models.Requests.Login
 
     [XmlElement(ElementName = "rememberMe")]
     public bool RememberMe { get; set; }
-
-    public LoginResponse Response { get; set; } = new LoginResponse()
-    {
-      UserId = "asd",
-      BearerToken = "asd",
-      RefreshToken = "asd"
-    };
   }
 }
