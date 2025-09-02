@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using domitian_api.Data.Identity;
 
@@ -11,9 +12,11 @@ using domitian_api.Data.Identity;
 namespace domitian.Data.Migrations
 {
     [DbContext(typeof(DomitianIDDbContext))]
-    partial class DomitianIDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250821134248_ChangesToDomitianIdentityUser1")]
+    partial class ChangesToDomitianIdentityUser1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

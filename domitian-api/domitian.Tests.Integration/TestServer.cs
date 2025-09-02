@@ -12,7 +12,7 @@ namespace domitian.Tests.Integration
   public class TestServer : WebApplicationFactory<Program>, IAsyncLifetime
   {
     private readonly IDatabaseContainer _msSqlContainer = new MsSqlBuilder()
-      .WithImage("mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04")
+      .WithImage("mcr.microsoft.com/mssql/server:2019-CU32-GDR2-ubuntu-20.04")
       .Build();
 
     public TestServer() { }

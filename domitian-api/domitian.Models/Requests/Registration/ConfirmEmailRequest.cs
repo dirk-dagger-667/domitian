@@ -1,9 +1,12 @@
-﻿namespace domitian.Models.Requests.Registration
-{
-    public class ConfirmEmailRequest
-    {
-        public string UserId { get; set; }
+using domitian.Infrastructure.Censure;
 
-        public string Code { get; set; }
-    }
+namespace domitian.Models.Requests.Registration
+{
+  public class ConfirmEmailRequest
+  {
+    public string UserId { get; set; }
+
+    [Censured]
+    public string Code { get; set; }
+  }
 }

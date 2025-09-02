@@ -3,23 +3,22 @@
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 7064
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["domition-api.csproj", "."]
-RUN dotnet restore "./././domition-api.csproj"
+COPY ["domitian-api/domitian-api.csproj", "."]
+RUN dotnet restore "./././domitian-api.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "./domition-api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./domitian-api/domitian-api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./domition-api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./domitian-api/domitian-api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "domition-api.dll"]
+ENTRYPOINT ["dotnet", "domitian-api.dll"]

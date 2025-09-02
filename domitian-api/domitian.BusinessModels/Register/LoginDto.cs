@@ -1,8 +1,8 @@
 using domitian.Infrastructure.Censure;
 
-namespace domitian.Models.Requests.Registration
+namespace Domitian.BusinessModels.Register
 {
-  public class RegisterRequest
+  public class LoginDto
   {
     [Censured]
     public string Email { get; set; }
@@ -10,7 +10,6 @@ namespace domitian.Models.Requests.Registration
     [Censured]
     public string Password { get; set; }
 
-    [Censured]
-    public string ConfirmPassword { get; set; }
+    public bool RememberMe { get; set; }
   }
 }
