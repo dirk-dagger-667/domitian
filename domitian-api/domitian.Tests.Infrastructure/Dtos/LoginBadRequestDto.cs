@@ -1,4 +1,4 @@
-﻿using domitian.Models.Results;
+using domitian.Models.Results.Errors;
 
 namespace domitian.Tests.Infrastructure.Dtos
 {

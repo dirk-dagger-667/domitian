@@ -1,5 +1,5 @@
 using domitian.Models.Requests.Registration;
-using domitian.Models.Results;
+using domitian.Models.Results.Errors;
 using domitian.Tests.Integration.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

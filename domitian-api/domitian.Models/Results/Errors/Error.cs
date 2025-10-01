@@ -1,4 +1,4 @@
-namespace domitian.Models.Results
+namespace domitian.Models.Results.Errors
 {
   public record Error(ErrorCodes Code,
     string? Message = null,

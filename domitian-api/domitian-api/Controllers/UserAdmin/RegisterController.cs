@@ -2,7 +2,6 @@ using domitian.Business.Contracts;
 using domitian.Models.Requests.Registration;
 using domitian_api.Constants;
 using domitian_api.Extensions;
-using domitian_api.Helpers;
 using domitian_api.Infrastructure.Constants;
 using domitian_api.Validators;
 using Microsoft.AspNetCore.Authorization;
@@ -15,8 +14,7 @@ namespace domitian_api.Controllers.UserAdmin
   [AllowAnonymous]
   [Route(ApiPathConstants.Register)]
   public class RegisterController(
-    [FromKeyedServices(AppConstants.CrossCuttingKey)]IRegisterService _registerService,
-      IReturnResultsHelper _returnResultsHelper) : ControllerBase
+    [FromKeyedServices(AppConstants.CrossCuttingKey)] IRegisterService _registerService) : ControllerBase
   {
     [HttpPost]
     [ProducesResponseType<string>(StatusCodes.Status201Created)]
@@ -33,7 +31,7 @@ namespace domitian_api.Controllers.UserAdmin
 
       var registerResult = await _registerService.RegisterAsync(request);
 
-      return _returnResultsHelper.ResultTypeToActionResult(registerResult);
+      return registerResult.ToActionResultWithData(HttpContext);
     }
 
     [HttpGet("confirm-email/{userId}/{code}")]
@@ -43,8 +41,7 @@ namespace domitian_api.Controllers.UserAdmin
     public async Task<IActionResult> ConfirmEmailAsync(
         [FromServices] ConfirmEmailRequestValidator conEmailReqValidator,
         string userId,
-        string code
-      )
+        string code)
     {
       var request = new ConfirmEmailRequest() { UserId = userId, Code = code };
 
@@ -55,7 +52,7 @@ namespace domitian_api.Controllers.UserAdmin
 
       var confirmEmailResult = await _registerService.ConfirmEmailAsync(request);
 
-      return _returnResultsHelper.ResultTypeToActionResultBase(confirmEmailResult);
+      return confirmEmailResult.ToActionResult(HttpContext);
     }
 
     [HttpGet("confirm-registration/{email}")]
@@ -69,7 +66,7 @@ namespace domitian_api.Controllers.UserAdmin
 
       var conRegResult = await _registerService.ConfirmRegistrationAsync(email);
 
-      return _returnResultsHelper.ResultTypeToActionResult(conRegResult);
+      return conRegResult.ToActionResultWithData(HttpContext);
     }
   }
 }

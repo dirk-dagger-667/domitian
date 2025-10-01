@@ -1,24 +1,16 @@
-using domitian.Data.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-namespace domitian_api.Data.Identity
+namespace domitian.Data.Identity
 {
   public class DomitianIDDbContext : IdentityDbContext<DomitianIDUser>
   {
     public DomitianIDDbContext(DbContextOptions<DomitianIDDbContext> options) : base(options) { }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-      var configuration = new ConfigurationBuilder()
-          .SetBasePath(Directory.GetCurrentDirectory())
-          .AddJsonFile("appsettings.json")
-          .Build();
-
-      base.OnConfiguring(optionsBuilder
-        .ConfigureConection(configuration)
-        .SeedRoles(DbContextOptionsBuilderExtensions.BuildRoleList()));
+      builder.ApplyConfigurationsFromAssembly(typeof(DomitianIDUser).Assembly);
+      base.OnModelCreating(builder);
     }
   }
 }

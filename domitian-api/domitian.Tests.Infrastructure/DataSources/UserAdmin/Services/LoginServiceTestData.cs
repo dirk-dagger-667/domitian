@@ -1,11 +1,11 @@
-using domitian.Tests.Infrastructure.Dtos;
+using domitian.Data.Identity;
 using domitian.Models.Requests.Login;
-using domitian.Models.Results;
-using domitian_api.Data.Identity;
+using domitian.Models.Results.Errors;
+using domitian.Tests.Infrastructure.Dtos;
 using FakeItEasy;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
 {
@@ -100,7 +100,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
         {
                     new RefreshAccessBaseDto()
                     {
-                        User = new DomitianIDUser(),
+                        User = new DomitianIDUser() { Email = "testing@test.com" },
                         ClaimsPrincipal= new ClaimsPrincipal(new ClaimsIdentity( new Claim[]
                         {
                             new Claim(ClaimTypes.Name, fake)
@@ -123,10 +123,10 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                             RefreshTokenExpiry = DateTime.UtcNow.AddMinutes(5),
                             Email = fake
                         },
-                        ClaimsPrincipal= new ClaimsPrincipal(new ClaimsIdentity( new Claim[]
-                        {
+                        ClaimsPrincipal= new ClaimsPrincipal(new ClaimsIdentity(
+                        [
                             new Claim(ClaimTypes.Name, fake)
-                        })),
+                        ])),
                         RefReq = new RefreshRequest()
                         {
                             AccessToken = string.Empty,
@@ -200,6 +200,7 @@ namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Services
                     {
                         User = new DomitianIDUser
                         {
+                          Email = "test@test.com",
                           RefreshToken = null,
                           RefreshTokenExpiry = DateTime.UtcNow.AddDays(1)
                         },

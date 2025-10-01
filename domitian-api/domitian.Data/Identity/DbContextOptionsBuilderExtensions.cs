@@ -16,7 +16,7 @@ namespace domitian.Data.Identity
     public static DbContextOptionsBuilder SeedRoles(this DbContextOptionsBuilder builder, IEnumerable<IdentityRole> roles)
     => builder.UseSeeding((context, _) =>
     {
-      if (context.Set<IdentityRole>().Any())
+      if (!context.Set<IdentityRole>().Any())
       {
         context.Set<IdentityRole>().AddRange(roles);
         context.SaveChanges();

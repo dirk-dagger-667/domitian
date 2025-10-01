@@ -1,5 +1,5 @@
+using domitian.Data.Identity;
 using domitian.Tests.Integration.Helpers;
-using domitian_api.Data.Identity;
 using DotNet.Testcontainers.Containers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;

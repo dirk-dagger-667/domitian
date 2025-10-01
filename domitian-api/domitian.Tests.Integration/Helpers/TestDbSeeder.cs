@@ -1,6 +1,6 @@
 using domitian.Data.Constants;
+using domitian.Data.Identity;
 using domitian.Models.Requests.Registration;
-using domitian_api.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
@@ -32,7 +32,7 @@ namespace domitian.Tests.Integration.Helpers
       if (_signInManager.UserManager.SupportsUserEmail)
         await _emailStore?.SetEmailAsync(user, registerRequest.Email, CancellationToken.None);
 
-      await _signInManager.UserManager.CreateAsync(user, registerRequest.Password);
+      var createRslt = await _signInManager.UserManager.CreateAsync(user, registerRequest.Password);
       await _signInManager.UserManager.AddToRoleAsync(user, UserRoles.FreeUser);
 
       if (confirmedEmail)

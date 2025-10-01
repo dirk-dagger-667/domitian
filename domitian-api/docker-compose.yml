@@ -25,6 +25,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-CU32-GDR2-ubuntu-20.04
     container_name: Database
     environment:
+      - ConnectionStrings__DomitianDefaultConnectionString=Data Source=domitian-api.db,1433;Initial Catalog=DomitianDb;Persist Security Info=True;User ID=sa;Password=P@ssw0rd123;TrustServerCertificate=True;
       - ACCEPT_EULA=Y
       - SA_PASSWORD=P@ssw0rd123
       - MSSQL_PID=Developer

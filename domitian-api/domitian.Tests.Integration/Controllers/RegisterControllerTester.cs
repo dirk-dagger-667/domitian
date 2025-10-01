@@ -1,8 +1,8 @@
+using domitian.Data.Identity;
 using domitian.Models.Requests.Registration;
-using domitian.Models.Results;
+using domitian.Models.Results.Errors;
 using domitian.Tests.Integration.DataSources;
 using domitian.Tests.Integration.Fixture;
-using domitian_api.Data.Identity;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

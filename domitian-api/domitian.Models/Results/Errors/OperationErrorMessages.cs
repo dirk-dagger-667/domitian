@@ -1,4 +1,4 @@
-namespace domitian.Models.Results
+namespace domitian.Models.Results.Errors
 {
   public class DevOperationErrorMessages
   {
@@ -21,6 +21,10 @@ namespace domitian.Models.Results
     public const string LoginWrongPassword = "Wrong password.";
     public const string LoginUsernameNull = "Provide a valid username.";
     public const string LoginExpiredToken = "Access has expired. Please login again.";
+    #endregion
+
+    #region Users
+    public const string UsersNotFound = "Users were not found.";
     #endregion
   }
 

@@ -1,8 +1,9 @@
 using domitian.Business.Contracts;
+using domitian.Data.Identity;
+using domitian.Infrastructure.Configuration.Authentication;
 using domitian.Models.Requests.Registration;
 using domitian.Models.Results;
-using domitian_api.Data.Identity;
-using DomitianDataConst = domitian.Data.Constants;
+using domitian.Models.Results.Errors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Encodings.Web;
-using domitian.Infrastructure.Configuration.Authentication;
+using DomitianDataConst = domitian.Data.Constants;
 
 namespace domitian.Business.Services.RegisterService
 {

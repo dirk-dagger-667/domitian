@@ -3,7 +3,6 @@ using domitian.Models.Requests.Login;
 using domitian.Models.Responses.Login;
 using domitian_api.Constants;
 using domitian_api.Extensions;
-using domitian_api.Helpers;
 using domitian_api.Infrastructure.Constants;
 using domitian_api.Validators;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +15,8 @@ namespace domitian_api.Controllers.UserAdmin
   [AllowAnonymous]
   [Route(ApiPathConstants.Login)]
   public class LoginController(
-    [FromKeyedServices(AppConstants.CrossCuttingKey)] ILoginService _loginService,
-      IReturnResultsHelper _returnResultsHelper) : ControllerBase
+    [FromKeyedServices(AppConstants.CrossCuttingKey)] ILoginService loginService )
+    : ControllerBase
   {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
@@ -32,9 +31,9 @@ namespace domitian_api.Controllers.UserAdmin
       if (!valRslt.IsValid)
         return base.ValidationProblem(valRslt.Errors.ConcatErrors());
 
-      var loginRslt = await _loginService.LoginAsync(request);
+      var loginRslt = await loginService.LoginAsync(request);
 
-      return _returnResultsHelper.ResultTypeToActionResult(loginRslt);
+      return loginRslt.ToActionResultWithData(HttpContext);
     }
 
     [HttpPost(ApiPathConstants.Refresh)]
@@ -49,9 +48,9 @@ namespace domitian_api.Controllers.UserAdmin
       if (!valRes.IsValid)
         return base.ValidationProblem(valRes.Errors.ConcatErrors());
 
-      var refRes = await _loginService.RefreshAccessAsync(request);
+      var refRes = await loginService.RefreshAccessAsync(request);
 
-      return _returnResultsHelper.ResultTypeToActionResult(refRes);
+      return refRes.ToActionResultWithData(HttpContext);
     }
 
     [HttpGet($"{ApiPathConstants.RevokeControllerPath}")]
@@ -63,9 +62,9 @@ namespace domitian_api.Controllers.UserAdmin
       if (!ModelState.IsValid)
         return base.ValidationProblem(ModelState.GetErrorsAsString());
 
-      var revRes = await _loginService.RevokeAccessAsync(email);
+      var revRes = await loginService.RevokeAccessAsync(email);
 
-      return _returnResultsHelper.ResultTypeToActionResultBase(revRes);
+      return revRes.ToActionResult(HttpContext);
     }
   }
 }

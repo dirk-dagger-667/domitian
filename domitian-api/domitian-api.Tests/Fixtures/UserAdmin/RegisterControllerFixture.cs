@@ -1,8 +1,8 @@
 using domitian.Business.Contracts;
 using domitian_api.Controllers.UserAdmin;
-using domitian_api.Helpers;
 using domitian_api.Validators;
 using FakeItEasy;
+using Microsoft.AspNetCore.Http;
 
 namespace domitian_api.Tests.Fixtures.UserAdmin
 {
@@ -13,15 +13,21 @@ namespace domitian_api.Tests.Fixtures.UserAdmin
       RegisterService = A.Fake<IRegisterService>();
       RegReqValidator = A.Fake<RegisterRequestValidator>();
       ConEmailReqValidator = A.Fake<ConfirmEmailRequestValidator>();
-      ReturnResultsHelper = A.Fake<IReturnResultsHelper>();
+      HttpContext = new DefaultHttpContext();
 
-      SUT = new RegisterController(RegisterService, ReturnResultsHelper);
+      SUT = new RegisterController(RegisterService)
+      {
+        ControllerContext = new Microsoft.AspNetCore.Mvc.ControllerContext()
+        {
+          HttpContext = HttpContext
+        }
+      };
     }
 
     public IRegisterService RegisterService { get; }
     public RegisterRequestValidator RegReqValidator { get; }
     public ConfirmEmailRequestValidator ConEmailReqValidator { get; }
-    public IReturnResultsHelper ReturnResultsHelper { get; }
+    public HttpContext HttpContext { get; }
     public RegisterController SUT { get; }
   }
 }
