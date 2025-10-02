@@ -1,9 +1,9 @@
+using domitian.Data.Identity;
 using domitian.Models.Requests.Registration;
 using domitian.Models.Results;
 using domitian.Tests.Infrastructure.DataSources.UserAdmin.Services;
 using domitian.Tests.Infrastructure.Dtos;
 using domitian.Tests.Infrastructure.Extensions;
-using domitian_api.Data.Identity;
 using domitian_api.Infrastructure.Constants;
 using FakeItEasy;
 using FluentAssertions;

@@ -1,14 +1,14 @@
-﻿using domitian_api.Data.Identity;
+using domitian.Data.Identity;
 using System.Security.Claims;
 
 namespace domitian.Business.Contracts
 {
-    public interface ITokenService
-    {
-        string GenerateJwt(DomitianIDUser user);
+  public interface ITokenService
+  {
+    string GenerateJwt(DomitianIDUser user);
 
-        string GenerateRefreshToken();
+    string GenerateRefreshToken();
 
-        ClaimsPrincipal? GetPrincipalFromExpiredToken(string token);
-    }
+    ClaimsPrincipal? GetPrincipalFromExpiredToken(string token);
+  }
 }

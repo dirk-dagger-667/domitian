@@ -8,10 +8,12 @@ using FakeItEasy;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using LoginModels = domitian.Models.Requests.Login;
+using domitian.Models.Results.Errors;
 
 namespace domitian_api.Tests.UserAdmin
 {
-  public class LoginControllerTester(LoginControllerFixture _loginControllerFixture) : IClassFixture<LoginControllerFixture>
+  public class LoginControllerTester(LoginControllerFixture _loginControllerFixture)
+    : IClassFixture<LoginControllerFixture>
   {
     [Fact]
     public async Task LoginAsync_returns_ValidationProblem()
@@ -88,17 +90,15 @@ namespace domitian_api.Tests.UserAdmin
     [Fact]
     public async Task RefreshAsync_returns_BadRequest()
     {
-      var exceptionMessage = "fake exception";
-      var refRes = Result<LoginResponse>.Failure(new Exception(exceptionMessage));
+      var refRes = Result<LoginResponse>.Failure(new Exception());
 
       ArrangeRefreshAsyncPipeline(
           new ValidationResult(),
-          Result<LoginResponse>.Failure(string.Empty, ResultType.Unauthorized),
-          new BadRequestObjectResult(exceptionMessage));
+          Result<LoginResponse>.Failure(new Exception()));
 
       var result = await _loginControllerFixture.SUT.RefreshAsync(_loginControllerFixture.RefReqVal, A.Dummy<RefreshRequest>());
 
-      ActionResultAssertions.IsBadRequest(result, exceptionMessage);
+      ActionResultAssertions.IsBadRequest(result, ValidationErrorsMessages.CriticalError);
     }
 
     [Fact]
@@ -107,7 +107,7 @@ namespace domitian_api.Tests.UserAdmin
       ArrangeRefreshAsyncPipeline(
           new ValidationResult(),
           Result<LoginResponse>.Failure(string.Empty, ResultType.Unauthorized),
-          new UnauthorizedResult());
+          new UnauthorizedObjectResult(default));
 
       var result = await _loginControllerFixture.SUT.RefreshAsync(_loginControllerFixture.RefReqVal, A.Dummy<RefreshRequest>());
 
@@ -130,12 +130,6 @@ namespace domitian_api.Tests.UserAdmin
         A.CallTo(() => _loginControllerFixture.LoginService.RefreshAccessAsync(A<RefreshRequest>.Ignored))
         .Returns(refRes);
       }
-
-      if (actionRes is not null)
-      {
-        A.CallTo(() => _loginControllerFixture.ReturnResultsHelper.ResultTypeToActionResult(A<Result<LoginResponse>>.Ignored))
-        .Returns(actionRes);
-      }
     }
 
     private void ArrangeLoginAsyncPipeline(
@@ -153,12 +147,6 @@ namespace domitian_api.Tests.UserAdmin
       {
         A.CallTo(() => _loginControllerFixture.LoginService.LoginAsync(A<LoginModels.LoginRequest>.Ignored))
         .Returns(logRes);
-      }
-
-      if (actionRes != null)
-      {
-        A.CallTo(() => _loginControllerFixture.ReturnResultsHelper.ResultTypeToActionResult(A<Result<LoginResponse>>.Ignored))
-        .Returns(actionRes);
       }
     }
   }

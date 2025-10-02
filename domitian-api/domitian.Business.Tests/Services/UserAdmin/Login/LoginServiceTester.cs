@@ -1,9 +1,9 @@
+using domitian.Data.Identity;
 using domitian.Models.Requests.Login;
-using domitian.Models.Results;
+using domitian.Models.Results.Errors;
 using domitian.Tests.Infrastructure.DataSources.UserAdmin.Services;
 using domitian.Tests.Infrastructure.Dtos;
 using domitian.Tests.Infrastructure.Extensions;
-using domitian_api.Data.Identity;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;

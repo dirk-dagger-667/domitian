@@ -3,10 +3,10 @@ using domitian.Business.Services;
 using domitian.Business.Services.LoginService;
 using domitian.Business.Services.RegisterService;
 using domitian.Business.Services.TokenService;
+using domitian.Business.Services.UsersService;
 using domitian.Infrastructure.Configuration.Authentication;
 using domitian.Infrastructure.Configuration.OptionsSetup;
 using domitian.Models.Extensions;
-using domitian_api.Helpers;
 using domitian_api.Infrastructure.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
@@ -33,6 +33,9 @@ namespace domitian_api.Extensions
 
       services.AddKeyedScoped<ITokenService, TokenService>(AppConstants.InnerKey);
       services.AddKeyedScoped<ITokenService, TokenServiceCC>(AppConstants.CrossCuttingKey);
+
+      services.AddKeyedScoped<IUsersService, UsersService>(AppConstants.InnerKey);
+      services.AddKeyedScoped<IUsersService, UsersServiceCC>(AppConstants.CrossCuttingKey);
 
       services.AddScoped<IEmailSender, EmailSenderService>();
       services.AddScoped<XmlSerializerOutputFormatter>();
@@ -66,13 +69,6 @@ namespace domitian_api.Extensions
           context.ProblemDetails.WithTraceId(context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity?.Id);
         };
       });
-
-      return services;
-    }
-
-    public static IServiceCollection AddHelpers(this IServiceCollection services)
-    {
-      services.AddScoped<IReturnResultsHelper, ReturnResultsHelper>();
 
       return services;
     }

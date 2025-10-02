@@ -1,4 +1,5 @@
 using domitian.Models.Results;
+using domitian.Models.Results.Errors;
 using FluentAssertions;
 
 namespace domitian.Tests.Infrastructure.Extensions

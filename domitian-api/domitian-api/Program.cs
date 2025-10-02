@@ -1,6 +1,7 @@
+using domitian.Data.Identity;
 using domitian.Infrastructure.Configuration.Authentication;
 using domitian.Infrastructure.Configuration.Exceptions;
-using domitian_api.Data.Identity;
+using domitian_api.Endpoints;
 using domitian_api.Extensions;
 using domitian_api.Validators;
 using FluentValidation;
@@ -16,8 +17,11 @@ builder
   .AddDomitianCors()
   .AddDomitianDataAccessConfig<DomitianIDDbContext, DomitianIDUser>();
 
-if(builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
+{
+  builder.Services.AddDatabaseDeveloperPageExceptionFilter();
   Serilog.Debugging.SelfLog.Enable(Console.Error);
+}
 
 builder.Services
   .AddControllers(options =>
@@ -38,7 +42,6 @@ builder.Services
   .AddDomitianAuthentication()
   .AddValidatorsFromAssemblyContaining<RegisterRequestValidator>()
   .AddServices()
-  .AddHelpers()
   .AddEndpointsApiExplorer()
   .AddSwaggerGetWithJwtAuth() // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
   .AddConfigurationOptions(builder.Configuration)
@@ -47,31 +50,27 @@ builder.Services
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("LocalTest"))
 {
   await using (var scope = app.Services.CreateAsyncScope())
   await using (var context = scope.ServiceProvider.GetRequiredService<DomitianIDDbContext>())
   {
     await context.Database.MigrateAsync();
   }
-
-  app.UseSwagger();
-  app.UseSwaggerUI();
 }
 
+app.UseDomitianSwagger();
+app.UseDomitianExceptionHnadler();
+
 app.UseHttpsRedirection();
-
 app.UseSerilogRequestLogging();
-
-app.UseExceptionHandler();
 app.UseRouting();
-
 app.UseCors(AllowedOriginOptions.SectionName);
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
+
+app.MapUserEndpoints();
 
 app.Run();
 

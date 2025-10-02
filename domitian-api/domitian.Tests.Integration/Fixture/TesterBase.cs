@@ -1,6 +1,6 @@
+using domitian.Data.Identity;
 using domitian.Tests.Integration.DataSources;
 using domitian.Tests.Integration.Helpers;
-using domitian_api.Data.Identity;
 
 namespace domitian.Tests.Integration.Fixture
 {

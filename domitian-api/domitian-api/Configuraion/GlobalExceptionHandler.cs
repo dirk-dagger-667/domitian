@@ -5,25 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace domitian.Infrastructure.Configuration.Exceptions
 {
   public class GlobalExceptionHandler(
-    IProblemDetailsService problemDetailsService)
+    IProblemDetailsService problemDetailsService,
+    ILogger<GlobalExceptionHandler> logger)
     : IExceptionHandler
   {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-      httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+      logger.LogError(exception, "Unhandled expception at {Path} | TraceId: {TraceId}",
+        httpContext.Request.Path,
+        httpContext.TraceIdentifier);
 
-      var pdContext = new ProblemDetailsContext
-      {
-        HttpContext = httpContext,
-        Exception = exception,
-      };
+      var pdContext = BuildPDContext(httpContext, exception);
 
-      pdContext.ProblemDetails
-        .WithType(exception.GetType().Name)
-        .WithTitle("Critical failure")
-        .WithDetail(exception.GetInnermostExceptionMessage());
-
-      var acceptHeader = httpContext.Request.Headers["Accept"].Any() ? httpContext.Request.Headers["Accept"].FirstOrDefault() : null;
+      var acceptHeader = httpContext.Request.Headers["Accept"].Any()
+        ? httpContext.Request.Headers["Accept"].FirstOrDefault()
+        : null;
 
       if (!string.IsNullOrWhiteSpace(acceptHeader)
         && (acceptHeader.Contains("/xml") || acceptHeader.Contains("+xml")))
@@ -46,5 +42,24 @@ namespace domitian.Infrastructure.Configuration.Exceptions
 
       return await problemDetailsService.TryWriteAsync(pdContext);
     }
+
+    private ProblemDetailsContext BuildPDContext(HttpContext httpContext, Exception exception)
+    {
+      httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+      var pdContext = new ProblemDetailsContext
+      {
+        HttpContext = httpContext,
+        Exception = exception,
+      };
+
+      pdContext.ProblemDetails
+        .WithType(exception.GetType().Name)
+        .WithTitle("Something went wrong. Please try again later.")
+        .WithDetail(exception.GetInnermostExceptionMessage());
+
+      return pdContext;
+    }
   }
 }
+

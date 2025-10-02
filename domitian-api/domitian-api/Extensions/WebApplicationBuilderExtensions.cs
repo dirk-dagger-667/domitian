@@ -40,7 +40,6 @@ namespace domitian_api.Extensions
       {
         options.SignIn.RequireConfirmedAccount = true;
         options.SignIn.RequireConfirmedEmail = true;
-        options.Stores.ProtectPersonalData = true;
       })
           .AddEntityFrameworkStores<TContext>()
           .AddDefaultTokenProviders();

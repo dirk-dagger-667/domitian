@@ -1,11 +1,11 @@
 using domitian.Business.Contracts;
+using domitian.Data.Identity;
 using domitian.Models.Requests.Login;
 using domitian.Models.Requests.Registration;
 using domitian.Models.Responses.Login;
-using domitian.Models.Results;
+using domitian.Models.Results.Errors;
 using domitian.Tests.Integration.DataSources;
 using domitian.Tests.Integration.Fixture;
-using domitian_api.Data.Identity;
 using domitian_api.Infrastructure.Constants;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;

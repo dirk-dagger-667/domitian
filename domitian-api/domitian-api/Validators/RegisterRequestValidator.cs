@@ -12,9 +12,18 @@ namespace domitian_api.Validators
     {
       RuleLevelCascadeMode = CascadeMode.Stop;
 
-      RuleFor(x => x.Email).NotEmpty().Matches(EmailRegexExpression);
-      RuleFor(x => x.Password).NotEmpty().Length(8, 24).Matches(PasswordRegextExpression);
-      RuleFor(x => x.ConfirmPassword).NotEmpty().Equal(x => x.Password);
+      RuleFor(x => x.Email)
+        .NotEmpty()
+        .Matches(EmailRegexExpression);
+
+      RuleFor(x => x.Password)
+        .NotEmpty()
+        .Length(8, 24)
+        .Matches(PasswordRegextExpression);
+
+      RuleFor(x => x.ConfirmPassword)
+        .NotEmpty()
+        .Equal(x => x.Password);
     }
   }
 }

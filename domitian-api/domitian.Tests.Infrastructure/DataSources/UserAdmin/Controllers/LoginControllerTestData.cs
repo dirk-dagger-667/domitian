@@ -1,5 +1,6 @@
 using domitian.Models.Responses.Login;
 using domitian.Models.Results;
+using domitian.Models.Results.Errors;
 using Microsoft.AspNetCore.Identity;
 
 namespace domitian.Tests.Infrastructure.DataSources.UserAdmin.Controllers
